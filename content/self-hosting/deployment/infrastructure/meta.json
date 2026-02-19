@@ -1,0 +1,10 @@
+{
+  "pages": [
+    "containers",
+    "clickhouse",
+    "cache",
+    "blobstorage",
+    "postgres",
+    "llm-api"
+  ]
+}

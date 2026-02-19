@@ -1,0 +1,16 @@
+export const runtime = "edge";
+
+export function GET(request: Request) {
+  const headers = new Headers(request.headers);
+  const continentCode = headers.get("x-vercel-ip-continent");
+
+  return new Response(
+    JSON.stringify({ continentCode: continentCode || undefined }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}

@@ -1,3 +1,5 @@
+"use client";
+
 'use client';
 
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';

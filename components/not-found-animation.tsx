@@ -1,10 +1,11 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { TrackballControls, Environment } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
-import { useTheme } from "nextra-theme-docs";
-
+import { useTheme } from "next-themes";
 const CANVAS_STYLES = {
   width: "100%",
   height: "50vh",
@@ -13,7 +14,7 @@ const CANVAS_STYLES = {
 } as const;
 
 function MetallicKnot() {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Mesh>(null) as any;
   const { resolvedTheme } = useTheme();
 
   useFrame((state) => {

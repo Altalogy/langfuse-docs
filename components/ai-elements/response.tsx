@@ -178,7 +178,8 @@ export type ResponseProps = HTMLAttributes<HTMLDivElement> & {
   parseIncompleteMarkdown?: boolean;
 };
 
-const components: Options["components"] = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const components: any = {
   ol: ({ node, children, className, ...props }) => (
     <ol className={cn("ml-4 list-outside list-decimal", className)} {...props}>
       {children}

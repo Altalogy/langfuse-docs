@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 import type { FeatureTabData } from "./types";
 import { Button } from "@/components/ui/button";
 
 
-export interface TabButtonProps {
+export interface TabButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   feature: FeatureTabData;
   isActive: boolean;
   onClick: () => void;

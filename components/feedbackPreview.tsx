@@ -68,7 +68,7 @@ export default function FeedbackPreview() {
 
   const handleFeedback = (feedback: "positive" | "negative") => {
     if (state === feedback) return;
-    setState("loading-" + feedback);
+    setState(feedback === "positive" ? "loading-positive" : "loading-negative");
     setTimeout(() => {
       setData([
         {

@@ -1,23 +1,28 @@
-import { getPagesUnderRoute } from "nextra/context";
-import { type Page } from "nextra";
-import { Cards } from "nextra/components";
-import { MessageCircleQuestion } from "lucide-react";
-import Link from "next/link";
+// TODO: Reimplement using fumadocs source.getPages() to list FAQ pages.
+// Previously used getPagesUnderRoute("/faq/all") from Nextra which no longer exists.
 
-export const getFaqPages = () => {
-  return getPagesUnderRoute("/faq/all") as Array<Page & { frontMatter: any }>;
+// Preserve the Page-like type for callers that reference it
+type FaqPage = {
+  route: string;
+  frontMatter: Record<string, any>;
+  meta?: { title: string };
+  name: string;
+};
+
+export const getFaqPages = (): FaqPage[] => {
+  // TODO: Fetch FAQ pages from fumadocs source
+  return [];
 };
 
 export const getFilteredFaqPages = (
-  faqPages: Array<Page & { frontMatter: any }>,
+  faqPages: FaqPage[],
   tags: string[],
   limit: number | undefined = undefined
-) => {
+): FaqPage[] => {
   return faqPages
-    .filter((page) => page.route !== "/faq/all")
     .filter((page) => {
       const faqTags = page.frontMatter?.tags || [];
-      return faqTags.some((tag) => tags.includes(tag));
+      return faqTags.some((tag: string) => tags.includes(tag));
     })
     .sort((a, b) =>
       (a.frontMatter?.title || "").localeCompare(b.frontMatter?.title || "")
@@ -32,57 +37,17 @@ export const FaqPreview = ({
   tags: string[];
   renderAsCards?: boolean;
 }) => {
-  const faqPages = getFaqPages();
-  const filteredFaqPages = getFilteredFaqPages(faqPages, tags);
-
-  return <FaqList pages={filteredFaqPages} renderAsCards={renderAsCards} />;
+  // TODO: Render FAQ preview using fumadocs source
+  return null;
 };
 
 export const FaqList = ({
   pages,
   renderAsCards = false,
 }: {
-  pages: Array<Page & { frontMatter: any }>;
+  pages: FaqPage[];
   renderAsCards?: boolean;
 }) => {
-  if (renderAsCards) {
-    return (
-      <Cards num={1}>
-        {pages.map((page) => (
-          <Cards.Card
-            href={page.route}
-            key={page.route}
-            title={page.meta?.title || page.frontMatter?.title || page.name}
-            icon={<MessageCircleQuestion />}
-            arrow
-          >
-            {""}
-          </Cards.Card>
-        ))}
-      </Cards>
-    );
-  }
-  return (
-    <>
-      <ul className="list-disc list pl-6 mt-5">
-        {pages.map((page) => (
-          <li
-            className="my-2"
-            id={page.route.replace("/faq/all/", "")}
-            key={page.route.replace("/faq/all/", "")}
-          >
-            <Link
-              key={page.route}
-              href={page.route}
-              className="_text-primary-600 _underline _decoration-from-font [text-underline-position:from-font]"
-            >
-              <span className="">
-                {page.meta?.title || page.frontMatter?.title || page.name}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
+  // TODO: Render FAQ list using fumadocs source
+  return null;
 };

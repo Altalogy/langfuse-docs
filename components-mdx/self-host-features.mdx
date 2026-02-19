@@ -15,91 +15,90 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import { Cards } from "nextra/components";
-
-<Cards num={3}>
-  <Cards.Card
+import { Cards, Card } from "fumadocs-ui/components/card";
+<Cards>
+  <Card
     icon={<Lock size="24" />}
     title="Authentication & SSO"
     href="/self-hosting/security/authentication-and-sso"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<UserCog size="24" />}
     title="Automated Access Provisioning"
     href="/self-hosting/administration/automated-access-provisioning"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Zap size="24" />}
     title="Caching"
     href="/self-hosting/configuration/caching"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Route size="24" />}
     title="Custom Base Path"
     href="/self-hosting/configuration/custom-base-path"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Shield size="24" />}
     title="Encryption"
     href="/self-hosting/configuration/encryption"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Workflow size="24" />}
     title="Headless Initialization"
     href="/self-hosting/administration/headless-initialization"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<ShieldCheck size="24" />}
     title="Data Masking"
     href="/self-hosting/security/data-masking"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Network size="24" />}
     title="Networking"
     href="/self-hosting/security/networking"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Users size="24" />}
     title="Organization Creators (EE)"
     href="/self-hosting/administration/organization-creators"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<ServerCog size="24" />}
     title="Instance Management API (EE)"
     href="/self-hosting/administration/instance-management-api"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Activity size="24" />}
     title="Health and Readiness Check"
     href="/self-hosting/configuration/health-readiness-endpoints"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Eye size="24" />}
     title="Observability via OpenTelemetry"
     href="/self-hosting/configuration/observability"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Mail size="24" />}
     title="Transactional Emails"
     href="/self-hosting/configuration/transactional-emails"
-    arrow
+   
   />
-  <Cards.Card
+  <Card
     icon={<Brush size="24" />}
     title="UI Customization (EE)"
     href="/self-hosting/administration/ui-customization"
-    arrow
+   
   />
 </Cards>

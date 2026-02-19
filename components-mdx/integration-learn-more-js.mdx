@@ -1,4 +1,5 @@
-import { Tabs, Cards } from "nextra/components";
+import { Cards, Card } from "fumadocs-ui/components/card";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 import {
   FileText,
   ClipboardCheck,
@@ -13,7 +14,7 @@ import {
 You can use this integration together with the Langfuse [SDKs](/docs/observability/sdk/overview) to add additional attributes or group observations into a single trace.
 
 <Tabs items={["Context Manager", "Observe Wrapper"]}>
-<Tabs.Tab>
+<Tab>
 
 The [Context Manager](/docs/observability/sdk/instrumentation#context-management-with-callbacks) allows you to wrap your instrumented code using context managers (with `with` statements), which allows you to add additional attributes to the trace. Any observation created inside the callback will automatically be nested under the active observation, and the observation will be ended when the callback finishes.
 
@@ -53,8 +54,8 @@ await startActiveObservation("context-manager", async (span) => {
 
 Learn more about using the Context Manager in the [Langfuse SDK instrumentation docs](https://langfuse.com/docs/observability/sdk/instrumentation#context-management-with-callbacks).
 
-</Tabs.Tab>
-<Tabs.Tab>
+</Tab>
+<Tab>
 
 The [`observe` wrapper](/docs/observability/sdk/instrumentation#observe-wrapper) is a powerful tool for tracing existing functions without modifying their internal logic. It acts as a decorator that automatically creates a span or generation around the function call. You can use the `propagateAttributes` function to add attributes to the observation from within the wrapped function.
 
@@ -100,7 +101,7 @@ const result = await processUserRequest("some query");
 
 Learn more about using the Decorator in the [Langfuse SDK instrumentation docs](/docs/observability/sdk/instrumentation#observe-wrapper).
 
-</Tabs.Tab>
+</Tab>
 </Tabs>
 
 ## Next Steps

@@ -1,5 +1,4 @@
-import remarkGfm from "remark-gfm";
-import nextra from "nextra";
+import { createMDX } from "fumadocs-mdx/next";
 import NextBundleAnalyzer from "@next/bundle-analyzer";
 
 import * as redirects from "./lib/redirects.js";
@@ -32,32 +31,30 @@ const cspHeader =
 `
     : "";
 
-// nextra config
-const withNextra = nextra({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.tsx",
-  mdxOptions: {
-    remarkPlugins: [remarkGfm],
-  },
-  defaultShowCopyCode: true,
-});
+const withMDX = createMDX();
 
-// next config
-const nextraConfig = withNextra({
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // Enable static export when STATIC_EXPORT env var is set
   ...(process.env.STATIC_EXPORT === "true" && {
     output: "export",
     trailingSlash: true,
-    // Disable server-side features for static export
     distDir: "out",
   }),
+  serverExternalPackages: ["@modelcontextprotocol/sdk"],
   experimental: {
     scrollRestoration: true,
+  },
+  turbopack: {
+    root: "..",
+    resolveAlias: {
+      "@modelcontextprotocol/sdk/client/streamableHttp":
+        "@modelcontextprotocol/sdk/dist/esm/client/streamableHttp.js",
+    },
   },
   transpilePackages: ["react-tweet", "react-syntax-highlighter", "geist"],
 
   images: {
-    // Disable image optimization for static export
     ...(process.env.STATIC_EXPORT === "true" && { unoptimized: true }),
     remotePatterns: [
       {
@@ -145,28 +142,19 @@ const nextraConfig = withNextra({
   ],
   async rewrites() {
     // Serve any ".md" path by mapping to the static copy in public/md-src
-    // Example: /docs.md -> /md-src/docs.md, /docs/observability/overview.md -> /md-src/docs/observability/overview.md
     return {
-      // Run BEFORE Next serves pages/public files so it can override HTML routes
-      // when the client explicitly asks for markdown.
       beforeFiles: [
-        // Optional: make "/" negotiable too (remove if you don't have md-src/index.md)
         {
           source: "/",
           has: [{ type: "header", key: "accept", value: ".*text/markdown.*" }],
           destination: "/md-src/index.md",
         },
-
-        // Content negotiation: /docs or /docs/observability/overview -> /md-src/... .md
-        // Excludes /api, /_next, and /md-src, and avoids double-appending .md.
         {
           source: "/:path((?!api|_next|md-src)(?!.*\\.md$).*)",
           has: [{ type: "header", key: "accept", value: ".*text/markdown.*" }],
           destination: "/md-src/:path.md",
         },
       ],
-
-      // Keep your existing "manual .md" access:
       afterFiles: [
         {
           source: "/:path*.md",
@@ -175,6 +163,6 @@ const nextraConfig = withNextra({
       ],
     };
   },
-});
+};
 
-export default withBundleAnalyzer(nextraConfig);
+export default withBundleAnalyzer(withMDX(nextConfig));

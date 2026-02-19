@@ -1,18 +1,18 @@
-import { Cards } from "nextra/components";
-import { Users } from "lucide-react";
-import { TEAMS } from "@/pages/handbook/_meta";
+import { Cards, Card } from "fumadocs-ui/components/card";
+import { TEAMS } from "@/lib/data/handbook-meta";
 
 export const TeamsIndex = () => {
   return (
     <div className="my-6">
-      <Cards num={1}>
+      <Cards>
         {Object.entries(TEAMS).map(([path, team]) => (
-          <Cards.Card
+          <Card
             href={`/handbook/${path}/${team.firstPage}`}
             key={path}
             title={team.name}
-            arrow
-          />
+          >
+            {""}
+          </Card>
         ))}
       </Cards>
     </div>

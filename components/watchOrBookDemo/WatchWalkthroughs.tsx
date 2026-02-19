@@ -1,10 +1,13 @@
+"use client";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { WALKTHROUGH_TABS } from "./constants";
 import { BookOpen, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Suspense, useCallback } from "react";
 
 interface VideoPlayerProps {
   videoId: string;
@@ -27,11 +30,21 @@ function VideoPlayer({ videoId, title }: VideoPlayerProps) {
 }
 
 export function WatchWalkthroughs({ className }: { className?: string }) {
+  return (
+    <Suspense fallback={<div className={cn("flex flex-col gap-8 items-center", className)} />}>
+      <WatchWalkthroughsInner className={className} />
+    </Suspense>
+  );
+}
+
+function WatchWalkthroughsInner({ className }: { className?: string }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   // Get current tab from query param or default to first tab
   const activeTab = (() => {
-    const tab = router.query.tab as string;
+    const tab = searchParams.get("tab");
     if (tab && WALKTHROUGH_TABS.some((t) => t.id === tab)) {
       return tab;
     }
@@ -39,15 +52,14 @@ export function WatchWalkthroughs({ className }: { className?: string }) {
   })();
 
   // Handle tab change and update URL query param
-  const handleTabChange = (value: string) => {
-    const query = { ...router.query };
-
-    query.tab = value;
-
-    router.replace({ pathname: router.pathname, query }, undefined, {
-      shallow: true,
-    });
-  };
+  const handleTabChange = useCallback(
+    (value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", value);
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    },
+    [router, pathname, searchParams]
+  );
 
   return (
     <div className={cn("flex flex-col gap-8 items-center", className)}>

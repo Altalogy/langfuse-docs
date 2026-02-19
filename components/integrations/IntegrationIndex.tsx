@@ -1,18 +1,11 @@
-import { getPagesUnderRoute } from "nextra/context";
-import { type Page } from "nextra";
-import { Cards } from "nextra/components";
+// TODO: Reimplement using fumadocs source.getPages() to list integration pages by category.
+// Previously used getPagesUnderRoute("/integrations/...") from Nextra which no longer exists.
+
+import { Cards, Card } from "fumadocs-ui/components/card";
 import {
-  Puzzle,
-  Globe,
-  Server,
-  Wrench,
-  RectangleEllipsis,
-  ChartBar,
-  Code,
-  Database,
-} from "lucide-react";
-import nativeIntegrationsMeta from "../../pages/integrations/native/_meta";
-import dataPlatformIntegrationsMeta from "../../pages/integrations/data-platform/_meta";
+  nativeIntegrationsMeta,
+  dataPlatformIntegrationsMeta,
+} from "@/lib/data/integrations-meta";
 
 /**
  * Transforms meta config entries into integration page objects
@@ -23,10 +16,25 @@ function additionalLinksFromMeta(metaConfig: Record<string, any>) {
     .map(([_, config]) => ({
       route: config.href,
       frontMatter: { title: config.title, logo: config.logo },
+      title: config.title,
     }));
 }
 
-const categoryConfig = {
+type ProcessedIntegrationPage = {
+  route: string;
+  frontMatter: Record<string, any>;
+  title: string;
+};
+
+const categoryConfig: Record<
+  string,
+  {
+    title: string;
+    description?: string;
+    additionalLinks?: ProcessedIntegrationPage[];
+    featuredLinks?: ProcessedIntegrationPage[];
+  }
+> = {
   native: {
     title: "Native",
     description: "Native integrations with Langfuse",
@@ -35,7 +43,6 @@ const categoryConfig = {
   frameworks: {
     title: "Frameworks",
     description: "Integrate with popular AI frameworks",
-    // Featured links shown first, separated by a divider from the rest
     featuredLinks: [
       {
         route: "/integrations/frameworks/langchain",
@@ -116,155 +123,66 @@ const categoryConfig = {
   },
 };
 
-type IntegrationPage = Page & { frontMatter: any };
-type ProcessedIntegrationPage = IntegrationPage & { title: string };
-
-/**
- * Loads pages from the filesystem for a given category
- */
-function loadFilesystemPages(category: string): IntegrationPage[] {
-  try {
-    const pages = getPagesUnderRoute(
-      `/integrations/${category}`
-    ) as IntegrationPage[];
-    // Filter out category index pages and only keep actual integration pages
-    return pages.filter(
-      (page) =>
-        page.route !== `/integrations/${category}` &&
-        page.route !== `/integrations/${category}/index`
-    );
-  } catch (error) {
-    // Category directory doesn't exist or has no pages
-    return [];
-  }
-}
-
-/**
- * Processes pages by adding title and sorting alphabetically
- */
-function processPages(pages: IntegrationPage[]): ProcessedIntegrationPage[] {
-  return pages
-    .map((page) => ({
-      ...page,
-      title:
-        page.frontMatter?.sidebarTitle || page.frontMatter?.title || page.name,
-    }))
-    .sort((a, b) => a.title.localeCompare(b.title));
-}
-
 export const IntegrationIndex = () => {
-  // Infer category order from the keys of categoryConfig, preserving their order of appearance
+  // TODO: Fetch integration pages from fumadocs source for each category,
+  // merge with additionalLinks/featuredLinks, and render categorized cards.
+  // For now, only render categories that have hardcoded additionalLinks or featuredLinks.
+
   const categoryOrder = Object.keys(categoryConfig);
-
-  // Get pages from each category by merging filesystem and additional links
-  const categorizedPages = {} as Record<string, ProcessedIntegrationPage[]>;
-
-  categoryOrder.forEach((category) => {
-    const config = categoryConfig[category];
-
-    // Always load from filesystem
-    const filesystemPages = loadFilesystemPages(category);
-
-    // Merge with additional links if they exist
-    const mergedPages = [
-      ...(config.additionalLinks ?? []),
-      ...(filesystemPages ?? []),
-    ];
-
-    // Only include categories that have pages
-    if (mergedPages.length > 0) {
-      categorizedPages[category] = processPages(mergedPages);
-    }
-  });
 
   return (
     <>
       {categoryOrder
-        .filter(
-          (category) =>
-            categorizedPages[category] && categorizedPages[category].length > 0
-        )
+        .filter((category) => {
+          const config = categoryConfig[category];
+          const hasAdditional =
+            config.additionalLinks && config.additionalLinks.length > 0;
+          const hasFeatured =
+            config.featuredLinks && config.featuredLinks.length > 0;
+          return hasAdditional || hasFeatured;
+        })
         .map((category) => {
           const config = categoryConfig[category];
-          const pages = categorizedPages[category];
-          const featured = (categoryConfig as any)[category]?.featuredLinks as
-            | ProcessedIntegrationPage[]
-            | undefined;
+          const featured = config.featuredLinks || [];
+          const additional = config.additionalLinks || [];
+          const allPages = [...featured, ...additional];
 
           return (
             <div key={category} className="my-10">
               <div className="flex items-center gap-3 mb-4">
-                {config.icon}
                 <div>
                   <h3 className="font-semibold tracking-tight text-slate-900 dark:text-slate-100 text-2xl">
                     {config.title}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    {config.description}
-                  </p>
+                  {config.description && (
+                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                      {config.description}
+                    </p>
+                  )}
                 </div>
               </div>
-              {/* Featured (non-duplicated) */}
-              {featured && featured.length > 0 && (
-                <Cards num={3}>
-                  {featured
-                    .slice(0, 6)
-                    .map((page) => (
-                      <Cards.Card
-                        href={page.route}
-                        key={page.route}
-                        title={page.title}
-                        icon={
-                          (page as any).frontMatter?.logo ? (
-                            <div className="w-6 h-6  dark:bg-white rounded-sm p-1 flex items-center justify-center">
-                              <img
-                                src={(page as any).frontMatter.logo}
-                                alt=""
-                                className="w-full h-full object-contain"
-                              />
-                            </div>
-                          ) : (
-                            config.icon
-                          )
-                        }
-                        arrow
-                      >
-                        {""}
-                      </Cards.Card>
-                    ))}
-                </Cards>
-              )}
-              <div className={featured && featured.length > 0 ? "mt-8" : ""}>
-                <Cards num={3}>
-                  {pages
-                    .filter(
-                      (p) => !(featured || []).some((f) => f.route === p.route)
-                    )
-                    .map((page) => (
-                  <Cards.Card
+              <Cards>
+                {allPages.map((page) => (
+                  <Card
                     href={page.route}
                     key={page.route}
                     title={page.title}
                     icon={
                       page.frontMatter?.logo ? (
-                        <div className="w-6 h-6  dark:bg-white rounded-sm p-1 flex items-center justify-center">
+                        <div className="w-6 h-6 dark:bg-white rounded-sm p-1 flex items-center justify-center">
                           <img
                             src={page.frontMatter.logo}
                             alt=""
                             className="w-full h-full object-contain"
                           />
                         </div>
-                      ) : (
-                        config.icon
-                      )
+                      ) : undefined
                     }
-                    arrow
                   >
                     {""}
-                  </Cards.Card>
+                  </Card>
                 ))}
-                </Cards>
-              </div>
+              </Cards>
             </div>
           );
         })}

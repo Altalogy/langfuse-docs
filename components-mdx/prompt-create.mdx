@@ -1,3 +1,8 @@
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+import { Video } from "@/components/Video";
+import { LangTabs } from "@/components/LangTabs";
+
 <LangTabs items={["Langfuse UI", "Python SDK", "JS/TS SDK", "API", "Migrate from existing code"]}>
 <Tab>
 
@@ -111,11 +116,11 @@ curl -X POST "https://cloud.langfuse.com/api/public/v2/prompts" \
 
 ```
 
-<Cards num={1}>
+<Cards>
   <Card
     title="API Reference"
     href="https://api.reference.langfuse.com/#tag/prompts/POST/api/public/v2/prompts"
-    arrow
+   
   />
 </Cards>
 
@@ -137,11 +142,11 @@ npx skills add langfuse/skills --skill "langfuse-prompt-migration"
 
 You can write a script that reads your existing prompts and creates them in Langfuse using the [Public API](https://api.reference.langfuse.com/#tag/prompts/post/api/public/v2/prompts). This is ideal for bulk migrations or CI/CD integration.
 
-<Cards num={1}>
+<Cards>
   <Card
     title="API Reference"
     href="https://api.reference.langfuse.com/#tag/prompts/POST/api/public/v2/prompts"
-    arrow
+   
   />
 </Cards>
 
@@ -149,11 +154,11 @@ You can write a script that reads your existing prompts and creates them in Lang
 
 If you use an AI-powered IDE like Cursor or Claude Code, you can connect the [Langfuse MCP Server](/docs/prompt-management/features/mcp-server) and ask your AI agent to create prompts for you. 
 
-<Cards num={1}>
+<Cards>
   <Card
     title="MCP Server for Prompts"
     href="/docs/prompt-management/features/mcp-server"
-    arrow
+   
   />
 </Cards>
 

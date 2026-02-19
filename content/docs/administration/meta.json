@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "authentication-and-sso",
+    "rbac",
+    "scim-and-org-api",
+    "audit-logs",
+    "data-deletion",
+    "data-retention",
+    "llm-connection",
+    "spend-alerts",
+    "billable-units"
+  ]
+}

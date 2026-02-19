@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "sessions",
+    "users",
+    "environments",
+    "tags",
+    "metadata",
+    "trace-ids-and-distributed-tracing",
+    "comments",
+    "corrections",
+    "user-feedback",
+    "log-levels"
+  ]
+}

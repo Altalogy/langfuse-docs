@@ -7,8 +7,9 @@ import {
   useState,
   useCallback,
   useReducer,
+  Suspense,
 } from "react";
-import { useRouter } from "next/router";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { TabButton } from "./TabButton";
 import { TabContent } from "./TabContent";
 import type { AutoAdvanceConfig, FeatureTabData } from "./types";
@@ -77,7 +78,13 @@ const initialTabState: TabState = {
   isHovered: false,
 };
 
-export const FeatureTabs = ({
+export const FeatureTabs = (props: FeatureTabsProps) => (
+  <Suspense>
+    <FeatureTabsInner {...props} />
+  </Suspense>
+);
+
+const FeatureTabsInner = ({
   features,
   defaultTab = "observability",
   autoAdvance,
@@ -89,16 +96,18 @@ export const FeatureTabs = ({
   };
 
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [state, dispatch] = useReducer(tabStateReducer, initialTabState);
 
   // Memoize activeTab computation to prevent unnecessary re-renders
   const activeTab = useMemo(() => {
-    const tab = router.query.tab as string;
+    const tab = searchParams.get("tab");
     if (tab && features.some((f) => f.id === tab)) {
       return tab;
     }
     return defaultTab;
-  }, [router.query.tab, features, defaultTab]);
+  }, [searchParams, features, defaultTab]);
 
   const tabListRef = useRef<HTMLDivElement>(null);
   const tabListScrollRef = useRef<HTMLDivElement>(null);
@@ -139,6 +148,16 @@ export const FeatureTabs = ({
     };
   }, []);
 
+  // Helper to build URL with updated tab query param
+  const buildTabUrl = useCallback(
+    (tabId: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", tabId);
+      return `${pathname}?${params.toString()}`;
+    },
+    [pathname, searchParams]
+  );
+
   // Handle tab change and update URL query param
   const handleTabChange = (tabId: string) => {
     if (activeTab === tabId) return; // Prevent unnecessary transitions
@@ -148,12 +167,7 @@ export const FeatureTabs = ({
     clearAutoAdvanceTimer();
 
     // Update URL query param
-    const query = { ...router.query };
-    query.tab = tabId;
-
-    router.replace({ pathname: router.pathname, query }, undefined, {
-      shallow: true,
-    });
+    router.replace(buildTabUrl(tabId), { scroll: false });
   };
 
   // Keyboard navigation
@@ -258,12 +272,7 @@ export const FeatureTabs = ({
       dispatch({ type: "RESET_PROGRESS" });
 
       // Update URL query param
-      const query = { ...router.query };
-      query.tab = nextTab.id;
-
-      router.replace({ pathname: router.pathname, query }, undefined, {
-        shallow: true,
-      });
+      router.replace(buildTabUrl(nextTab.id), { scroll: false });
 
       // Allow fade in
       setTimeout(() => {
@@ -276,6 +285,7 @@ export const FeatureTabs = ({
     defaultAutoAdvance?.enabled,
     state.isAutoAdvancePaused,
     router,
+    buildTabUrl,
   ]);
 
   // Simplified auto-advance with single timer and optimized progress updates
@@ -384,7 +394,7 @@ export const FeatureTabs = ({
               {features.map((feature, index) => (
                 <TabButton
                   key={feature.id}
-                  ref={(el) => (tabRefs.current[index] = el)}
+                  ref={(el) => { tabRefs.current[index] = el; }}
                   feature={feature}
                   isActive={activeTab === feature.id}
                   onClick={() => handleTabChange(feature.id)}

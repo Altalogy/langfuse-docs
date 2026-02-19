@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
 import { testimonials } from "../../data/testimonials";
@@ -57,7 +59,7 @@ const renderContent = (content: string, platform: string, postURL?: string) => {
 };
 
 export const TestimonialsGrid = () => {
-  const [cardsPerColumn, setCardsPerColumn] = useState(CARDS_CONFIG.INITIAL);
+  const [cardsPerColumn, setCardsPerColumn] = useState<number>(CARDS_CONFIG.INITIAL);
   const [isClient, setIsClient] = useState(false);
   
   useEffect(() => {

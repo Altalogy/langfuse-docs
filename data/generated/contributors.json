@@ -3,6 +3,7 @@
     "marcklingen"
   ],
   "/docs/administration/authentication-and-sso": [
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/docs/administration/billable-units": [
@@ -53,11 +54,11 @@
     "sumerman"
   ],
   "/docs/api-and-data-platform/features/public-api": [
+    "jannikmaierhoefer",
     "sumerman",
     "AkioNuernberger",
     "marcklingen",
     "daaain",
-    "jannikmaierhoefer",
     "felixkrrr"
   ],
   "/docs/api-and-data-platform/features/query-via-sdk": [
@@ -73,16 +74,15 @@
     "marcklingen"
   ],
   "/docs/ask-ai": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden",
-    "marcklingen",
-    "jannikmaierhoefer"
+    "marcklingen"
   ],
   "/docs/demo": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden",
     "marcklingen",
-    "jannikmaierhoefer",
-    "clemra",
-    "NicHaley"
+    "clemra"
   ],
   "/docs/docs-mcp": [
     "marcklingen"
@@ -96,10 +96,11 @@
     "jannikmaierhoefer"
   ],
   "/docs/evaluation/evaluation-methods/llm-as-a-judge": [
-    "Lotte-Verheyden",
     "jannikmaierhoefer",
-    "marcklingen",
+    "marliessophie",
     "hassiebp",
+    "Lotte-Verheyden",
+    "marcklingen",
     "felixkrrr",
     "AkioNuernberger"
   ],
@@ -126,6 +127,7 @@
     "AkioNuernberger"
   ],
   "/docs/evaluation/experiments/experiments-via-sdk": [
+    "Lotte-Verheyden",
     "jannikmaierhoefer",
     "marliessophie",
     "marcklingen",
@@ -146,7 +148,10 @@
     "marliessophie"
   ],
   "/docs/evaluation/troubleshooting-and-faq": [
-    "marcklingen",
+    "jannikmaierhoefer",
+    "marcklingen"
+  ],
+  "/docs/glossary": [
     "jannikmaierhoefer"
   ],
   "/docs/index": [
@@ -157,21 +162,24 @@
     "jannikmaierhoefer",
     "marliessophie",
     "clemra",
-    "maxdeichmann",
-    "NicHaley"
+    "maxdeichmann"
   ],
   "/docs/metrics/features/custom-dashboards": [
-    "marcklingen"
-  ],
-  "/docs/metrics/features/metrics-api": [
-    "sumerman",
     "jannikmaierhoefer",
     "marcklingen"
   ],
+  "/docs/metrics/features/metrics-api": [
+    "jannikmaierhoefer",
+    "sumerman",
+    "marcklingen"
+  ],
   "/docs/metrics/overview": [
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/docs/observability/data-model": [
+    "jannikmaierhoefer",
+    "aditya-mitra",
     "Lotte-Verheyden",
     "marcklingen",
     "hassiebp",
@@ -270,6 +278,7 @@
     "hassiebp"
   ],
   "/docs/observability/features/user-feedback": [
+    "jannikmaierhoefer",
     "aabedraba"
   ],
   "/docs/observability/features/users": [
@@ -284,11 +293,13 @@
     "marcklingen"
   ],
   "/docs/observability/overview": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden",
     "marcklingen",
     "DrRinkiArya"
   ],
   "/docs/observability/sdk/advanced-features": [
+    "Lotte-Verheyden",
     "jannikmaierhoefer"
   ],
   "/docs/observability/sdk/instrumentation": [
@@ -326,8 +337,8 @@
     "marcklingen"
   ],
   "/docs/prompt-management/features/composability": [
-    "Lotte-Verheyden",
     "jannikmaierhoefer",
+    "Lotte-Verheyden",
     "marcklingen"
   ],
   "/docs/prompt-management/features/config": [
@@ -335,6 +346,7 @@
     "marcklingen"
   ],
   "/docs/prompt-management/features/folders": [
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/docs/prompt-management/features/github-integration": [
@@ -375,6 +387,7 @@
     "hassiebp"
   ],
   "/docs/prompt-management/features/variables": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden"
   ],
   "/docs/prompt-management/features/webhooks-slack-integrations": [
@@ -407,24 +420,21 @@
     "hassiebp"
   ],
   "/docs/security-and-guardrails": [
+    "jannikmaierhoefer",
     "marcklingen",
-    "skpersonal",
-    "jannikmaierhoefer"
+    "skpersonal"
   ],
   "/faq/all/ai-research-assistant-monitoring": [
     "marcklingen",
     "jannikmaierhoefer"
   ],
-  "/faq/all/ai-transparency-remberg-langfuse": [
-    "jannikmaierhoefer",
-    "clemra"
-  ],
   "/faq/all/api-524-http-errors": [
+    "jannikmaierhoefer",
     "Steffen911"
   ],
   "/faq/all/api-limits": [
-    "sumerman",
     "jannikmaierhoefer",
+    "sumerman",
     "marcklingen",
     "Steffen911",
     "maxdeichmann"
@@ -441,14 +451,8 @@
     "clemra"
   ],
   "/faq/all/best-galileo-ai-alternatives": [
-    "jannikmaierhoefer"
-  ],
-  "/faq/all/best-helicone-alternative": [
-    "marcklingen",
-    "marliessophie",
-    "jannikmaierhoefer",
     "felixkrrr",
-    "clemra"
+    "jannikmaierhoefer"
   ],
   "/faq/all/best-phoenix-arize-alternatives": [
     "jannikmaierhoefer",
@@ -471,6 +475,7 @@
     "marcklingen"
   ],
   "/faq/all/conditional-prompt-embedding": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden"
   ],
   "/faq/all/costs-tokens-langfuse": [
@@ -504,8 +509,8 @@
     "clemra"
   ],
   "/faq/all/empty-trace-input-and-output": [
-    "jannikmaierhoefer",
-    "Lotte-Verheyden"
+    "Lotte-Verheyden",
+    "jannikmaierhoefer"
   ],
   "/faq/all/enable-disable-tracing": [
     "marcklingen"
@@ -520,6 +525,14 @@
     "Lotte-Verheyden",
     "marcklingen"
   ],
+  "/faq/all/existing-otel-setup": [
+    "jannikmaierhoefer",
+    "Lotte-Verheyden"
+  ],
+  "/faq/all/existing-sentry-setup": [
+    "jannikmaierhoefer",
+    "Lotte-Verheyden"
+  ],
   "/faq/all/fifteen-questions-langfuse-answered": [
     "jannikmaierhoefer",
     "marcklingen",
@@ -532,9 +545,6 @@
     "clemra"
   ],
   "/faq/all/how-to-measure-prompt-performance": [
-    "jannikmaierhoefer"
-  ],
-  "/faq/all/huntr-langfuse-case-study": [
     "jannikmaierhoefer"
   ],
   "/faq/all/inviting-in-langfuse": [
@@ -564,9 +574,14 @@
     "marcklingen"
   ],
   "/faq/all/llm-analytics-101": [
-    "marcklingen",
     "jannikmaierhoefer",
+    "marcklingen",
     "clemra"
+  ],
+  "/faq/all/llm-as-a-judge-migration": [
+    "jannikmaierhoefer",
+    "marliessophie",
+    "hassiebp"
   ],
   "/faq/all/llm-observability": [
     "jannikmaierhoefer",
@@ -580,24 +595,22 @@
     "jannikmaierhoefer"
   ],
   "/faq/all/managing-different-environments": [
+    "Lotte-Verheyden",
     "marcklingen",
     "jannikmaierhoefer"
   ],
-  "/faq/all/mava-langfuse-case-study": [
-    "jannikmaierhoefer",
-    "clemra"
-  ],
   "/faq/all/missing-traces": [
-    "jannikmaierhoefer",
     "Lotte-Verheyden",
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/faq/all/monitoring-ai-generated-content": [
-    "marcklingen",
-    "jannikmaierhoefer"
+    "jannikmaierhoefer",
+    "marcklingen"
   ],
   "/faq/all/old-prompt-version-caching": [
-    "Lotte-Verheyden"
+    "Lotte-Verheyden",
+    "jannikmaierhoefer"
   ],
   "/faq/all/openai-assistant-api": [
     "jannikmaierhoefer",
@@ -612,11 +625,12 @@
     "clemra"
   ],
   "/faq/all/report-feedback-bug": [
-    "marcklingen",
     "jannikmaierhoefer",
+    "marcklingen",
     "clemra"
   ],
   "/faq/all/retrieve-experiment-scores": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden",
     "marliessophie"
   ],
@@ -660,8 +674,8 @@
     "marcklingen"
   ],
   "/faq/all/ten-reasons-to-use-langfuse": [
-    "marcklingen",
     "jannikmaierhoefer",
+    "marcklingen",
     "clemra"
   ],
   "/faq/all/tracing-data-updates": [
@@ -669,17 +683,19 @@
     "marcklingen",
     "maxdeichmann"
   ],
+  "/faq/all/unwanted-http-database-spans": [
+    "Lotte-Verheyden"
+  ],
   "/faq/all/upgrade-langfuse": [
     "marcklingen",
     "clemra"
   ],
   "/faq/all/using-external-templating-libraries": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden"
   ],
-  "/faq/all/what-is-LCEL": [
-    "marcklingen",
-    "jannikmaierhoefer",
-    "clemra"
+  "/faq/all/what-are-scores": [
+    "Lotte-Verheyden"
   ],
   "/faq/all/what-is-prompt-engineering": [
     "jannikmaierhoefer"
@@ -701,19 +717,7 @@
   "/faq/tag/[tag]": [
     "marcklingen"
   ],
-  "/faq/tag/api": [
-    "marcklingen"
-  ],
-  "/faq/tag/case-studies": [
-    "jannikmaierhoefer"
-  ],
   "/faq/tag/cloud": [
-    "marcklingen"
-  ],
-  "/faq/tag/integration-langchain": [
-    "marcklingen"
-  ],
-  "/faq/tag/integration-openai": [
     "marcklingen"
   ],
   "/faq/tag/product": [
@@ -730,10 +734,6 @@
     "marcklingen"
   ],
   "/faq/tag/tracing": [
-    "marcklingen"
-  ],
-  "/guides/cookbook/datasets": [
-    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/guides/cookbook/evaluation_of_rag_with_ragas": [
@@ -795,6 +795,7 @@
     "marcklingen"
   ],
   "/guides/cookbook/example_pydantic_ai_mcp_agent_evaluation": [
+    "felixkrrr",
     "jannikmaierhoefer",
     "marcklingen"
   ],
@@ -898,6 +899,9 @@
     "marcklingen",
     "hassiebp"
   ],
+  "/guides/cookbook/js_integration_anthropic": [
+    "jannikmaierhoefer"
+  ],
   "/guides/cookbook/js_integration_langchain": [
     "jannikmaierhoefer",
     "hassiebp",
@@ -943,10 +947,6 @@
     "jannikmaierhoefer",
     "marcklingen",
     "Steffen911"
-  ],
-  "/guides/cookbook/otel_integration_python_sdk": [
-    "jannikmaierhoefer",
-    "marcklingen"
   ],
   "/guides/cookbook/prompt_management_langchain": [
     "jannikmaierhoefer",
@@ -1008,6 +1008,7 @@
     "marcklingen"
   ],
   "/handbook/chapters/customers": [
+    "leonardwolters",
     "marcklingen",
     "felixkrrr"
   ],
@@ -1040,16 +1041,24 @@
   "/handbook/devrel/community-hour": [
     "jannikmaierhoefer"
   ],
+  "/handbook/how-we-hire/cs-fde-super-day": [
+    "leonardwolters"
+  ],
   "/handbook/how-we-hire/engineering-super-day": [
+    "leonardwolters",
     "Lotte-Verheyden",
     "barinali",
     "maxdeichmann"
   ],
   "/handbook/how-we-hire/hiring-process": [
+    "leonardwolters",
     "maxdeichmann"
   ],
   "/handbook/how-we-hire/philosophy": [
     "maxdeichmann"
+  ],
+  "/handbook/how-we-hire/support-super-day": [
+    "leonardwolters"
   ],
   "/handbook/how-we-work/meetings": [
     "felixkrrr",
@@ -1101,6 +1110,7 @@
     "maxdeichmann"
   ],
   "/handbook/product-engineering/how-we-work/workflow": [
+    "colodenn",
     "maxdeichmann"
   ],
   "/handbook/product-engineering/infrastructure/clickhouse": [
@@ -1113,6 +1123,7 @@
     "maxdeichmann"
   ],
   "/handbook/product-engineering/playbooks/documentation": [
+    "felixkrrr",
     "maxdeichmann"
   ],
   "/handbook/product-engineering/playbooks/releases": [
@@ -1181,6 +1192,7 @@
     "marcklingen"
   ],
   "/integrations/frameworks/amazon-agentcore": [
+    "Lotte-Verheyden",
     "marcklingen"
   ],
   "/integrations/frameworks/autogen": [
@@ -1219,6 +1231,7 @@
   ],
   "/integrations/frameworks/langchain": [
     "jannikmaierhoefer",
+    "Lotte-Verheyden",
     "juunini",
     "marcklingen"
   ],
@@ -1301,6 +1314,8 @@
     "jannikmaierhoefer"
   ],
   "/integrations/frameworks/vercel-ai-sdk": [
+    "felixkrrr",
+    "Lotte-Verheyden",
     "jannikmaierhoefer",
     "hassiebp",
     "aabedraba",
@@ -1324,8 +1339,8 @@
     "Ramtinboreili"
   ],
   "/integrations/gateways/litellm": [
-    "marcklingen",
-    "jannikmaierhoefer"
+    "jannikmaierhoefer",
+    "marcklingen"
   ],
   "/integrations/gateways/openrouter": [
     "jannikmaierhoefer",
@@ -1350,6 +1365,8 @@
     "marcklingen"
   ],
   "/integrations/model-providers/amazon-bedrock": [
+    "felixkrrr",
+    "Lotte-Verheyden",
     "jannikmaierhoefer",
     "marcklingen"
   ],
@@ -1359,7 +1376,11 @@
   "/integrations/model-providers/anthropic": [
     "jannikmaierhoefer"
   ],
+  "/integrations/model-providers/anthropic-js": [
+    "jannikmaierhoefer"
+  ],
   "/integrations/model-providers/baseten": [
+    "felixkrrr",
     "jannikmaierhoefer"
   ],
   "/integrations/model-providers/byteplus": [
@@ -1423,8 +1444,8 @@
     "marcklingen"
   ],
   "/integrations/model-providers/openai-js": [
-    "kulakowka",
     "jannikmaierhoefer",
+    "kulakowka",
     "marcklingen"
   ],
   "/integrations/model-providers/openai-py": [
@@ -1443,18 +1464,19 @@
     "marcklingen"
   ],
   "/integrations/native/opentelemetry": [
+    "jannikmaierhoefer",
     "Lotte-Verheyden",
     "Steffen911",
-    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/integrations/no-code/dify": [
-    "marcklingen",
-    "jannikmaierhoefer"
+    "jannikmaierhoefer",
+    "marcklingen"
   ],
   "/integrations/no-code/flowise": [
-    "marcklingen",
-    "jannikmaierhoefer"
+    "jannikmaierhoefer",
+    "rahulmansharamani14",
+    "marcklingen"
   ],
   "/integrations/no-code/goose": [
     "marcklingen"
@@ -1467,14 +1489,16 @@
     "marcklingen"
   ],
   "/integrations/no-code/lobechat": [
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/integrations/no-code/n8n": [
+    "Lotte-Verheyden",
     "marcklingen"
   ],
   "/integrations/no-code/openwebui": [
-    "marcklingen",
-    "jannikmaierhoefer"
+    "jannikmaierhoefer",
+    "marcklingen"
   ],
   "/integrations/no-code/ragflow": [
     "marcklingen"
@@ -1504,6 +1528,10 @@
   ],
   "/integrations/other/inferable": [
     "marcklingen"
+  ],
+  "/integrations/other/librechat": [
+    "felixkrrr",
+    "jannikmaierhoefer"
   ],
   "/integrations/other/mcp-use": [
     "jannikmaierhoefer",
@@ -1538,8 +1566,8 @@
     "AkioNuernberger"
   ],
   "/security/data-regions": [
-    "jannikmaierhoefer",
     "AkioNuernberger",
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/security/dependencies": [
@@ -1601,8 +1629,8 @@
     "marliessophie"
   ],
   "/security/security-faq": [
-    "marcklingen",
     "AkioNuernberger",
+    "marcklingen",
     "clemra"
   ],
   "/security/soc2": [
@@ -1676,19 +1704,23 @@
     "marcklingen"
   ],
   "/self-hosting/deployment/docker-compose": [
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/self-hosting/deployment/gcp": [
     "marcklingen"
   ],
   "/self-hosting/deployment/infrastructure/blobstorage": [
+    "jannikmaierhoefer",
     "marcklingen"
   ],
   "/self-hosting/deployment/infrastructure/cache": [
+    "jannikmaierhoefer",
     "Steffen911",
     "marcklingen"
   ],
   "/self-hosting/deployment/infrastructure/clickhouse": [
+    "jannikmaierhoefer",
     "Steffen911",
     "marcklingen"
   ],
@@ -1713,8 +1745,8 @@
     "jannikmaierhoefer"
   ],
   "/self-hosting/license-key": [
-    "AkioNuernberger",
     "marcklingen",
+    "AkioNuernberger",
     "Steffen911"
   ],
   "/self-hosting/security/authentication-and-sso": [
@@ -1722,6 +1754,9 @@
     "marcklingen",
     "Steffen911",
     "freinold"
+  ],
+  "/self-hosting/security/data-masking": [
+    "marcklingen"
   ],
   "/self-hosting/security/deployment-strategies": [
     "marcklingen"

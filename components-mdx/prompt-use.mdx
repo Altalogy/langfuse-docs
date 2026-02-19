@@ -1,3 +1,6 @@
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+import { LangTabs } from "@/components/LangTabs";
 import { FileCode } from "lucide-react";
 
 At runtime, you can fetch the prompt from Langfuse. We recommend using the `production` label to fetch the version intentionally chosen for production. Learn more about control (versions/labels) [here](/docs/prompt-management/features/prompt-version-control).
@@ -132,7 +135,7 @@ completion = openai.chat.completions.create(
 
 **Example notebook**
 
-<Cards num={1}>
+<Cards>
   <Card
     title="Example Cookbook"
     href="/guides/cookbook/prompt_management_openai_functions"
@@ -246,7 +249,7 @@ langchain_prompt = ChatPromptTemplate.from_messages(langfuse_prompt.get_langchai
 
 **Example notebook**
 
-<Cards num={1}>
+<Cards>
   <Card
     title="Example Cookbook"
     href="/guides/cookbook/prompt_management_langchain"
@@ -299,7 +302,7 @@ const promptTemplate = ChatPromptTemplate.fromMessages(
 
 **Example notebook**
 
-<Cards num={1}>
+<Cards>
   <Card
     title="Example Cookbook."
     href="/guides/cookbook/js_prompt_management_langchain"

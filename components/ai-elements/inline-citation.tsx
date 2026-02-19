@@ -47,7 +47,7 @@ export const InlineCitationCard = (props: InlineCitationCardProps) => (
   <HoverCard openDelay={0} closeDelay={0} {...props} />
 );
 
-export type InlineCitationCardTriggerProps = ComponentProps<"button"> & {
+export type InlineCitationCardTriggerProps = ComponentProps<"div"> & {
   sources: string[];
 };
 

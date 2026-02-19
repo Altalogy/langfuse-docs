@@ -1,11 +1,13 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 
 // Define the breakpoint
 const MOBILE_BREAKPOINT = 650;
 
 export default function MobileSwitch(props: {
-  mobile: React.ElementType;
-  desktop: React.ElementType;
+  mobile: React.ReactNode;
+  desktop: React.ReactNode;
 }) {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const objectRef = useRef(null);

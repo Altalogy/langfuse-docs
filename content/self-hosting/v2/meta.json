@@ -1,0 +1,7 @@
+{
+  "pages": [
+    "index",
+    "deployment-guide",
+    "docker-compose"
+  ]
+}

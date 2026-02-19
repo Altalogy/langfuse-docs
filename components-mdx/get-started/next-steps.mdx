@@ -1,4 +1,5 @@
-import { Tabs, Cards } from "nextra/components";
+import { Cards, Card } from "fumadocs-ui/components/card";
+import { Tabs } from "fumadocs-ui/components/tabs";
 import {
   FileText,
   ClipboardCheck,
@@ -9,33 +10,33 @@ import {
 } from "lucide-react";
 
 {/* wihtout defining num, the cards will be rendered as three columns which is hard to read */}
-<Cards num={2}> 
-  <Cards.Card
+<Cards> 
+  <Card
     title="Manage prompts in Langfuse"
     href="/docs/prompts/get-started"
     icon={<FileText />}
   />
-  <Cards.Card
+  <Card
     title="Add evaluation scores"
     href="/docs/evaluation/features/evaluation-methods/custom-scores"
     icon={<ClipboardCheck />}
   />
-  <Cards.Card
+  <Card
     title="Run LLM-as-a-judge Evaluators"
     href="/docs/scores/model-based-evals"
     icon={<Scale />}
   />
-  <Cards.Card
+  <Card
     title="Create datasets"
     href="/docs/datasets/overview"
     icon={<Database />}
   />
-  <Cards.Card
+  <Card
     title="Create custom dashboards"
     href="/docs/analytics/custom-dashboards"
     icon={<LayoutDashboard />}
   />
-  <Cards.Card
+  <Card
     title="Test queries in the Playground"
     href="/docs/playground"
     icon={<TestTube />}

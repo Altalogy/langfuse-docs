@@ -1,0 +1,8 @@
+{
+  "pages": [
+    "authentication-and-sso",
+    "deployment-strategies",
+    "networking",
+    "data-masking"
+  ]
+}

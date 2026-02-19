@@ -1,0 +1,14 @@
+{
+  "title": "Self Hosting",
+  "pages": [
+    "index",
+    "license-key",
+    "troubleshooting-and-faq",
+    "configuration",
+    "deployment",
+    "security",
+    "administration",
+    "upgrade",
+    "v2"
+  ]
+}

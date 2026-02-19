@@ -1,164 +1,86 @@
-import { getPagesUnderRoute } from "nextra/context";
+import { blogSource } from "@/lib/source";
 import Link from "next/link";
 import Image from "next/image";
-import { type Page } from "nextra";
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
-import { Button } from "@/components/ui/button";
+
+type BlogPageFrontmatter = {
+  date?: string;
+  author?: string;
+  tag?: string;
+  ogImage?: string;
+  showInBlogIndex?: boolean;
+};
 
 export const BlogIndex = ({
   maxItems,
-  path = "/blog",
 }: {
   maxItems?: number;
-  path?: string;
 }) => {
-  const router = useRouter();
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const pages = blogSource.getPages();
 
-  // Initialize selected tag from URL parameter
-  useEffect(() => {
-    const tag = router.query.tag as string | undefined;
-    setSelectedTag(tag || null);
-  }, [router.query.tag]);
-
-  const posts = useMemo(
-    () =>
-      (getPagesUnderRoute(path) as Array<Page & { frontMatter: any }>)
-        .filter((page) => page.frontMatter?.showInBlogIndex !== false)
-        .sort(
-          (a, b) =>
-            new Date(b.frontMatter.date).getTime() -
-            new Date(a.frontMatter.date).getTime()
-        )
-        .slice(0, maxItems),
-    [maxItems]
-  );
-
-  // Function to normalize and split tags
-  const normalizeTags = (tagString?: string) => {
-    if (!tagString) return [];
-    return tagString
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase())
-      .filter(Boolean);
-  };
-
-  const filteredPosts = useMemo(
-    () =>
-      posts.filter((page) => {
-        if (!selectedTag) return true;
-        const postTags = normalizeTags(page.frontMatter?.tag);
-        const selectedTags = normalizeTags(selectedTag);
-        return selectedTags.some((tag) => postTags.includes(tag));
-      }),
-    [posts, selectedTag]
-  );
-
-  // Get unique tags
-  const tags = useMemo(() => {
-    const allTags = posts.flatMap((page) =>
-      normalizeTags(page.frontMatter?.tag)
-    );
-    return Array.from(new Set(allTags));
-  }, [posts]);
-
-  const handleTagClick = (tag: string) => {
-    const newTag = selectedTag === tag ? null : tag;
-    setSelectedTag(newTag);
-
-    // Update URL parameter
-    const query = { ...router.query };
-    if (newTag) {
-      query.tag = newTag;
-    } else {
-      delete query.tag;
-    }
-    router.push({ pathname: router.pathname, query }, undefined, {
-      shallow: true,
-    });
-  };
+  const sorted = pages
+    .filter((page) => {
+      const fm = (page.data as unknown as { frontmatter?: BlogPageFrontmatter }).frontmatter ?? {};
+      return fm.showInBlogIndex !== false;
+    })
+    .sort((a, b) => {
+      const fmA = (a.data as unknown as { frontmatter?: BlogPageFrontmatter }).frontmatter ?? {};
+      const fmB = (b.data as unknown as { frontmatter?: BlogPageFrontmatter }).frontmatter ?? {};
+      const dateA = fmA.date ? new Date(fmA.date).getTime() : 0;
+      const dateB = fmB.date ? new Date(fmB.date).getTime() : 0;
+      return dateB - dateA;
+    })
+    .slice(0, maxItems);
 
   return (
-    <div>
-      <div className="flex gap-2 flex-wrap mb-10 justify-center">
-        {tags.map((tag) => (
-          <Button
-            key={tag}
-            onClick={() => handleTagClick(tag)}
-            variant={
-              selectedTag
-                ?.toLowerCase()
-                .split(",")
-                .map((t) => t.trim())
-                .includes(tag)
-                ? "default"
-                : "secondary"
-            }
-            size="pill"
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+      {sorted.map((page) => {
+        const fm = (page.data as unknown as { frontmatter?: BlogPageFrontmatter }).frontmatter ?? {};
+        return (
+          <Link
+            key={page.url}
+            href={page.url}
+            className="group block rounded-lg border border-border bg-card hover:border-primary/50 transition-colors overflow-hidden"
           >
-            {tag.charAt(0).toUpperCase() + tag.slice(1)}
-          </Button>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
-        {filteredPosts.map((page) => (
-          <Link key={page.route} href={page.route} className="block mb-8 group">
-            {page.frontMatter?.ogImage ? (
-              <div className="mt-4 rounded relative aspect-video overflow-hidden">
+            {fm.ogImage && (
+              <div className="aspect-video relative overflow-hidden">
                 <Image
-                  src={page.frontMatter.ogImage}
-                  className="object-cover transform group-hover:scale-105 transition-transform"
-                  alt={page.frontMatter?.title ?? "Blog post image"}
-                  fill={true}
-                  sizes="(min-width: 1024px) 33vw, 100vw"
+                  src={fm.ogImage}
+                  alt={page.data.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-            ) : null}
-            <h2 className="block font-mono mt-8 text-2xl opacity-90 group-hover:opacity-100">
-              {page.meta?.title || page.frontMatter?.title || page.name}
-            </h2>
-            <div className="opacity-80 mt-2 group-hover:opacity-100">
-              {page.frontMatter?.description} <span>Read more →</span>
-            </div>
-            <div className="flex gap-2 flex-wrap mt-3 items-baseline">
-              {normalizeTags(page.frontMatter?.tag).map((tag, index) => (
-                <Button
-                  key={index}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleTagClick(tag);
-                  }}
-                  variant={
-                    selectedTag
-                      ?.toLowerCase()
-                      .split(",")
-                      .map((t) => t.trim())
-                      .includes(tag)
-                      ? "secondary"
-                      : "outline"
-                  }
-                  size="pill"
-                  className="opacity-80 group-hover:opacity-100"
-                >
-                  {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                </Button>
-              ))}
-              {page.frontMatter?.date ? (
-                <span className="opacity-60 text-sm group-hover:opacity-100">
-                  {page.frontMatter.date}
+            )}
+            <div className="p-4">
+              <h2 className="font-mono text-lg font-medium mb-2 group-hover:text-primary transition-colors">
+                {page.data.title}
+              </h2>
+              {page.data.description && (
+                <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                  {page.data.description}
+                </p>
+              )}
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                {fm.date && (
+                  <time>
+                    {new Date(fm.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                )}
+                {fm.author && <span>by {fm.author}</span>}
+              </div>
+              {fm.tag && (
+                <span className="inline-block mt-2 text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                  {fm.tag}
                 </span>
-              ) : null}
-              {page.frontMatter?.author ? (
-                <span className="opacity-60 text-sm group-hover:opacity-100">
-                  by {page.frontMatter.author}
-                </span>
-              ) : null}
+              )}
             </div>
           </Link>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 };

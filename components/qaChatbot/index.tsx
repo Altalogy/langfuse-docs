@@ -312,7 +312,7 @@ export const Chat = ({ className, ...props }: ChatProps) => {
                               <ToolInput input={part.input} />
                               <ToolOutput
                                 errorText={part.errorText}
-                                // output={part.output}
+                                output={(part as any).output}
                               />
                             </ToolContent>
                           </Tool>

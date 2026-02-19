@@ -29,15 +29,18 @@ export function CTACard({ title, description, children, className, showArrow = f
             <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-end items-center md:flex-1">
               {showArrow ? (
                 React.Children.map(children, (child) => {
-                  if (React.isValidElement(child) && (child.type === Button || child.props.asChild)) {
-                    return React.cloneElement(child, {
+                  if (React.isValidElement(child)) {
+                    const props = child.props as Record<string, any>;
+                    if (child.type === Button || props.asChild) {
+                    return React.cloneElement(child as React.ReactElement<any>, {
                       children: (
                         <div className="flex items-center gap-2">
-                          {child.props.children}
+                          {props.children}
                           <ArrowRight className="h-4 w-4" />
                         </div>
                       )
-                    } as any);
+                    });
+                    }
                   }
                   return child;
                 })

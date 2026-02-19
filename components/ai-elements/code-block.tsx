@@ -1,3 +1,5 @@
+"use client";
+
 'use client';
 
 import { CheckIcon, CopyIcon } from 'lucide-react';

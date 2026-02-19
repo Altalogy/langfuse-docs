@@ -1,5 +1,4 @@
-import { Callout } from "nextra/components";
-
+import { Callout } from "fumadocs-ui/components/callout";
 interface PropagationRestrictionsCalloutProps {
   attributes?: ("userId" | "sessionId" | "metadata" | "version" | "tags" | "traceName")[];
 }
