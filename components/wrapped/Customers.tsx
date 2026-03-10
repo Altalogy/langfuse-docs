@@ -11,8 +11,8 @@ import { WrappedSection } from "./components/WrappedSection";
 import { WrappedGrid, WrappedGridItem } from "./components/WrappedGrid";
 import { SectionHeading } from "./components/SectionHeading";
 import { HoverStars } from "./components/HoverStars";
-import intuitLight from "../home/img/intuit_light.svg";
-import intuitDark from "../home/img/intuit_dark.svg";
+import intuitLightMode from "../home/img/intuit_light.svg";
+import intuitDarkMode from "../home/img/intuit_dark.svg";
 import samsaraLight from "../home/img/samsara_light.png";
 import samsaraDark from "../home/img/samsara_dark.png";
 import khanacademyLight from "../home/img/khanacademy_light.png";
@@ -27,14 +27,16 @@ import magicPatternsLight from "../home/img/magicpatterns_light.png";
 import magicPatternsDark from "../home/img/magicpatterns_dark.png";
 import merckLight from "../home/img/merck-dark.png";
 import merckDark from "../home/img/merck-light.png";
-import juiceboxLight from "../home/img/juicebox_light.svg";
-import juiceboxDark from "../home/img/juicebox_dark.svg";
+import adobeLight from "../home/img/adobe_light.svg";
+import adobeDark from "../home/img/adobe_dark.svg";
 import pigmentLight from "../home/img/pigment_light.svg";
 import pigmentDark from "../home/img/pigment_dark.svg";
 import sevenelevenLight from "../home/img/seveneleven_light.png";
 import sevenelevenDark from "../home/img/seveneleven_dark.png";
 import circlebackLight from "../home/img/circleback_light.png";
 import circlebackDark from "../home/img/circleback_dark.png";
+import canvaLight from "../home/img/canva_light.png";
+import canvaDark from "../home/img/canva_dark.png";
 
 interface CustomerStory {
   route: string;
@@ -53,24 +55,50 @@ interface CustomerStory {
 
 // Companies with customer stories
 const companiesWithStories = [
-  { name: "SumUp", path: "/customers/sumup", light: sumupLight, dark: sumupDark },
-  { name: "Khan Academy", path: "/customers/khan-academy", light: khanacademyLight, dark: khanacademyDark },
-  { name: "Magic Patterns", path: "/customers/magic-patterns-ai-design-tools", light: magicPatternsLight, dark: magicPatternsDark },
-  { name: "Merck", path: "/customers/merckgroup", light: merckLight, dark: merckDark },
+  { name: "Canva", path: "/users/canva", light: canvaDark, dark: canvaLight },
+  { name: "SumUp", path: "/users/sumup", light: sumupLight, dark: sumupDark },
+  {
+    name: "Khan Academy",
+    path: "/users/khan-academy",
+    light: khanacademyLight,
+    dark: khanacademyDark,
+  },
+  {
+    name: "Magic Patterns",
+    path: "/users/magic-patterns-ai-design-tools",
+    light: magicPatternsLight,
+    dark: magicPatternsDark,
+  },
+  {
+    name: "Merck",
+    path: "/users/merckgroup",
+    light: merckLight,
+    dark: merckDark,
+  },
 ];
 
 // Companies without customer stories (logos only)
-// Note: Most logos use counterintuitive naming (_light for dark mode, _dark for light mode)
-// But Intuit uses intuitive naming (_light for light mode, _dark for dark mode)
 const companiesWithoutStories = [
-  { name: "Samsara", light: samsaraLight, dark: samsaraDark, isIntuitive: false },
-  { name: "Twilio", light: twilioLight, dark: twilioDark, isIntuitive: false },
-  { name: "Telus", light: telusLight, dark: telusDark, isIntuitive: false },
-  { name: "Pigment", light: pigmentLight, dark: pigmentDark, isIntuitive: false },
-  { name: "Juicebox", light: juiceboxLight, dark: juiceboxDark, isIntuitive: false },
-  { name: "Intuit", light: intuitLight, dark: intuitDark, isIntuitive: true },
-  { name: "Seven Eleven Japan", light: sevenelevenLight, dark: sevenelevenDark, isIntuitive: false },
-  { name: "Circleback", light: circlebackLight, dark: circlebackDark, isIntuitive: false },
+  { name: "Samsara", lightModeImage: samsaraDark, darkModeImage: samsaraLight },
+  { name: "Twilio", lightModeImage: twilioDark, darkModeImage: twilioLight },
+  { name: "Telus", lightModeImage: telusDark, darkModeImage: telusLight },
+  { name: "Pigment", lightModeImage: pigmentDark, darkModeImage: pigmentLight },
+  { name: "Adobe", lightModeImage: adobeLight, darkModeImage: adobeDark },
+  {
+    name: "Intuit",
+    lightModeImage: intuitLightMode,
+    darkModeImage: intuitDarkMode,
+  },
+  {
+    name: "Seven Eleven Japan",
+    lightModeImage: sevenelevenDark,
+    darkModeImage: sevenelevenLight,
+  },
+  {
+    name: "Circleback",
+    lightModeImage: circlebackDark,
+    darkModeImage: circlebackLight,
+  },
 ];
 
 function CustomerStoryCard({ story }: { story: CustomerStory }) {
@@ -103,7 +131,7 @@ function CustomerStoryCard({ story }: { story: CustomerStory }) {
           </div>
         )}
       </div>
-      
+
       <div className="absolute inset-0 transition-transform duration-700 [transform-style:preserve-3d] [transform:rotateY(180deg)] lg:[transform:rotateY(0deg)] lg:group-hover:[transform:rotateY(180deg)]">
         {/* Front side - Logo only */}
         <div className="absolute inset-0 flex items-center justify-center p-6 lg:p-8 [backface-visibility:hidden]">
@@ -214,9 +242,7 @@ function CustomerStoryCard({ story }: { story: CustomerStory }) {
                   <div className="text-xs sm:text-sm text-muted-foreground mt-1 break-words">
                     {story.frontMatter.quoteRole}
                     {story.frontMatter.quoteRole &&
-                      story.frontMatter.quoteCompany && (
-                        <span> at </span>
-                      )}
+                      story.frontMatter.quoteCompany && <span> at </span>}
                     {story.frontMatter.quoteCompany}
                   </div>
                 )}
@@ -231,20 +257,13 @@ function CustomerStoryCard({ story }: { story: CustomerStory }) {
 
 function CompanyLogo({
   name,
-  light,
-  dark,
-  isIntuitive = false,
+  lightModeImage,
+  darkModeImage,
 }: {
   name: string;
-  light: any;
-  dark: any;
-  isIntuitive?: boolean;
+  lightModeImage: any;
+  darkModeImage: any;
 }) {
-  // Most logos use counterintuitive naming (_light for dark mode, _dark for light mode)
-  // But some like Intuit use intuitive naming (_light for light mode, _dark for dark mode)
-  const lightModeImage = isIntuitive ? light : dark;
-  const darkModeImage = isIntuitive ? dark : light;
-
   return (
     <div className="p-3 lg:p-4 flex items-center justify-center min-h-[100px]">
       <Image
@@ -269,24 +288,22 @@ function CompanyLogo({
 
 type CustomerItem =
   | { type: "story"; story: CustomerStory & { company: any } }
-  | { type: "logo"; company: typeof companiesWithoutStories[0] }
+  | { type: "logo"; company: (typeof companiesWithoutStories)[0] }
   | { type: "text"; text: string };
 
 export function Customers() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
-  const allStories = (getPagesUnderRoute("/customers") as Array<
-    Page & { frontMatter: any }
-  >).filter(
-    (page) => page.frontMatter?.showInCustomerIndex !== false
-  );
+  const allStories = (
+    getPagesUnderRoute("/users") as Array<Page & { frontMatter: any }>
+  ).filter((page) => page.frontMatter?.showInCustomerIndex !== false);
 
   // Match stories with companies
   const customerStories = companiesWithStories
     .map((company) => {
       const story = allStories.find(
-        (s) => s.route === company.path || s.route === `${company.path}/`
+        (s) => s.route === company.path || s.route === `${company.path}/`,
       );
       return story ? { ...story, company } : null;
     })
@@ -296,22 +313,23 @@ export function Customers() {
   const orderedItems = useMemo(() => {
     // Create maps for easy lookup
     const storyMap = new Map(
-      customerStories.map((story) => [story.company.name, story])
+      customerStories.map((story) => [story.company.name, story]),
     );
     const logoMap = new Map(
-      companiesWithoutStories.map((company) => [company.name, company])
+      companiesWithoutStories.map((company) => [company.name, company]),
     );
 
     // Define the exact order
     const order: Array<{ type: "story" | "logo" | "text"; name: string }> = [
       // First column
       { type: "logo", name: "Intuit" },
+      { type: "story", name: "Canva" },
       { type: "story", name: "SumUp" },
       // Continue with rest in desired order...
       { type: "logo", name: "Samsara" },
       { type: "logo", name: "Twilio" },
       { type: "logo", name: "Telus" },
-      { type: "logo", name: "Juicebox" },
+      { type: "logo", name: "Adobe" },
       { type: "logo", name: "Seven Eleven Japan" },
       { type: "story", name: "Khan Academy" },
       { type: "logo", name: "Circleback" },
@@ -359,7 +377,7 @@ export function Customers() {
             const row = Math.floor(index / columns);
             const col = index % columns;
             const delay = (row + col) * 0.1; // Stagger delay
-            
+
             const animationProps = {
               initial: { opacity: 0, y: 20, scale: 0.95 },
               animate: isInView
@@ -374,9 +392,7 @@ export function Customers() {
 
             // Use negative margins to overlap borders on all sides except first item
             // For columns layout, we overlap top and left borders
-            const marginClass = index === 0 
-              ? "" 
-              : "-mt-[1px] -ml-[1px]";
+            const marginClass = index === 0 ? "" : "-mt-[1px] -ml-[1px]";
 
             if (item.type === "story") {
               return (
@@ -421,4 +437,3 @@ export function Customers() {
     </WrappedSection>
   );
 }
-
