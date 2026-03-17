@@ -108,7 +108,7 @@ const GhDiscussionsPreviewInternal = ({
 
     return (
       <>
-        <ul className="space-y-3 pt-3">
+        <ul className="pt-2">
           {displayedDiscussions.map((discussion) => (
             <li
               key={discussion.number}
@@ -125,7 +125,7 @@ const GhDiscussionsPreviewInternal = ({
               <div className="flex flex-col items-start">
                 <Link
                   href={discussion.href}
-                  className="text-primary hover:underline font-medium text-sm leading-none text-balance"
+                  className="text-primary font-medium text-sm leading-none text-balance no-underline hover:no-underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

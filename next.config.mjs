@@ -71,6 +71,24 @@ const nextConfig = {
       "nextra-theme-docs": path.resolve(__dirname, "lib/nextra-shim/theme-docs.tsx"),
       "nextra/components": path.resolve(__dirname, "lib/nextra-shim/components.tsx"),
     };
+    // Prevent recharts (and its exclusive deps: redux toolkit, immer, etc.) from
+    // being hoisted into a synchronous shared chunk that loads on every page.
+    // Recharts is only used on the /wrapped page — keep it in async-only chunks
+    // so it's never downloaded unless the wrapped page actually renders it.
+    if (!isServer) {
+      const sc = config.optimization?.splitChunks;
+      if (sc && typeof sc === "object") {
+        sc.cacheGroups = sc.cacheGroups ?? {};
+        sc.cacheGroups.rechartsVendor = {
+          test: /[\\/]node_modules[\\/](@reduxjs[\\/]toolkit|recharts|victory-vendor|react-redux|immer|reselect|decimal\.js-light|eventemitter3)[\\/]/,
+          name: "vendor-recharts",
+          chunks: "async", // never pulled into initial/synchronous bundles
+          priority: 30,
+          enforce: true,
+        };
+      }
+    }
+
     // Prevent client bundle from failing on Node built-ins (e.g. fumadocs-mdx using fs/promises)
     if (!isServer) {
       config.resolve.fallback = {
@@ -103,6 +121,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "static.langfuse.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "langfuse.com",
         port: "",
         pathname: "/**",
       },
@@ -190,6 +214,12 @@ const nextConfig = {
       // Run BEFORE Next serves pages/public files so it can override HTML routes
       // when the client explicitly asks for markdown.
       beforeFiles: [
+        // /support.md → raw markdown from the Support page (content/marketing/support.mdx → md-src/marketing/support.md)
+        {
+          source: "/support.md",
+          destination: "/md-src/marketing/support.md",
+        },
+
         // Optional: make "/" negotiable too (remove if you don't have md-src/index.md)
         {
           source: "/",

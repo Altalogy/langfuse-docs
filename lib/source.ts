@@ -17,11 +17,13 @@ import {
 export const source = loader({
   baseUrl: "/docs",
   source: docs.toFumadocsSource(),
+  pageTree: { idPrefix: "docs" },
 });
 
 export const selfHostingSource = loader({
   baseUrl: "/self-hosting",
   source: selfHosting.toFumadocsSource(),
+  pageTree: { idPrefix: "self-hosting" },
 });
 
 const SELF_HOSTING_BASE = "/self-hosting";
@@ -78,6 +80,7 @@ export const changelogSource = loader({
 export const guidesSource = loader({
   baseUrl: "/guides",
   source: guides.toFumadocsSource(),
+  pageTree: { idPrefix: "guides" },
 });
 
 export const faqSource = loader({
@@ -88,6 +91,7 @@ export const faqSource = loader({
 export const integrationsSource = loader({
   baseUrl: "/integrations",
   source: integrations.toFumadocsSource(),
+  pageTree: { idPrefix: "integrations" },
 });
 
 const INTEGRATIONS_BASE = "/integrations";
@@ -146,6 +150,7 @@ export const securitySource = loader({
 export const librarySource = loader({
   baseUrl: "/library",
   source: library.toFumadocsSource(),
+  pageTree: { idPrefix: "library" },
 });
 
 export const usersSource = loader({
@@ -174,6 +179,7 @@ export const MARKETING_SLUGS = [
   "find-us",
   "imprint",
   "jp",
+  "jp-cloud",
   "kr",
   "oss-friends",
   "press",
@@ -221,11 +227,24 @@ export function getPagesForRoute(route: string) {
         } | undefined;
         if (!page) return null;
         const path = slug.length ? `/${slug.join("/")}` : "";
+        const rawData = page.data as Record<string, unknown>;
+        // Only keep primitive values (null, string, number, boolean) so the result
+        // is safe to pass as props to Client Components. This excludes functions
+        // (body, getText, getMDAST), module namespace objects (_exports), arrays
+        // (toc), and other non-serializable fumadocs internals.
+        const frontMatter = Object.fromEntries(
+          Object.entries(rawData).filter(([, v]) =>
+            v === null ||
+            typeof v === "string" ||
+            typeof v === "number" ||
+            typeof v === "boolean"
+          )
+        );
         return {
           route: `${src.baseUrl}${path}`,
-          name: page.data?.title,
-          title: page.data?.title,
-          frontMatter: { ...page.data, date: (page.data as { date?: string })?.date },
+          name: rawData?.title as string | undefined,
+          title: rawData?.title as string | undefined,
+          frontMatter,
         };
       })
       .filter(Boolean) as Array<{

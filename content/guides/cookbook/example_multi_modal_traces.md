@@ -1,5 +1,5 @@
 ---
-title: Multi-modality and Attachments
+title: Example Multi Modal Traces
 category: Examples
 description: Examples of how to use multi-modality and attachments with the Langfuse Python SDK.
 ---
@@ -154,7 +154,7 @@ langfuse.flush()
 
 
 ```python
-from langfuse import observe, get_client
+from langfuse import observe, get_client, propagate_attributes
 from langfuse.media import LangfuseMedia
 
 with open("static/bitcoin.pdf", "rb") as pdf_file:
@@ -166,11 +166,12 @@ wrapped_obj = LangfuseMedia(
 
 @observe()
 def main():
-    langfuse.update_current_trace(
+    with propagate_attributes(
         metadata={
             "context": wrapped_obj
         },
-    )
+    ):
+        pass
 
     return # Limitation: LangfuseMedia object does not work in decorated function IO
 

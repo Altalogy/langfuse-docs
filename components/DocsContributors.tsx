@@ -15,6 +15,7 @@ const getGithubEditUrl = (path: string): string | null => {
   const sectionToDir: Record<string, string> = {
     docs: "content/docs",
     guides: "content/guides",
+    handbook: "content/handbook",
     integrations: "content/integrations",
     "self-hosting": "content/self-hosting",
     library: "content/library",
@@ -159,7 +160,9 @@ export const DocsContributors = ({ pageTitle }: DocsContributorsProps) => {
   }, [currentPath]);
 
   const contributors = getContributors(currentPath);
-  if (contributors.length === 0) return null;
+
+  // Return null only if there's nothing to show at all
+  if (contributors.length === 0 && !editUrl && !feedbackUrl) return null;
 
   const processedContributors = contributors.map(processContributor);
   const displayedContributors = showAll
@@ -193,26 +196,28 @@ export const DocsContributors = ({ pageTitle }: DocsContributorsProps) => {
           )}
         </div>
       )}
-      <div className="mt-1 pt-4 border-t border-border w-full">
-        <div className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-          Contributors
+      {processedContributors.length > 0 && (
+        <div className="mt-1 pt-4 border-t border-border w-full">
+          <div className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+            Contributors
+          </div>
+          <div>
+            {displayedContributors.map((contributor) => (
+              <React.Fragment key={contributor.username}>
+                <ContributorCard contributor={contributor} />
+              </React.Fragment>
+            ))}
+            {remainingCount > 0 && !showAll && (
+              <button
+                onClick={() => setShowAll(true)}
+                className="mt-1 text-xs text-muted-foreground hover:text-foreground italic pl-2 transition-colors cursor-pointer"
+              >
+                ... and {remainingCount} more
+              </button>
+            )}
+          </div>
         </div>
-        <div>
-          {displayedContributors.map((contributor) => (
-            <React.Fragment key={contributor.username}>
-              <ContributorCard contributor={contributor} />
-            </React.Fragment>
-          ))}
-          {remainingCount > 0 && !showAll && (
-            <button
-              onClick={() => setShowAll(true)}
-              className="mt-1 text-xs text-muted-foreground hover:text-foreground italic pl-2 transition-colors cursor-pointer"
-            >
-              ... and {remainingCount} more
-            </button>
-          )}
-        </div>
-      </div>
+      )}
     </>
   );
 };

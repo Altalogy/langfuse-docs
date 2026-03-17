@@ -14,9 +14,19 @@ const yamlDateField = z
   ])
   .nullish();
 
+// Base schema that adds canonical and noindex to the default frontmatter schema.
+// All per-collection schemas should extend this so these fields are always parsed.
+const baseFrontmatterSchema = frontmatterSchema.extend({
+  canonical: z.string().nullish(),
+  noindex: z.boolean().nullish(),
+  // Optional SEO title override: when set, used for <title> and OG title
+  // instead of the navigation title (keeps sidebar labels short).
+  seoTitle: z.string().nullish(),
+});
+
 // Extended schema for blog pages — adds date, tag, author, ogImage fields
 // used by BlogIndex for thumbnails and filtering.
-const blogFrontmatterSchema = frontmatterSchema.extend({
+const blogFrontmatterSchema = baseFrontmatterSchema.extend({
   date: yamlDateField,
   tag: z.string().nullish(),
   author: z.string().nullish(),
@@ -24,17 +34,19 @@ const blogFrontmatterSchema = frontmatterSchema.extend({
   showInBlogIndex: z.boolean().nullish(),
 });
 
-// Extended schema for changelog pages — adds date, author, ogImage fields
-// that the Changelog widget reads from frontMatter.
-const changelogFrontmatterSchema = frontmatterSchema.extend({
+// Extended schema for changelog pages — adds date, author, ogImage, ogVideo, badge
+// that the Changelog widget and ChangelogHeader read from frontMatter.
+const changelogFrontmatterSchema = baseFrontmatterSchema.extend({
   date: yamlDateField,
   author: z.string().nullish(),
   ogImage: z.string().nullish(),
+  ogVideo: z.string().nullish(),
+  badge: z.string().nullish(),
 });
 
 // Extended schema for customer story pages — preserves all default fields and
 // adds the custom frontmatter fields used by CustomerCarousel / CustomerIndex.
-const customerFrontmatterSchema = frontmatterSchema.extend({
+const customerFrontmatterSchema = baseFrontmatterSchema.extend({
   // Use .nullish() so empty YAML values (parsed as null) are accepted too
   date: yamlDateField,
   ogImage: z.string().nullish(),
@@ -55,10 +67,12 @@ const customerFrontmatterSchema = frontmatterSchema.extend({
 
 export const docs = defineDocs({
   dir: "content/docs",
+  docs: { schema: baseFrontmatterSchema },
 });
 
-const selfHostingFrontmatterSchema = frontmatterSchema.extend({
+const selfHostingFrontmatterSchema = baseFrontmatterSchema.extend({
   sidebarTitle: z.string().nullish(),
+  label: z.string().nullish(),
 });
 
 export const selfHosting = defineDocs({
@@ -82,7 +96,7 @@ export const changelog = defineDocs({
   },
 });
 
-const guidesFrontmatterSchema = frontmatterSchema.extend({
+const guidesFrontmatterSchema = baseFrontmatterSchema.extend({
   ogImage: z.string().nullish(),
   category: z.string().nullish(),
 });
@@ -94,7 +108,7 @@ export const guides = defineDocs({
   },
 });
 
-const faqFrontmatterSchema = frontmatterSchema.extend({
+const faqFrontmatterSchema = baseFrontmatterSchema.extend({
   tags: z.array(z.string()).optional(),
 });
 
@@ -105,7 +119,7 @@ export const faq = defineDocs({
   },
 });
 
-const integrationsFrontmatterSchema = frontmatterSchema.extend({
+const integrationsFrontmatterSchema = baseFrontmatterSchema.extend({
   sidebarTitle: z.string().nullish(),
   logo: z.string().nullish(),
 });
@@ -119,10 +133,12 @@ export const integrations = defineDocs({
 
 export const security = defineDocs({
   dir: "content/security",
+  docs: { schema: baseFrontmatterSchema },
 });
 
 export const library = defineDocs({
   dir: "content/library",
+  docs: { schema: baseFrontmatterSchema },
 });
 
 export const customers = defineDocs({
@@ -134,10 +150,12 @@ export const customers = defineDocs({
 
 export const handbook = defineDocs({
   dir: "content/handbook",
+  docs: { schema: baseFrontmatterSchema },
 });
 
 export const marketing = defineDocs({
   dir: "content/marketing",
+  docs: { schema: baseFrontmatterSchema },
 });
 
 export default defineConfig({

@@ -1,15 +1,19 @@
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import React from "react";
+import dynamic from "next/dynamic";
 import { Mermaid } from "@/components/Mermaid";
 import NextImage from "next/image";
 import { Frame } from "@/components/Frame";
-import { Video } from "@/components/Video";
 import { LangTabs } from "@/components/LangTabs";
 import { FetchReadme } from "@/components/FetchReadme";
-import { Callout, Tabs, Tab, Cards, Steps, FileTree } from "@/lib/nextra-shim/components";
+import { Callout, Tabs, Tab, Cards, Card, Steps, FileTree, FileTreeFile, FileTreeFolder } from "@/lib/nextra-shim/components";
 import { MdxDetails, MdxSummary } from "@/components/MdxDetails";
 import { AvailabilityBanner } from "@/components/availability";
+
+// Lazy-load Video so @vidstack/react (~800 KB) is NOT bundled on every MDX page.
+// It only downloads on pages that actually render a <Video> tag.
+const Video = dynamic(() => import("@/components/Video").then((m) => ({ default: m.Video })));
 
 const BLOCK_TAGS = new Set([
   "div", "details", "summary", "figure", "pre", "table",
@@ -45,19 +49,22 @@ function MdxParagraph({ children, ...props }: React.HTMLAttributes<HTMLElement>)
 function MdxImage(props: React.ImgHTMLAttributes<HTMLImageElement>) {
   const { src, alt, width, height, ...rest } = props;
   if (!src) return null;
-  if (width && height) {
-    return (
-      <NextImage
-        src={src}
-        alt={alt ?? ""}
-        width={Number(width)}
-        height={Number(height)}
-        {...(rest as object)}
-      />
-    );
-  }
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img src={src} alt={alt ?? ""} {...rest} />;
+  // Always use next/image so Vercel optimises + compresses every image.
+  // For images without explicit dimensions (the common case in MDX — `![alt](url)`)
+  // we use width=0/height=0 + sizes + style so the image fills its container
+  // while keeping the correct aspect ratio. This is the Next.js-recommended
+  // pattern for images with unknown intrinsic dimensions.
+  return (
+    <NextImage
+      src={src}
+      alt={alt ?? ""}
+      width={width ? Number(width) : 0}
+      height={height ? Number(height) : 0}
+      sizes={!width || !height ? "(max-width: 768px) 100vw, 800px" : undefined}
+      style={{ width: "100%", height: "auto" }}
+      {...(rest as object)}
+    />
+  );
 }
 
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
@@ -73,9 +80,12 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Tab,
     "Tabs.Tab": Tab,
     Cards,
-    Card: Cards.Card,
+    Card,
+    "Cards.Card": Card,
     Steps,
     FileTree,
+    "FileTree.File": FileTreeFile,
+    "FileTree.Folder": FileTreeFolder,
     FetchReadme,
     details: MdxDetails,
     summary: MdxSummary,

@@ -20,16 +20,16 @@ export const MenuSwitcher = () => {
         pathname?.startsWith(item.path) ? (
           <div
             key={item.path}
-            className="flex flex-row gap-3 items-center mb-3 group text-primary"
+            className="flex flex-row gap-3 items-center mb-1.5 group text-muted-blue"
           >
-            <item.Icon className="p-1 w-7 h-7 rounded border bg-primary/10" />
+            <item.Icon className="p-1 w-7 h-7 rounded border bg-muted-blue/10 text-muted-blue" />
             {item.title}
           </div>
         ) : (
           <Link
             href={item.path}
             key={item.path}
-            className="flex flex-row gap-3 items-center mb-3 group text-muted-foreground hover:text-foreground"
+            className="flex flex-row gap-3 items-center mb-1.5 group text-muted-foreground hover:text-foreground"
           >
             <item.Icon className="p-1 w-7 h-7 rounded border group-hover:bg-muted" />
             {item.title}

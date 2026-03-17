@@ -2,20 +2,14 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { getPagesUnderRoute } from "nextra/context";
 import Link from "next/link";
 import { Authors } from "../Authors";
 import { Video } from "../Video";
+import { useChangelogFrontMatter } from "./ChangelogFrontMatterContext";
 
 export const ChangelogHeader = () => {
   const pathname = usePathname();
-  const changelogPages = getPagesUnderRoute("/changelog");
-  const page = changelogPages.find((p) => p.route === pathname) as {
-    route?: string;
-    frontMatter?: Record<string, any>;
-  } | undefined;
-
-  const frontMatter = page?.frontMatter ?? {};
+  const frontMatter = useChangelogFrontMatter();
   const {
     title,
     description,
@@ -35,28 +29,34 @@ export const ChangelogHeader = () => {
       : [author.trim()]
     : [];
 
+  // Derive slug from current path for the back-link anchor
+  const slug = pathname.replace(/^\/changelog\//, "");
+
   return (
-    <div className="md:mt-10 flex flex-col gap-10">
+    <div className="mt-4 md:mt-10 flex flex-col gap-2 md:gap-4">
       <Link
-        href={`/changelog${
-          page.route ? "#" + page.route.replace("/changelog/", "") : ""
-        }`}
-        className="md:mb-10"
+        href={`/changelog#${slug}`}
+        className="no-underline hover:no-underline mb-2"
       >
         ← Back to changelog
       </Link>
 
       <div>
-        <div className="text-lg text-primary/60 mb-3">
-          {new Date(date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            timeZone: "UTC",
-          })}
-          {!!badge && ` | ${badge}`}
+        <div className="flex flex-wrap items-center gap-2 text-lg text-primary/60 mb-2 md:mb-3">
+          {date &&
+            new Date(date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              timeZone: "UTC",
+            })}
+          {!!badge && (
+            <span className="inline-block px-2 py-1 text-xs font-bold rounded-md bg-muted text-muted-foreground">
+              {badge}
+            </span>
+          )}
         </div>
-        <div className="flex flex-col gap-5 md:gap-10 md:flex-row justify-between md:items-center">
+        <div className="flex flex-col gap-2 md:gap-6 md:flex-row justify-between md:items-center">
           <div>
             <h1 className="text-2xl md:text-3xl text-pretty font-mono">
               {title}
@@ -70,8 +70,8 @@ export const ChangelogHeader = () => {
         <Video src={ogVideo} gifStyle />
       ) : ogImage ? (
         <Image
-          src={gif ?? ogImage}
-          alt={title}
+          src={(gif ?? ogImage) as string}
+          alt={title ?? ""}
           width={1200}
           height={630}
           className="rounded border"

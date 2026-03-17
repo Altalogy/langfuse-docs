@@ -1,6 +1,6 @@
 ---
 source: Jupyter Notebook
-title: Evaluate Langfuse LLM Traces with an External Evaluation Pipeline
+title: External Evaluation Pipelines
 description: This notebook explains how to build an external evaluation pipeline to measure the performance of your production LLM application using Langfuse.
 category: Evaluation
 sidebarTitle: External Evaluation Pipelines
@@ -143,14 +143,11 @@ Question: {question}
 def explain_concept(topic):
 
     with propagate_attributes(
-        tags=["ext_eval_pipelines"]
+        tags=["ext_eval_pipelines"],
+        trace_name=f"Explanation '{topic}'"
     ):
 
         prompt = prompt_template.format(question=topic)
-
-        langfuse.update_current_trace(
-            name=f"Explanation '{topic}'"
-            )
 
         return openai.chat.completions.create(
             messages=[

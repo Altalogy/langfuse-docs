@@ -5,7 +5,6 @@ description: Self-host Langfuse - This guide shows you how to deploy open-source
 label: "Version: v3"
 ---
 
-import { Callout } from "nextra/components";
 
 # Self-host Langfuse
 
@@ -52,6 +51,10 @@ import ArchitectureDiagram from "@/components-mdx/architecture-diagram-v3.mdx";
 import ArchitectureDescription from "@/components-mdx/architecture-description-v3.mdx";
 
 <ArchitectureDescription />
+
+## Timezone Requirement
+
+All infrastructure components (ClickHouse and Postgres) **must** run with their timezone set to UTC. Non-UTC timezones will cause queries to return incorrect or empty results. See the [timezone troubleshooting FAQ](/faq/all/self-hosting-timezone-errors) for how to verify this.
 
 ## Optimized for performance, reliability, and uptime
 
