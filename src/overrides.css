@@ -24,8 +24,9 @@
   background-color: var(--surface-bg);
   --cursor-x: 50%;
   --cursor-y: 50%;
-  position: relative;
-  isolation: isolate;
+  /* @TODO - probably not needed
+   position: relative;
+  isolation: isolate; */
   max-width: none;
 }
 
@@ -174,7 +175,9 @@
 
 #nd-docs-layout {
   border-top: 1px solid var(--line-structure);
-  background-color: var(--line-structure); /* revealed at sidebar/toc margins as 1px separators */
+  background-color: var(
+    --line-structure
+  ); /* revealed at sidebar/toc margins as 1px separators */
 }
 
 /* Sidebar outer: provides line-structure background visible at #nd-sidebar corners */
@@ -327,6 +330,30 @@ ul[data-gh-discussions-list] {
 .prose :where(img):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+/* Prose (Docs) font */
+.prose {
+  --tw-prose-body: var(--text-secondary);
+  font-size: 0.875rem;
+
+  :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    border-radius: 0;
+    font-family: var(--font-sans);
+    background-color: var(--surface-1);
+    font-weight: 430;
+    font-size: 0.813rem;
+  }
+
+  :where(th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    background-color: var(--surface-bg);
+  }
+
+  :where(h1, h2, h3, h4, h5, h6):not(
+    :where([class~="not-prose"], [class~="not-prose"] *)
+  ) {
+    font-weight: 500;
+  }
 }
 
 /* No dark background of videos */
