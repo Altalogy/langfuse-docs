@@ -5,9 +5,9 @@ import dynamic from "next/dynamic";
 import { Mermaid } from "@/components/Mermaid";
 import { Image } from "@/components/ui/image";
 import { Frame } from "@/components/Frame";
-import { LangTabs } from "@/components/LangTabs";
+import { LangTab, LangTabs, LangTabsWithTab } from "@/components/LangTabs";
 import { FetchReadme } from "@/components/FetchReadme";
-import { Tabs, Tab, Cards, Card, Steps, FileTree, FileTreeFile, FileTreeFolder, Playground } from "@/components/docs";
+import { Cards, Card, Steps, FileTree, FileTreeFile, FileTreeFolder, Playground } from "@/components/docs";
 import { AvailabilityBanner } from "@/components/Availability";
 import { Link as MdxLink, type LinkProps } from "@/components/ui/link";
 import { Callout } from "@/components/ui/callout";
@@ -47,9 +47,9 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Video,
     LangTabs,
     Callout,
-    Tabs,
-    Tab,
-    "Tabs.Tab": Tab,
+    Tabs: LangTabsWithTab,
+    Tab: LangTab,
+    "Tabs.Tab": LangTab,
     table: Table,
     Cards,
     Card,

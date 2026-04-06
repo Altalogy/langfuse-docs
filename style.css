@@ -528,14 +528,14 @@
  * sharp; color-mix(in oklab, …, transparent) in gradients tends to look soft.
  */
 .bg-stripe-pattern {
-  --stripe-angle: 130deg;
+  --stripe-angle: 135deg;
   --stripe-mix: 10%;
   --stripe-line-end: 1px;
   --stripe-period: 5px;
   --stripe-base: var(--color-surface-bg);
   --stripe-line: color-mix(
     in oklab,
-    var(--stripe-color, var(--color-fd-muted)) var(--stripe-mix),
+    var(--stripe-color, var(--color-fd-border)) var(--stripe-mix),
     var(--stripe-base)
   );
   background:
@@ -545,6 +545,10 @@
       var(--stripe-base) var(--stripe-line-end) var(--stripe-period)
     ),
     var(--stripe-base);
+}
+
+.bg-stripe-pattern.stripe-pattern--base-mix {
+  --stripe-mix: 20%;
 }
 
 .button-wrapper {
@@ -580,6 +584,27 @@
   transform: scaleX(1.025) scaleY(1.05);
   transform-origin: center;
   transform-box: fill-box;
+  opacity: 1;
+}
+
+.card-hover-stripes {
+  position: relative;
+}
+
+.card-hover-stripes:after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  background-image: url("/images/buttons/button-base.png");
+  background-size: contain;
+  background-position: center;
+  transition: opacity 220ms ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.card-hover-stripes:hover:after {
   opacity: 1;
 }
 
