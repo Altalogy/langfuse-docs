@@ -26,9 +26,8 @@ export type CardProps = Omit<FumadocsCardProps, "title"> & {
   arrow?: boolean;
 };
 
-export function Card({ icon, title = "", description = "", arrow: _arrow, ...props }: CardProps) {
+export function Card({ icon, title = "", description = "", arrow: _arrow, children, ...props }: CardProps) {
   const E = props.href ? Link : 'div';
-  // flex flex-row p-2 sm:p-4 gap-2 items-center rounded-none
   return (
     <E
       {...props}
@@ -52,7 +51,7 @@ export function Card({ icon, title = "", description = "", arrow: _arrow, ...pro
           </Text>
           {description ? <Text size="s" className="my-0! text-text-secondary">{description}</Text> : null}
           <div className="text-sm text-text-primary prose-no-margin empty:hidden">
-            {props.children}
+            {children}
           </div>
         </div>
       </div>

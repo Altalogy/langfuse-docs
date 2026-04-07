@@ -11,7 +11,7 @@ import { Cards, Card, Steps, FileTree, FileTreeFile, FileTreeFolder, Playground 
 import { AvailabilityBanner } from "@/components/Availability";
 import { Link as MdxLink, type LinkProps } from "@/components/ui/link";
 import { Callout } from "@/components/ui/callout";
-import { Table } from "./components/ui/table";
+import { Table } from "@/components/ui/table";
 
 // Lazy-load Video so @vidstack/react (~800 KB) is NOT bundled on every MDX page.
 // It only downloads on pages that actually render a <Video> tag.

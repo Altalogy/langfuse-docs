@@ -35,7 +35,6 @@ export interface CalloutContainerProps extends ComponentProps<'div'> {
 
 function resolveAlias(type: CalloutType) {
   if (type === 'warn') return 'warning';
-  if ((type as unknown) === 'tip') return 'info';
   return type;
 }
 
@@ -89,7 +88,7 @@ export function CalloutTitle({ children, className, ...props }: ComponentProps<'
   );
 }
 
-export function CalloutDescription({ children, className, ...props }: ComponentProps<'p'>) {
+export function CalloutDescription({ children, className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('text-text-secondary prose-no-margin empty:hidden', className)}
