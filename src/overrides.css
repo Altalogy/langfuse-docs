@@ -68,7 +68,8 @@
   display: none;
 }
 
-/* Mobile sidebar drawer: push below sticky navbar + optional banner. */
+/* Mobile sidebar drawer: push below sticky navbar + optional banner.
+   Slide from left instead of right; full width. */
 #nd-sidebar-mobile {
   top: calc(
     var(--fd-nav-height, 4rem) + var(--fd-banner-height, 0px)
@@ -76,6 +77,13 @@
   height: calc(
     100dvh - var(--fd-nav-height, 4rem) - var(--fd-banner-height, 0px)
   ) !important;
+  /* Override fumadocs defaults: left-aligned, full width */
+  inset-inline-end: unset !important;
+  inset-inline-start: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  border-inline-start: none !important;
+  --fd-sidebar-drawer-offset: -100%;
 }
 
 /* Sidebar/collapsed-trigger sticky top: custom navbar (4rem) + optional banner.

@@ -1,6 +1,6 @@
 import { use } from "react";
 import { notFound } from "next/navigation";
-import { DocsSecondaryNav, HomeLayout, Layout } from "@/components/layout";
+import { DocsSecondaryNav, HomeLayout, DocsSecondaryNavMobile, Layout } from "@/components/layout";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import {
   SECTION_CONFIG,
@@ -57,7 +57,7 @@ export default function SectionLayout({ children, params }: LayoutProps) {
         <DocsLayout
           tree={tree}
           githubUrl="https://github.com/langfuse/langfuse-docs"
-          nav={{ enabled: false }}
+          nav={isMarketing || isPost ? { enabled: false } : { component: <DocsSecondaryNavMobile /> }}
           sidebar={
             isMarketing || isPost ? { enabled: false } : { banner: <DocsSecondaryNav /> }
           }
