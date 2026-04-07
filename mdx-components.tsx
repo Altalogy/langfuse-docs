@@ -49,7 +49,6 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Callout,
     Tabs: LangTabsWithTab,
     Tab: LangTab,
-    "Tabs.Tab": LangTab,
     table: Table,
     Cards,
     Card,

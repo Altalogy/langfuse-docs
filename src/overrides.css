@@ -89,10 +89,22 @@
 
 /* Sidebar + TOC width: 240px to match NavbarDocs grid-cols-[240px_1fr_240px].
    [grid-area="sidebar"] is a Tailwind utility class not an HTML attr, so we target
-   #nd-docs-layout directly (--fd-sidebar-col: var(--fd-sidebar-width) is resolved here). */
+   #nd-docs-layout directly (--fd-sidebar-col: var(--fd-sidebar-width) is resolved here).
+   At smaller breakpoints the sidebar/TOC panels are hidden by fumadocs, so collapse
+   the grid column widths to 0px to reclaim space. */
 #nd-docs-layout {
   --fd-sidebar-width: 240px;
   --fd-toc-width: 240px;
+}
+@media (max-width: 1279px) {
+  #nd-docs-layout {
+    --fd-toc-width: 0px;
+  }
+}
+@media (max-width: 768px) {
+  #nd-docs-layout {
+    --fd-sidebar-width: 0px;
+  }
 }
 
 /* Sidebar/tree left alignment: let fumadocs' own p-4 (1rem) on the scroll container
@@ -261,6 +273,7 @@
 #nd-toc {
   --text-links: var(--line-cta);
   padding: 0;
+  max-height: calc(100dvh - 102px);
 }
 
 #nd-toc > div {

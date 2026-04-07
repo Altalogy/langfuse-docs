@@ -39,7 +39,7 @@ export function Card({ icon, title = "", description = "", arrow: _arrow, ...pro
         props.className,
       )}
     >
-      <div className="flex flex-row items-center p-2 sm:p-4 gap-2 border bg-surface-bg text-text-primary">
+      <div className="flex flex-row items-center p-2 sm:p-4 gap-2 border bg-surface-bg text-text-primary w-full h-full">
         {props.href && <HoverCorners />}
         {icon ? (
           <div className="not-prose mb-1 w-fit border border-line-structure rounded-xs bg-surface-button-grey p-1.5 [&_svg]:size-4">
