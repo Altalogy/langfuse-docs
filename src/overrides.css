@@ -431,6 +431,11 @@
   gap: 0 !important;
 }
 
+#nd-docs-layout #nd-sidebar > div:first-child,
+#nd-sidebar-mobile #nd-sidebar > div:first-child {
+  display: none !important;
+}
+
 /* External links in docs/section sidebars: show only the arrow after the text (label often has ↗).
    Hide the leading external-link icon that Fumadocs adds so we don’t get "icon + text ↗".
    Applies globally to all section sidebars (docs, integrations, self-hosting, guides, library)
