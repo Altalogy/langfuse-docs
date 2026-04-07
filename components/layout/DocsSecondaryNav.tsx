@@ -33,7 +33,7 @@ export function DocsSecondaryNav() {
                 )}
               >
                 <item.Icon className="w-4 h-4 shrink-0" />
-                <span>{item.title}</span>
+                aa<span>{item.title}</span>
               </Link>
             );
           })}
