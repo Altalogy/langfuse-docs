@@ -1,6 +1,6 @@
 import { Logo } from "@/components/Logo";
-import InkeepSearchBar from "@/components/inkeep/InkeepSearchBar";
 import { NavbarExtraContent } from "@/components/NavbarExtraContent";
+import { NavbarSearchTrigger } from "./NavbarSearchTrigger";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { sectionNavData } from "./Navbar";
@@ -27,7 +27,7 @@ export function NavbarDocs() {
         </div>
         <div className={cn(cornersStyle, 'px-0')}>
           <div className='flex flex-row-reverse flex-1 gap-2 px-2.5 py-3 rounded-sm md:flex-row md:items-center md:justify-center md:gap-4 bg-surface-1'>
-            <InkeepSearchBar />
+            <NavbarSearchTrigger />
           </div>
         </div>
         <div className={cn(cornersStyle, 'flex-1 justify-end pl-0 lg:justify-center lg:max-w-[240px] lg:pl-px')}>

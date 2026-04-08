@@ -2,10 +2,9 @@ import { openai, OpenAIResponsesProviderOptions } from "@ai-sdk/openai";
 import {
   streamText,
   UIMessage,
-  experimental_createMCPClient as createMCPClient,
-  MCPTransport,
   stepCountIs,
 } from "ai";
+import { createMCPClient } from "@ai-sdk/mcp";
 import {
   observe,
   propagateAttributes,
@@ -83,7 +82,7 @@ export const handler = async (req: Request) => {
           return createMCPClient({
             transport: new StreamableHTTPClientTransport(mcpUrl, {
               sessionId: `qa-chatbot-${crypto.randomUUID()}`,
-            }) as MCPTransport,
+            }),
           });
         },
       );

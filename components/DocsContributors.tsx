@@ -9,7 +9,6 @@ import { HoverCard, HoverCardTrigger } from "@/components/ui/hover-card";
 import { ArrowUpRight } from "lucide-react";
 import IconGithub from "@/components/icons/github";
 import IconX from "@/components/icons/x";
-import InkeepChatButton from "@/components/inkeep/InkeepChatButton";
 import Link from "next/link";
 
 // ─── Utility functions ────────────────────────────────────────────────────────
@@ -228,9 +227,6 @@ export const DocsContributors = ({ pageTitle }: DocsContributorsProps) => {
           >
             <IconX className="size-5" />
           </Link>
-          <div className="ml-auto">
-            <InkeepChatButton />
-          </div>
         </div>
       </div>
     </div>

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { AnchorProvider, useActiveAnchors } from "fumadocs-core/toc";
-import InkeepChatButton from "@/components/inkeep/InkeepChatButton";
 import { Link } from "@/components/ui/link";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
@@ -152,9 +151,6 @@ function TocCommunity() {
         >
           <IconX className="size-5" />
         </Link>
-        <div className="ml-auto">
-          <InkeepChatButton />
-        </div>
       </div>
     </div>
   );
