@@ -17,30 +17,24 @@ const sizeClasses: Record<DropdownButtonSize, { root: string }> = {
 };
 
 const buttonBaseClasses =
-  "inline-flex w-full min-w-0 max-w-full items-center justify-center no-underline gap-[6px] overflow-hidden py-0.75 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex w-full min-w-0 max-w-full items-center justify-center no-underline overflow-hidden shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50";
 
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface DropdownButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: DropdownButtonSize;
   className?: string;
-  asChild?: boolean;
-  shortcutKey?: string;
   icon?: React.ReactNode;
-  iconPosition?: "start" | "end";
   wrapperClassName?: string;
-  href?: string;
-  target?: React.HTMLAttributeAnchorTarget;
-  rel?: string;
 }
 
-const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const DropdownButton = React.forwardRef<HTMLButtonElement, DropdownButtonProps>(
   (
     {
       className,
       size,
-      asChild = false,
       wrapperClassName,
       children,
+      icon,
       disabled,
       ...props
     },
@@ -61,45 +55,20 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       },
       [ref]
     );
-    const setAnchorRef = React.useCallback((node: HTMLAnchorElement | null) => {
-      innerRef.current = node;
-    }, []);
 
-
-    const iconEl = (
-      <span
-        className="button-icon-area flex shrink-0 items-center justify-center h-full aspect-square [&>*]:max-w-full rounded-[1px] border-[0.5px] border-[rgba(64,61,57,0.20)] bg-[rgba(64,61,57,0.10)] dark:bg-transparent p-[2px] text-button-icon"
-        aria-hidden
-      >
-        <ChevronDownIcon className="w-3 h-3" />
-      </span>
-    )
-
-    const content = (
-      <>
-        <span
-          className={cn(
-            "flex items-center min-w-0 truncate",
-          )}
-        >
-          {children}
-        </span>
-        {iconEl}
-      </>
-    );
-
+    const iconEl = icon ?? <ChevronDownIcon className="h-3 w-3" />;
 
     const isSmallSize = resolvedSize === "small";
-    const leftPaddingClass = isSmallSize ? "pl-[6px]" : "pl-[8px]";
-    const rightPaddingClass = "pr-1.5 lg:pr-[3px]"
-    const buttonPaddingClasses = `${leftPaddingClass} ${rightPaddingClass}`;
-
-    const controlClassName = cn(sizeClasses[resolvedSize].root, className, buttonPaddingClasses);
+    const leftSegmentClass = isSmallSize
+      ? "px-[6px] text-[11px] min-w-[64px]"
+      : "px-[8px] text-[12px] min-w-[80px]";
 
     const buttonControlClassName = cn(
       buttonBaseClasses,
-      controlClassName,
-      "gap-[6px] justify-start"
+      sizeClasses[resolvedSize].root,
+      "inline-flex items-stretch rounded-[1px] border border-line-structure bg-surface-bg text-text-secondary [box-shadow:0_4px_8px_0_rgba(0,0,0,0.05),0_4px_4px_0_rgba(0,0,0,0.03)]",
+      disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-surface-1/80",
+      className
     );
 
     const buttonEl = (
@@ -109,7 +78,24 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={buttonControlClassName}
         {...props}
       >
-        {content}
+        <span
+          className={cn(
+            "inline-flex items-center py-0.75 font-sans font-[450] leading-[150%] tracking-[-0.06px] [font-variant-numeric:ordinal] transition-colors",
+            leftSegmentClass,
+            disabled ? "cursor-not-allowed" : "cursor-pointer"
+          )}
+        >
+          <span className="min-w-0 truncate w-full">{children}</span>
+        </span>
+        <span
+          aria-hidden
+          className={cn(
+            "inline-flex w-[32px] items-center justify-center border-l border-line-structure transition-colors",
+            disabled ? "cursor-not-allowed" : "cursor-pointer"
+          )}
+        >
+          {iconEl}
+        </span>
       </button>
     );
 
