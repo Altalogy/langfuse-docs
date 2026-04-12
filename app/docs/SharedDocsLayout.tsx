@@ -4,7 +4,7 @@ import { DocsLayoutWrapper } from "./DocsLayoutWrapper";
 import { NavbarDocs, DocsSecondaryNav, DocsSecondaryNavMobile } from "@/components/layout";
 import { DocsPatternTracker } from "@/components/layout/DocsContentArea";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { AISearch, AISearchPanel } from "@/components/inkeep/search";
+import { AISearch, AISearchPanel, FloatingAskAIButton } from "@/components/inkeep/search";
 
 /**
  * Shared wrapper used by all sidebar-based section layouts
@@ -44,6 +44,7 @@ export function SharedDocsLayout({
           </DocsLayout>
         </DocsLayoutWrapper>
       </div>
+      <FloatingAskAIButton />
     </AISearch>
   );
 }

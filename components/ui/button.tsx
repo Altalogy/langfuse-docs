@@ -97,6 +97,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   className?: string;
   asChild?: boolean;
   shortcutKey?: string;
+  showShortcutonMobile?: boolean;
   icon?: React.ReactNode;
   iconPosition?: "start" | "end";
   wrapperClassName?: string;
@@ -113,6 +114,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       asChild = false,
       shortcutKey,
+      showShortcutonMobile = false,
       icon,
       iconPosition = "start",
       wrapperClassName,
@@ -223,7 +225,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {iconPosition === "end" && iconEl}
         <kbd
           className={cn(
-            "hidden lg:flex justify-center items-center not-italic shrink-0 w-[20px] h-[20px] rounded-px",
+            "justify-center items-center not-italic shrink-0 w-[20px] h-[20px] rounded-px",
+            showShortcutonMobile ? "flex" : "hidden lg:flex",
             labelTypographyClasses,
             variantClasses[resolvedVariant].key
           )}

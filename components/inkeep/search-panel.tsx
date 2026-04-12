@@ -365,24 +365,24 @@ export function AISearchPanel() {
       <Presence present={open}>
         <div
           data-state={open ? 'open' : 'closed'}
-          className="fixed inset-0 z-30 backdrop-blur-xs bg-surface-1 data-[state=open]:animate-fd-fade-in data-[state=closed]:animate-fd-fade-out lg:hidden"
+          className="fixed inset-0 z-50 backdrop-blur-sm bg-[hsl(var(--primary)/0.3)] data-[state=open]:animate-fd-fade-in data-[state=closed]:animate-fd-fade-out wide:hidden"
           onClick={() => setOpen(false)}
         />
       </Presence>
       <Presence present={open}>
         <div
           className={cn(
-            'overflow-hidden z-30 bg-surface-1 text-text-primary [--ai-chat-width:400px] 2xl:[--ai-chat-width:460px] border-line-structure',
-            'max-lg:fixed max-lg:inset-x-4 max-lg:bottom-4 max-lg:top-[calc(var(--fd-docs-row-1,4rem)+1rem)] max-lg:border max-lg:border-border max-lg:shadow-xl',
-            'lg:sticky lg:top-[100px] lg:h-[calc(100dvh_-_102px)] lg:border-l lg:ms-auto',
-            'lg:in-[#nd-docs-layout]:[grid-area:toc] lg:in-[#nd-notebook-layout]:row-span-full lg:in-[#nd-notebook-layout]:col-start-5',
-            'lg:in-[#home-layout]:top-[calc(var(--fd-banner-height,0px)+4rem)] lg:in-[#home-layout]:h-[calc(100dvh_-_var(--fd-banner-height,0px)_-_4rem)] lg:in-[#home-layout]:w-(--ai-chat-width) lg:in-[#home-layout]:shrink-0',
+            'overflow-hidden z-50 bg-surface-1 text-text-primary [--ai-chat-width:400px] 2xl:[--ai-chat-width:460px] border-line-structure',
+            'max-wide:fixed max-wide:inset-x-4 max-wide:bottom-8 max-wide:top-[calc(var(--fd-banner-height,4rem)+1rem)] max-wide:border max-wide:border-line-structure max-wide:shadow-xl max-wide:max-w-[600px] max-wide:mx-auto',
+            'wide:sticky wide:top-[100px] wide:h-[calc(100dvh_-_102px)] wide:border-l wide:ms-auto',
+            'wide:in-[#nd-docs-layout]:[grid-area:toc] wide:in-[#nd-notebook-layout]:row-span-full wide:in-[#nd-notebook-layout]:col-start-5',
+            'wide:in-[#home-layout]:top-[calc(var(--fd-banner-height,0px)+4rem)] wide:in-[#home-layout]:h-[calc(100dvh_-_var(--fd-banner-height,0px)_-_4rem)] wide:in-[#home-layout]:w-(--ai-chat-width) wide:in-[#home-layout]:shrink-0',
             open
-              ? 'animate-fd-dialog-in lg:animate-[ask-ai-open_200ms]'
-              : 'animate-fd-dialog-out lg:animate-[ask-ai-close_200ms]',
+              ? 'animate-fd-dialog-in wide:animate-[ask-ai-open_200ms]'
+              : 'animate-fd-dialog-out wide:animate-[ask-ai-close_200ms]',
           )}
         >
-          <div className="flex flex-col size-full lg:w-(--ai-chat-width)">
+          <div className="flex flex-col size-full wide:w-(--ai-chat-width)">
             <AISearchPanelHeader />
             <AISearchPanelList className="flex-1" />
             <div className="border-t border-line-structure text-text-primary bg-surface-2">
