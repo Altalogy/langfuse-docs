@@ -203,7 +203,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const content = isIconOnly ? (
       <span
         className={cn("flex h-full w-full items-center justify-center text-button-icon *:max-w-full pointer-events-none",
-          variant === "secondary" ? "text-text-tertiary" : "text-surface-bg"
+          variant === "primary" ? "text-surface-bg" : "text-text-tertiary",
         )}
         aria-hidden
       >

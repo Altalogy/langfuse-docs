@@ -1,15 +1,7 @@
-import { ProvideLinksToolSchema } from "../../../lib/ai/inkeep-qa-schema";
+import { ProvideLinksToolSchema } from "@/lib/ai/inkeep-qa-schema";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
-import { convertToModelMessages, streamText, type UIMessage } from "ai";
-
-export type InkeepUIMessage = UIMessage<
-  never,
-  {
-    client: {
-      location: string;
-    };
-  }
->;
+import { convertToModelMessages, streamText } from "ai";
+import type { InkeepUIMessage } from "@/lib/ai/inkeep-qa-schema";
 
 const openai = createOpenAICompatible({
   name: "inkeep",
@@ -27,16 +19,19 @@ export async function POST(req: Request) {
         inputSchema: ProvideLinksToolSchema,
       },
     },
-    messages: await convertToModelMessages(reqJson.messages, {
-      ignoreIncompleteToolCalls: true,
-      convertDataPart(part) {
-        if (part.type === "data-client")
-          return {
-            type: "text",
-            text: `[Client Context: ${JSON.stringify(part.data)}]`,
-          };
+    messages: await convertToModelMessages(
+      (reqJson as { messages: InkeepUIMessage[] }).messages,
+      {
+        ignoreIncompleteToolCalls: true,
+        convertDataPart(part) {
+          if (part.type === "data-client")
+            return {
+              type: "text",
+              text: `[Client Context: ${JSON.stringify(part.data)}]`,
+            };
+        },
       },
-    }),
+    ),
     toolChoice: "auto",
   });
 

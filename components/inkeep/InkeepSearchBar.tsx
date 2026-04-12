@@ -71,7 +71,7 @@ export default function InkeepSearchBar({ className }: InkeepSearchProps) {
               .ikp-search-bar__button:hover .ikp-search-bar__text {
                 color: var(--text-primary);
               }
-                .ikp-search-bar__button:hover .ikp-search-bar__kbd-wrapper {
+              .ikp-search-bar__button:hover .ikp-search-bar__kbd-wrapper {
                 color: var(--text-secondary);
               }
               @media (min-width: 1024px) {

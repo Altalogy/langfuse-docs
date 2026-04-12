@@ -155,7 +155,7 @@ export const DocsTocFooter = ({ pageTitle }: DocsTocFooterProps) => {
       {/* Actions */}
       {(editUrl || feedbackUrl) && (
         <div className="mb-px px-4 pb-4 pt-3 rounded-sm bg-surface-1">
-          <Text size="s" className="font-medium text-left text-text-primary mb-3">Actions</Text>
+          <Text size="s" className="font-[580] text-left text-text-primary mb-3">Actions</Text>
           <div className="flex flex-col gap-1.5">
             {feedbackUrl && (
               <a
@@ -185,7 +185,7 @@ export const DocsTocFooter = ({ pageTitle }: DocsTocFooterProps) => {
       {/* Contributors */}
       {processedContributors.length > 0 && (
         <div className="px-4 pb-4 pt-3 bg-surface-1 rounded-sm mb-px">
-          <Text size="s" className="font-medium text-left text-text-primary mb-3">Contributors</Text>
+          <Text size="s" className="font-[580] text-left text-text-primary mb-3">Contributors</Text>
           <div className="flex flex-col gap-1">
             {displayedContributors.map((contributor) => (
               <React.Fragment key={contributor.username}>

@@ -16,16 +16,16 @@ type TocItem = { id: string; title: string; depth: number; url: string };
 // ─── Static section list for the homepage ────────────────────────────────────
 
 const HOME_SECTIONS: TocItem[] = [
-  { id: "features",        title: "Features",         depth: 2, url: "#features" },
-  { id: "demo",            title: "Demo",             depth: 2, url: "#demo" },
-  { id: "all-the-tools",   title: "Platform",         depth: 2, url: "#all-the-tools" },
-  { id: "integrations",    title: "Integrations",     depth: 2, url: "#integrations" },
-  { id: "open-source",     title: "Open Source",      depth: 2, url: "#open-source" },
-  { id: "developer-tools", title: "Developer Tools",  depth: 2, url: "#developer-tools" },
-  { id: "enterprise",      title: "Security",         depth: 2, url: "#enterprise" },
-  { id: "why-langfuse",    title: "Why Langfuse",     depth: 2, url: "#why-langfuse" },
-  { id: "quickstart",      title: "Quickstart",       depth: 2, url: "#quickstart" },
-  { id: "faq",             title: "FAQ",              depth: 2, url: "#faq" },
+  { id: "features", title: "Features", depth: 2, url: "#features" },
+  { id: "demo", title: "Demo", depth: 2, url: "#demo" },
+  { id: "all-the-tools", title: "Platform", depth: 2, url: "#all-the-tools" },
+  { id: "integrations", title: "Integrations", depth: 2, url: "#integrations" },
+  { id: "open-source", title: "Open Source", depth: 2, url: "#open-source" },
+  { id: "developer-tools", title: "Developer Tools", depth: 2, url: "#developer-tools" },
+  { id: "enterprise", title: "Security", depth: 2, url: "#enterprise" },
+  { id: "why-langfuse", title: "Why Langfuse", depth: 2, url: "#why-langfuse" },
+  { id: "quickstart", title: "Quickstart", depth: 2, url: "#quickstart" },
+  { id: "faq", title: "FAQ", depth: 2, url: "#faq" },
 ];
 
 // ─── Scan DOM for h2/h3 headings (non-homepage pages) ────────────────────────
@@ -70,8 +70,8 @@ function TocOnThisPage({ items }: { items: TocItem[] }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="flex-1 min-h-0">
-      <Text size="s" className="block text-left font-[580] text-text-primary mb-3">
+    <div className="flex-1 min-h-0 px-4 py-4">
+      <Text size="s" className="block text-left font-[580] text-text-primary mb-3 -ml-1.5">
         On this page
       </Text>
 
@@ -139,13 +139,13 @@ export function HomeAside() {
         height: "calc(100vh - var(--fd-banner-height, 0px) - 4rem)",
       }}
     >
-      <nav className="flex overflow-y-auto overflow-x-hidden flex-col flex-1 gap-4 px-4 py-4 rounded-sm bg-surface-1">
+      <nav className="flex overflow-y-auto overflow-x-hidden flex-col flex-1 gap-4 rounded-sm bg-surface-1">
         <AnchorProvider toc={items} single>
           <TocOnThisPage items={items} />
         </AnchorProvider>
         <TocCommunity className="border-t border-line-structure" />
+        <AISearchPanel />
       </nav>
-      <AISearchPanel />
     </aside>
   );
 }

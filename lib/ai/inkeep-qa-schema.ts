@@ -1,4 +1,14 @@
 import { z } from 'zod';
+import type { UIMessage } from 'ai';
+
+export type InkeepUIMessage = UIMessage<
+  never,
+  {
+    client: {
+      location: string;
+    };
+  }
+>;
 
 const InkeepRecordTypes = z.enum([
   'documentation',
@@ -30,6 +40,8 @@ const LinksSchema = z.array(LinkSchema).nullish();
 export const ProvideLinksToolSchema = z.object({
   links: LinksSchema,
 });
+
+export type ProvideLinksData = z.infer<typeof ProvideLinksToolSchema>;
 
 const KnownAnswerConfidence = z.enum([
   'very_confident',

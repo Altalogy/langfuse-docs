@@ -895,6 +895,24 @@ li:has(> .subseparator) {
   }
 }
 
+/* AI Search Panel */
+@keyframes ask-ai-open {
+  from {
+    translate: 100% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+@keyframes ask-ai-close {
+  from {
+    width: var(--ai-chat-width);
+  }
+  to {
+    width: 0px;
+  }
+}
+
 /* Inkeep override */
 inkeep-portal .inkeep-widget-vars {
   --ikp-font-family-heading: var(--font-sans);

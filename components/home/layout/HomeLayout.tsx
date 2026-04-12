@@ -5,7 +5,7 @@ import { Footer } from "../../layout/Footer";
 import { HomeSidebar } from "./HomeSidebar";
 import { HomeAside } from "./HomeAside";
 import { HomeMainArea } from "./HomeMainArea";
-import { AISearch, AISearchPanel } from "@/components/inkeep/search";
+import { AISearch } from "@/components/inkeep/search";
 
 type HomeLayoutProps = {
   children: ReactNode;
