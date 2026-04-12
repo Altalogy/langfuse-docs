@@ -13,8 +13,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Link } from '@/components/ui/link';
-import type { InkeepUIMessage, ProvideLinksData } from '@/lib/ai/inkeep-qa-schema';
-import { Markdown } from './markdown';
+import { AIChatEmptyState, AIChatMessage } from './ai-chat-shared';
 import { Presence } from '@radix-ui/react-presence';
 import { useAISearchContext, useChatContext, buildUserMessage } from './search-context';
 
@@ -96,7 +95,9 @@ const StorageKeyInput = '__ai_search_input';
 
 function AISearchInput(props: ComponentProps<'form'>) {
   const { status, sendMessage, stop } = useChatContext();
-  const [input, setInput] = useState(() => localStorage.getItem(StorageKeyInput) ?? '');
+  const [input, setInput] = useState(() =>
+    typeof window === 'undefined' ? '' : (localStorage.getItem(StorageKeyInput) ?? ''),
+  );
   const isLoading = status === 'streaming' || status === 'submitted';
 
   const wasLoadingRef = useRef(false);
@@ -217,66 +218,7 @@ function ScrollList(props: Omit<ComponentProps<'div'>, 'dir'>) {
   );
 }
 
-// ─── Single message ────────────────────────────────────────────────────────────
-
-const roleName: Record<string, string> = {
-  user: 'you',
-  assistant: 'langfuse',
-};
-
-function Message({ message, ...props }: { message: InkeepUIMessage } & ComponentProps<'div'>) {
-  let markdown = '';
-  let links: ProvideLinksData['links'] = [];
-
-  for (const part of message.parts ?? []) {
-    if (part.type === 'text') {
-      markdown += part.text;
-      continue;
-    }
-
-    if (part.type === 'tool-provideLinks' && part.input) {
-      links = (part.input as ProvideLinksData).links;
-    }
-  }
-
-  return (
-    <div onClick={(e) => e.stopPropagation()} {...props}>
-      <p
-        className={cn(
-          'mb-1 text-sm font-medium text-text-tertiary',
-          message.role === 'assistant' && 'text-primary',
-        )}
-      >
-        {roleName[message.role] ?? 'unknown'}
-      </p>
-      <div className="prose text-sm">
-        <Markdown text={markdown} />
-      </div>
-      {links && links.length > 0 && (
-        <div className="mt-2 flex flex-row flex-wrap items-center gap-1">
-          {links.map((item, i) => (
-            <Link
-              key={i}
-              href={item.url}
-              className="block text-xs border border-line-structure p-3 hover:bg-surface-2 text-text-secondary no-underline"
-            >
-              <p className="font-medium">{item.title}</p>
-              <p className="text-text-tertiary">Reference {item.label}</p>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ─── Message list panel (empty state + messages) ───────────────────────────────
-
-const exampleQuestions = [
-  'How can Langfuse help me?',
-  'How to use the Python decorator for tracing?',
-  'How to set up LLM-as-a-judge evals?',
-];
 
 function AISearchPanelList({ className, style, ...props }: ComponentProps<'div'>) {
   const chat = useChatContext();
@@ -297,33 +239,11 @@ function AISearchPanelList({ className, style, ...props }: ComponentProps<'div'>
       {...props}
     >
       {messages.length === 0 ? (
-        <div className="size-full flex flex-col justify-center gap-4">
-          <div className="flex items-start gap-3">
-            <img src="/icon256.png" alt="Langfuse" className="size-6 rounded-full mt-0.5" />
-            <Text size="s" className="text-text-secondary text-left">
-              Hi! I&apos;m Langfuse&apos;s AI assistant trained on documentation, help articles, and
-              other content. How can I help you today?
-            </Text>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {exampleQuestions.map((question) => (
-              <Button
-                key={question}
-                type="button"
-                size="small"
-                variant="secondary"
-                className="text-left inline-flex"
-                onClick={() => sendExampleQuestion(question)}
-              >
-                {question}
-              </Button>
-            ))}
-          </div>
-        </div>
+        <AIChatEmptyState onPickQuestion={sendExampleQuestion} />
       ) : (
         <div className="flex flex-col gap-4">
           {messages.map((item) => (
-            <Message key={item.id} message={item} />
+            <AIChatMessage key={item.id} message={item} captureClicks />
           ))}
         </div>
       )}
@@ -376,7 +296,7 @@ export function AISearchPanel() {
             'max-wide:fixed max-wide:inset-x-4 max-wide:bottom-8 max-wide:top-[calc(var(--fd-banner-height,4rem)+1rem)] max-wide:border max-wide:border-line-structure max-wide:shadow-xl max-wide:max-w-[600px] max-wide:mx-auto',
             'wide:sticky wide:top-[100px] wide:h-[calc(100dvh_-_102px)] wide:border-l wide:ms-auto',
             'wide:in-[#nd-docs-layout]:[grid-area:toc] wide:in-[#nd-notebook-layout]:row-span-full wide:in-[#nd-notebook-layout]:col-start-5',
-            'wide:in-[#home-layout]:top-[calc(var(--fd-banner-height,0px)+4rem)] wide:in-[#home-layout]:h-[calc(100dvh_-_var(--fd-banner-height,0px)_-_4rem)] wide:in-[#home-layout]:w-(--ai-chat-width) wide:in-[#home-layout]:shrink-0',
+            'wide:in-[#home-layout]:top-[calc(var(--fd-banner-height,0px)+4rem)] wide:in-[#home-layout]:h-[calc(100dvh_-_var(--fd-banner-height,0px)_-_4rem)] wide:in-[#home-layout]:w-(--ai-chat-width) wide:in-[#home-layout]:shrink-0 wide:in-[#home-layout]:border-r',
             open
               ? 'animate-fd-dialog-in wide:animate-[ask-ai-open_200ms]'
               : 'animate-fd-dialog-out wide:animate-[ask-ai-close_200ms]',

@@ -23,6 +23,6 @@ export const FloatingAskAIButton = () => {
       <AISearchTrigger>
         Ask AI
       </AISearchTrigger>
-    </div >
+    </div>
   );
 };

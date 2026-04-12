@@ -12,60 +12,8 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Link } from '@/components/ui/link';
-import type { InkeepUIMessage, ProvideLinksData } from '@/lib/ai/inkeep-qa-schema';
-import { Markdown } from './markdown';
+import { AIChatEmptyState, AIChatMessage } from './ai-chat-shared';
 import { useChatContext, buildUserMessage } from './search-context';
-
-const exampleQuestions = [
-  'How can Langfuse help me?',
-  'How to use the Python decorator for tracing?',
-  'How to set up LLM-as-a-judge evals?',
-];
-
-function EmbeddedMessage({ message, ...props }: { message: InkeepUIMessage } & ComponentProps<'div'>) {
-  let markdown = '';
-  let links: ProvideLinksData['links'] = [];
-
-  for (const part of message.parts ?? []) {
-    if (part.type === 'text') {
-      markdown += part.text;
-      continue;
-    }
-    if (part.type === 'tool-provideLinks' && part.input) {
-      links = (part.input as ProvideLinksData).links;
-    }
-  }
-
-  return (
-    <div {...props}>
-      <p
-        className={cn(
-          'mb-1 text-sm font-medium text-text-tertiary',
-          message.role === 'assistant' && 'text-primary',
-        )}
-      >
-        {message.role === 'user' ? 'you' : 'langfuse'}
-      </p>
-      <div className="prose text-sm">
-        <Markdown text={markdown} />
-      </div>
-      {links && links.length > 0 && (
-        <div className="mt-2 flex flex-row flex-wrap items-center gap-1">
-          {links.map((item, i) => (
-            <Link
-              key={i}
-              href={item.url}
-              className="block text-xs border border-line-structure p-3 hover:bg-surface-2 text-text-secondary no-underline"
-            >
-              <p className="font-medium">{item.title}</p>
-              <p className="text-text-tertiary">Reference {item.label}</p>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function EmbeddedTextarea(props: ComponentProps<'textarea'>) {
   const shared = cn('col-start-1 row-start-1', props.className);
@@ -101,7 +49,7 @@ export function EmbeddedAIChat() {
     const container = scrollRef.current;
 
     function scrollToBottom() {
-      container.scrollTo({ top: container.scrollHeight, behavior: 'instant' });
+      container.scrollTo({ top: container.scrollHeight, behavior: 'auto' });
     }
 
     const observer = new ResizeObserver(scrollToBottom);
@@ -143,35 +91,15 @@ export function EmbeddedAIChat() {
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 overscroll-contain bg-surface-1">
         {messages.length === 0 ? (
-          <div className="size-full flex flex-col justify-center gap-4">
-            <div className="flex items-start gap-3">
-              <img src="/icon256.png" alt="Langfuse" className="size-6 rounded-full mt-0.5" />
-              <Text size="s" className="text-text-secondary text-left">
-                Hi! I&apos;m Langfuse&apos;s AI assistant trained on documentation, help articles, and
-                other content. How can I help you today?
-              </Text>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {exampleQuestions.map((question) => (
-                <Button
-                  key={question}
-                  type="button"
-                  size="small"
-                  variant="secondary"
-                  className="text-left inline-flex"
-                  onClick={() => {
-                    void chat.sendMessage(buildUserMessage(question));
-                  }}
-                >
-                  {question}
-                </Button>
-              ))}
-            </div>
-          </div>
+          <AIChatEmptyState
+            onPickQuestion={(question) => {
+              void chat.sendMessage(buildUserMessage(question));
+            }}
+          />
         ) : (
           <div className="flex flex-col gap-4">
             {messages.map((item) => (
-              <EmbeddedMessage key={item.id} message={item} />
+              <AIChatMessage key={item.id} message={item} />
             ))}
           </div>
         )}
