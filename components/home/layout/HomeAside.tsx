@@ -16,16 +16,16 @@ type TocItem = { id: string; title: string; depth: number; url: string };
 // ─── Static section list for the homepage ────────────────────────────────────
 
 const HOME_SECTIONS: TocItem[] = [
-  { id: "features", title: "Features", depth: 2, url: "#features" },
-  { id: "demo", title: "Demo", depth: 2, url: "#demo" },
-  { id: "all-the-tools", title: "Platform", depth: 2, url: "#all-the-tools" },
-  { id: "integrations", title: "Integrations", depth: 2, url: "#integrations" },
-  { id: "open-source", title: "Open Source", depth: 2, url: "#open-source" },
-  { id: "developer-tools", title: "Developer Tools", depth: 2, url: "#developer-tools" },
-  { id: "enterprise", title: "Security", depth: 2, url: "#enterprise" },
-  { id: "why-langfuse", title: "Why Langfuse", depth: 2, url: "#why-langfuse" },
-  { id: "quickstart", title: "Quickstart", depth: 2, url: "#quickstart" },
-  { id: "faq", title: "FAQ", depth: 2, url: "#faq" },
+  { id: "features",        title: "Features",         depth: 2, url: "#features" },
+  { id: "demo",            title: "Demo",             depth: 2, url: "#demo" },
+  { id: "all-the-tools",   title: "Platform",         depth: 2, url: "#all-the-tools" },
+  { id: "integrations",    title: "Integrations",     depth: 2, url: "#integrations" },
+  { id: "open-source",     title: "Open Source",      depth: 2, url: "#open-source" },
+  { id: "developer-tools", title: "Developer Tools",  depth: 2, url: "#developer-tools" },
+  { id: "enterprise",      title: "Security",         depth: 2, url: "#enterprise" },
+  { id: "why-langfuse",    title: "Why Langfuse",     depth: 2, url: "#why-langfuse" },
+  { id: "quickstart",      title: "Quickstart",       depth: 2, url: "#quickstart" },
+  { id: "faq",             title: "FAQ",              depth: 2, url: "#faq" },
 ];
 
 // ─── Scan DOM for h2/h3 headings (non-homepage pages) ────────────────────────
