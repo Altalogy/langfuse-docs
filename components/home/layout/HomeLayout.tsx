@@ -5,7 +5,7 @@ import { Footer } from "../../layout/Footer";
 import { HomeSidebar } from "./HomeSidebar";
 import { HomeAside } from "./HomeAside";
 import { HomeMainArea } from "./HomeMainArea";
-import { AISearch } from "@/components/inkeep/search";
+import { AISearch, AISearchPanel } from "@/components/inkeep/search";
 
 type HomeLayoutProps = {
   children: ReactNode;
@@ -26,13 +26,14 @@ export function HomeLayout({
     <AISearch>
       <Banner />
       <Navbar />
-      <div className="flex flex-1 mx-auto w-full min-h-0 max-w-360">
+      <div id="home-layout" className="flex flex-1 mx-auto w-full min-h-0 max-w-360">
         <HomeSidebar />
         <HomeMainArea>
           {children}
           <Footer />
         </HomeMainArea>
         {showAside ? <HomeAside /> : null}
+        <AISearchPanel />
       </div>
     </AISearch>
   );

@@ -374,7 +374,9 @@ export function AISearchPanel() {
           className={cn(
             'overflow-hidden z-30 bg-surface-1 text-text-primary [--ai-chat-width:400px] 2xl:[--ai-chat-width:460px] border-line-structure',
             'max-lg:fixed max-lg:inset-x-4 max-lg:bottom-4 max-lg:top-[calc(var(--fd-docs-row-1,4rem)+1rem)] max-lg:border max-lg:border-border max-lg:shadow-xl',
-            'lg:sticky lg:top-[100px] lg:h-[calc(100dvh_-_102px)] lg:border-l lg:ms-auto lg:in-[#nd-docs-layout]:[grid-area:toc] lg:in-[#nd-notebook-layout]:row-span-full lg:in-[#nd-notebook-layout]:col-start-5',
+            'lg:sticky lg:top-[100px] lg:h-[calc(100dvh_-_102px)] lg:border-l lg:ms-auto',
+            'lg:in-[#nd-docs-layout]:[grid-area:toc] lg:in-[#nd-notebook-layout]:row-span-full lg:in-[#nd-notebook-layout]:col-start-5',
+            'lg:in-[#home-layout]:top-[calc(var(--fd-banner-height,0px)+4rem)] lg:in-[#home-layout]:h-[calc(100dvh_-_var(--fd-banner-height,0px)_-_4rem)] lg:in-[#home-layout]:w-(--ai-chat-width) lg:in-[#home-layout]:shrink-0',
             open
               ? 'animate-fd-dialog-in lg:animate-[ask-ai-open_200ms]'
               : 'animate-fd-dialog-out lg:animate-[ask-ai-close_200ms]',

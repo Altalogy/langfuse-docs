@@ -7,7 +7,7 @@ import { Link } from "@/components/ui/link";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import TocCommunity from "@/components/TocCommunity";
-import { AISearchPanel } from "@/components/inkeep/search";
+import { useAISearchContext } from "@/components/inkeep/search";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -130,10 +130,12 @@ export function HomeAside() {
   const pathname = usePathname();
   const domItems = useDOMHeadings();
   const items = pathname === "/" ? HOME_SECTIONS : domItems;
+  const { open: aiOpen } = useAISearchContext();
 
   return (
     <aside
-      className="hidden wide:flex flex-col bg-line-structure sticky p-px pt-0 w-[240px] shrink-0"
+      data-ai-open={aiOpen || undefined}
+      className="hidden wide:flex wide:data-[ai-open]:hidden flex-col bg-line-structure sticky p-px pt-0 w-[240px] shrink-0"
       style={{
         top: "calc(var(--fd-banner-height, 0px) + 4rem)",
         height: "calc(100vh - var(--fd-banner-height, 0px) - 4rem)",
@@ -144,7 +146,6 @@ export function HomeAside() {
           <TocOnThisPage items={items} />
         </AnchorProvider>
         <TocCommunity className="border-t border-line-structure" />
-        <AISearchPanel />
       </nav>
     </aside>
   );
