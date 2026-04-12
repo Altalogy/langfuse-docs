@@ -4,10 +4,7 @@ import { DocsLayoutWrapper } from "./DocsLayoutWrapper";
 import { NavbarDocs, DocsSecondaryNav, DocsSecondaryNavMobile } from "@/components/layout";
 import { DocsPatternTracker } from "@/components/layout/DocsContentArea";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { AISearch, AISearchPanel, AISearchTrigger } from "@/components/ai/search";
-import { cn } from "@/lib/utils";
-import { MessageCircleIcon } from "lucide-react";
-import { buttonVariants } from "@/components/ai/button";
+import { AISearch, AISearchPanel } from "@/components/inkeep/search";
 
 /**
  * Shared wrapper used by all sidebar-based section layouts
@@ -43,18 +40,6 @@ export function SharedDocsLayout({
             themeSwitch={{ component: <div className="ms-auto"><ThemeToggle /></div> }}
           >
             <AISearchPanel />
-            <AISearchTrigger
-              position="float"
-              className={cn(
-                buttonVariants({
-                  variant: 'secondary',
-                  className: 'text-fd-muted-foreground rounded-2xl',
-                }),
-              )}
-            >
-              <MessageCircleIcon className="size-4.5" />
-              Ask AI
-            </AISearchTrigger>
             {children}
           </DocsLayout>
         </DocsLayoutWrapper>

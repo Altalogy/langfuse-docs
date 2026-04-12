@@ -6,6 +6,7 @@ import IconDiscord from "@/components/icons/discord";
 import IconX from "@/components/icons/x";
 import IconYoutube from "@/components/icons/youtube";
 import IconLinkedin from "@/components/icons/linkedin";
+import { cn } from "@/lib/utils";
 
 const socialLinks = [
   { name: "GitHub", href: "https://github.com/langfuse/langfuse", icon: IconGithub },

@@ -11,10 +11,11 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Loader2, MessageCircleIcon, RefreshCw, Send, X } from 'lucide-react';
+import { Loader2, RefreshCw, Send, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { buttonVariants } from './button';
-import Link from 'fumadocs-core/link';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import { Link } from '@/components/ui/link';
 import { useChat, type UseChatHelpers } from '@ai-sdk/react';
 import type { ProvideLinksToolSchema } from '@/lib/ai/inkeep-qa-schema';
 import type { z } from 'zod';
@@ -35,35 +36,30 @@ export function AISearchPanelHeader({ className, ...props }: ComponentProps<'div
   return (
     <div
       className={cn(
-        'sticky top-0 flex items-start gap-2 border rounded-xl bg-fd-secondary text-fd-secondary-foreground shadow-sm',
+        'sticky top-0 p-4 flex items-start gap-2 border-b border-line-structure',
         className,
       )}
       {...props}
     >
-      <div className="px-3 py-2 flex-1">
-        <p className="text-sm font-medium mb-2">AI Chat</p>
-        <p className="text-xs text-fd-muted-foreground">
+      <div className="flex-1">
+        <Text size="m" className="text-left font-medium text-text-primary mb-1">
+          Ask AI
+        </Text>
+        <Text size="s" className="text-left text-text-tertiary text-xs">
           Powered by{' '}
-          <a href="https://inkeep.com" target="_blank" rel="noreferrer noopener">
-            Inkeep AI
-          </a>
-        </p>
+          <Link href="https://inkeep.com" className="text-text-tertiary decoration-line-structure underline-offset-2 decoration-line-structure" variant="underline">            Inkeep AI
+          </Link>
+        </Text>
       </div>
 
-      <button
+      <Button
+        variant="text"
+        size="small"
+        icon={<X className="size-4" />}
         aria-label="Close"
-        tabIndex={-1}
-        className={cn(
-          buttonVariants({
-            size: 'icon-sm',
-            color: 'ghost',
-            className: 'text-fd-muted-foreground rounded-full',
-          }),
-        )}
         onClick={() => setOpen(false)}
-      >
-        <X />
-      </button>
+        className="mt-1 mr-1 rounded-full"
+      />
     </div>
   );
 }
@@ -77,34 +73,22 @@ export function AISearchInputActions() {
   return (
     <>
       {!isLoading && messages.at(-1)?.role === 'assistant' && (
-        <button
-          type="button"
-          className={cn(
-            buttonVariants({
-              color: 'secondary',
-              size: 'sm',
-              className: 'rounded-full gap-1.5',
-            }),
-          )}
+        <Button
+          variant="secondary"
+          size="small"
+          icon={<RefreshCw className="size-3.5" />}
           onClick={() => regenerate()}
         >
-          <RefreshCw className="size-4" />
           Retry
-        </button>
+        </Button>
       )}
-      <button
-        type="button"
-        className={cn(
-          buttonVariants({
-            color: 'secondary',
-            size: 'sm',
-            className: 'rounded-full',
-          }),
-        )}
+      <Button
+        variant="secondary"
+        size="small"
         onClick={() => setMessages([])}
       >
         Clear Chat
-      </button>
+      </Button>
     </>
   );
 }
@@ -143,12 +127,12 @@ export function AISearchInput(props: ComponentProps<'form'>) {
   }, [isLoading]);
 
   return (
-    <form {...props} className={cn('flex items-start pe-2', props.className)} onSubmit={onStart}>
-      <Input
+    <form {...props} className={cn('flex items-start pe-1', props.className)} onSubmit={onStart}>
+      <TextareaAutoResize
         value={input}
         placeholder={isLoading ? 'AI is answering...' : 'Ask a question'}
         autoFocus
-        className="p-3"
+        className="p-3 text-[14px]"
         disabled={status === 'streaming' || status === 'submitted'}
         onChange={(e) => {
           setInput(e.target.value);
@@ -161,34 +145,27 @@ export function AISearchInput(props: ComponentProps<'form'>) {
         }}
       />
       {isLoading ? (
-        <button
+        <Button
           key="bn"
+          variant="secondary"
           type="button"
-          className={cn(
-            buttonVariants({
-              color: 'secondary',
-              className: 'transition-all rounded-full mt-2 gap-2',
-            }),
-          )}
           onClick={stop}
+          size="small"
+          icon={<Loader2 className="size-3 animate-spin" />}
+          wrapperClassName="mt-1"
         >
-          <Loader2 className="size-4 animate-spin text-fd-muted-foreground" />
-          Abort Answer
-        </button>
+          Abort
+        </Button>
       ) : (
-        <button
+        <Button
           key="bn"
+          variant="primary"
           type="submit"
-          className={cn(
-            buttonVariants({
-              color: 'primary',
-              className: 'transition-all rounded-full mt-2',
-            }),
-          )}
           disabled={input.length === 0}
-        >
-          <Send className="size-4" />
-        </button>
+          size="small"
+          icon={<Send className="size-3.5" />}
+          wrapperClassName="mt-1"
+        />
       )}
     </form>
   );
@@ -227,14 +204,14 @@ function List(props: Omit<ComponentProps<'div'>, 'dir'>) {
     <div
       ref={containerRef}
       {...props}
-      className={cn('fd-scroll-container overflow-y-auto min-w-0 flex flex-col', props.className)}
+      className={cn('overflow-y-auto min-w-0 flex flex-col', props.className)}
     >
       {props.children}
     </div>
   );
 }
 
-function Input(props: ComponentProps<'textarea'>) {
+function TextareaAutoResize(props: ComponentProps<'textarea'>) {
   const ref = useRef<HTMLDivElement>(null);
   const shared = cn('col-start-1 row-start-1', props.className);
 
@@ -244,7 +221,7 @@ function Input(props: ComponentProps<'textarea'>) {
         id="nd-ai-input"
         {...props}
         className={cn(
-          'resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none',
+          'resize-none bg-transparent placeholder:text-text-tertiary focus-visible:outline-none',
           shared,
         )}
       />
@@ -257,7 +234,7 @@ function Input(props: ComponentProps<'textarea'>) {
 
 const roleName: Record<string, string> = {
   user: 'you',
-  assistant: 'fumadocs',
+  assistant: 'langfuse',
 };
 
 function Message({ message, ...props }: { message: InkeepUIMessage } & ComponentProps<'div'>) {
@@ -279,8 +256,8 @@ function Message({ message, ...props }: { message: InkeepUIMessage } & Component
     <div onClick={(e) => e.stopPropagation()} {...props}>
       <p
         className={cn(
-          'mb-1 text-sm font-medium text-fd-muted-foreground',
-          message.role === 'assistant' && 'text-fd-primary',
+          'mb-1 text-sm font-medium text-text-tertiary',
+          message.role === 'assistant' && 'text-primary',
         )}
       >
         {roleName[message.role] ?? 'unknown'}
@@ -294,10 +271,10 @@ function Message({ message, ...props }: { message: InkeepUIMessage } & Component
             <Link
               key={i}
               href={item.url}
-              className="block text-xs rounded-lg border p-3 hover:bg-fd-accent hover:text-fd-accent-foreground"
+              className="block text-xs border border-border p-3 hover:bg-accent hover:text-accent-foreground no-underline"
             >
               <p className="font-medium">{item.title}</p>
-              <p className="text-fd-muted-foreground">Reference {item.label}</p>
+              <p className="text-muted-foreground">Reference {item.label}</p>
             </Link>
           ))}
         </div>
@@ -373,27 +350,27 @@ export function AISearchPanel() {
       <Presence present={open}>
         <div
           data-state={open ? 'open' : 'closed'}
-          className="fixed inset-0 z-30 backdrop-blur-xs bg-fd-overlay data-[state=open]:animate-fd-fade-in data-[state=closed]:animate-fd-fade-out lg:hidden"
+          className="fixed inset-0 z-30 backdrop-blur-xs bg-surface-1 data-[state=open]:animate-fd-fade-in data-[state=closed]:animate-fd-fade-out lg:hidden"
           onClick={() => setOpen(false)}
         />
       </Presence>
       <Presence present={open}>
         <div
           className={cn(
-            'overflow-hidden z-30 bg-fd-card text-fd-card-foreground [--ai-chat-width:400px] 2xl:[--ai-chat-width:460px]',
-            'max-lg:fixed max-lg:inset-x-2 max-lg:inset-y-4 max-lg:border max-lg:rounded-2xl max-lg:shadow-xl',
-            'lg:sticky lg:top-[100px] lg:h-[calc(100dvh_-_102px)] lg:border-s lg:ms-auto lg:in-[#nd-docs-layout]:[grid-area:toc] lg:in-[#nd-notebook-layout]:row-span-full lg:in-[#nd-notebook-layout]:col-start-5',
+            'overflow-hidden z-30 bg-surface-1 text-text-primary [--ai-chat-width:400px] 2xl:[--ai-chat-width:460px] border-line-structure',
+            'max-lg:fixed max-lg:inset-x-4 max-lg:bottom-4 max-lg:top-[calc(var(--fd-docs-row-1,4rem)+1rem)] max-lg:border max-lg:border-border max-lg:shadow-xl',
+            'lg:sticky lg:top-[100px] lg:h-[calc(100dvh_-_102px)] lg:border-l lg:ms-auto lg:in-[#nd-docs-layout]:[grid-area:toc] lg:in-[#nd-notebook-layout]:row-span-full lg:in-[#nd-notebook-layout]:col-start-5',
             open
               ? 'animate-fd-dialog-in lg:animate-[ask-ai-open_200ms]'
               : 'animate-fd-dialog-out lg:animate-[ask-ai-close_200ms]',
           )}
         >
-          <div className="flex flex-col size-full p-2 lg:p-3 lg:w-(--ai-chat-width)">
+          <div className="flex flex-col size-full lg:w-(--ai-chat-width)">
             <AISearchPanelHeader />
             <AISearchPanelList className="flex-1" />
-            <div className="rounded-xl border bg-fd-secondary text-fd-secondary-foreground shadow-sm has-focus-visible:shadow-md">
+            <div className="border-t border-line-structure text-text-primary bg-surface-2">
               <AISearchInput />
-              <div className="flex items-center gap-1.5 p-1 empty:hidden">
+              <div className="flex items-center gap-1 p-1 empty:hidden">
                 <AISearchInputActions />
               </div>
             </div>
@@ -404,13 +381,37 @@ export function AISearchPanel() {
   );
 }
 
+const exampleQuestions = [
+  'How can Langfuse help me?',
+  'How to use the Python decorator for tracing?',
+  'How to set up LLM-as-a-judge evals?',
+];
+
 export function AISearchPanelList({ className, style, ...props }: ComponentProps<'div'>) {
   const chat = useChatContext();
   const messages = chat.messages.filter((msg) => msg.role !== 'system');
 
+  const sendExampleQuestion = (question: string) => {
+    void chat.sendMessage({
+      role: 'user',
+      parts: [
+        {
+          type: 'data-client',
+          data: {
+            location: location.href,
+          },
+        },
+        {
+          type: 'text',
+          text: question,
+        },
+      ],
+    });
+  };
+
   return (
     <List
-      className={cn('py-4 overscroll-contain', className)}
+      className={cn('p-4 overscroll-contain', className)}
       style={{
         maskImage:
           'linear-gradient(to bottom, transparent, white 1rem, white calc(100% - 1rem), transparent 100%)',
@@ -419,12 +420,31 @@ export function AISearchPanelList({ className, style, ...props }: ComponentProps
       {...props}
     >
       {messages.length === 0 ? (
-        <div className="text-sm text-fd-muted-foreground/80 size-full flex flex-col items-center justify-center text-center gap-2">
-          <MessageCircleIcon fill="currentColor" stroke="none" />
-          <p onClick={(e) => e.stopPropagation()}>Start a new chat below.</p>
+        <div className="size-full flex flex-col justify-center gap-4">
+          <div className="flex items-start gap-3">
+            <img src="/icon256.png" alt="Langfuse" className="size-6 rounded-full mt-0.5" />
+            <Text size="s" className="text-text-secondarya text-left">
+              Hi! I&apos;m Langfuse&apos;s AI assistant trained on documentation, help articles, and
+              other content. How can I help you today?
+            </Text>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {exampleQuestions.map((question) => (
+              <Button
+                key={question}
+                type="button"
+                size="small"
+                variant="secondary"
+                className="text-left inline-flex"
+                onClick={() => sendExampleQuestion(question)}
+              >
+                {question}
+              </Button>
+            ))}
+          </div>
         </div>
       ) : (
-        <div className="flex flex-col px-3 gap-4">
+        <div className="flex flex-col gap-4">
           {messages.map((item) => (
             <Message key={item.id} message={item} />
           ))}
