@@ -229,6 +229,10 @@
   background-color: var(--surface-1);
 }
 
+[data-toc-popover] {
+  z-index: 11;
+}
+
 /* ─── HomeSidebar/HomeAside corner effect for docs layout ────────────────────
  * HomeSidebar: outer aside has bg-line-structure + p-px pt-0; inner nav has rounded-sm bg-surface-1.
  * Docs sidebar: outer [data-sidebar-placeholder] = bg-line-structure; inner #nd-sidebar is absolute
@@ -505,6 +509,17 @@
   -webkit-mask-origin: padding-box;
   mask-origin: padding-box;
   transition: opacity 0.2s ease;
+}
+
+.dark #nd-docs-layout #nd-sidebar [data-radix-scroll-area-viewport] a::after,
+.dark
+  #nd-docs-layout
+  #nd-sidebar
+  [data-radix-scroll-area-viewport]
+  button::after,
+.dark #nd-sidebar-mobile [data-radix-scroll-area-viewport] a::after,
+.dark #nd-sidebar-mobile [data-radix-scroll-area-viewport] button::after {
+  background-color: var(--line-cta);
 }
 
 #nd-docs-layout #nd-sidebar [data-radix-scroll-area-viewport] a:hover::after,
