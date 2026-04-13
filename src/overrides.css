@@ -572,6 +572,7 @@
   max-height: calc(100dvh - 102px);
   border-bottom-width: 0;
   border-radius: 0 !important;
+  z-index: 10;
 }
 
 #nd-toc > div {
