@@ -10,7 +10,6 @@ import { useEffect, useRef } from "react";
 export function ForceLightMode() {
   const { theme, setTheme } = useTheme();
   const previousTheme = useRef<string | undefined>();
-  console.log("force light mode");
 
   useEffect(() => {
     // Capture whatever the user had selected before we override

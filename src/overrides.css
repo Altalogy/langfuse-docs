@@ -771,8 +771,7 @@ li:has(> .subseparator) {
   color: var(--text-primary);
 }
 
-/* Sidebar label rule: horizontal inset from #nd-sidebar = --spacing × 2 × (number of div wrappers).
-   Deepest matching selector wins (same element matches div p … div div div div p). */
+/* Sidebar underlines for the section titles. The indentation is calculated based on the number of div wrappers. */
 #nd-docs-layout #nd-sidebar div div div div div div div p,
 #nd-sidebar-mobile div div div div div div div p {
   --sidebar-label-left: calc((var(--spacing, 0.25rem) * 8) - 6px);
@@ -783,7 +782,6 @@ li:has(> .subseparator) {
   --sidebar-label-left: calc((var(--spacing, 0.25rem) * 6) - 6px);
 }
 
-/* Nested sidebar labels: rule line (4-div tree; widen selector if Fumadocs depth changes) */
 #nd-docs-layout #nd-sidebar div div div div div p,
 #nd-sidebar-mobile div div div div div p {
   position: relative;
