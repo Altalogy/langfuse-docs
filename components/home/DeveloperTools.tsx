@@ -16,7 +16,7 @@ const MCP_HREF = "/docs/api-and-data-platform/features/mcp-server";
 
 export const DeveloperTools = () => {
   return (
-    <HomeSection id="developer-tools" className="pt-[120px]">
+    <HomeSection id="developers-agents" className="pt-[120px]">
       <div className="flex relative flex-col gap-8 md:gap-10">
         <div className="flex max-w-[52ch] flex-col gap-4">
           <Heading className="text-left max-w-[16ch] sm:max-w-none">
