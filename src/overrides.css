@@ -24,9 +24,6 @@
   background-color: var(--surface-bg);
   --cursor-x: 50%;
   --cursor-y: 50%;
-  /* @TODO - probably not needed
-   position: relative;
-  isolation: isolate; */
   max-width: none;
 }
 
