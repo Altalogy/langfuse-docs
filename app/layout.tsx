@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { RootProvider } from "fumadocs-ui/provider/next";
+import { GoogleTagManager } from '@next/third-parties/google';
 import localFont from "next/font/local";
 import { DevAriaHiddenConsoleFilter } from "@/components/DevAriaHiddenConsoleFilter";
 import {
@@ -76,6 +77,7 @@ export default function RootLayout({
         </PostHogProvider>
         {process.env.NODE_ENV === "production" && (
           <>
+            <GoogleTagManager gtmId="GTM-NGLK4TZX" />
             <Hubspot />
             <Script
               id="cookieyes"
