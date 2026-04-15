@@ -29,22 +29,18 @@ export interface FeatureTabsProps {
 
 // State management with useReducer
 type TabState = {
-  previewTab: string | null;
   focusedIndex: number;
   isAutoAdvancePaused: boolean;
   autoAdvanceProgress: number;
   isInViewport: boolean;
-  isHovered: boolean;
 };
 
 type TabAction =
-  | { type: "SET_PREVIEW_TAB"; payload: string | null }
   | { type: "SET_FOCUSED_INDEX"; payload: number }
   | { type: "PAUSE_AUTO_ADVANCE" }
   | { type: "RESUME_AUTO_ADVANCE" }
   | { type: "SET_AUTO_ADVANCE_PROGRESS"; payload: number }
   | { type: "SET_IN_VIEWPORT"; payload: boolean }
-  | { type: "SET_HOVERED"; payload: boolean }
   | { type: "RESET_PROGRESS" };
 
 function assertNever(action: never): never {
@@ -53,8 +49,6 @@ function assertNever(action: never): never {
 
 const tabStateReducer = (state: TabState, action: TabAction): TabState => {
   switch (action.type) {
-    case "SET_PREVIEW_TAB":
-      return { ...state, previewTab: action.payload };
     case "SET_FOCUSED_INDEX":
       return { ...state, focusedIndex: action.payload };
     case "PAUSE_AUTO_ADVANCE":
@@ -65,8 +59,6 @@ const tabStateReducer = (state: TabState, action: TabAction): TabState => {
       return { ...state, autoAdvanceProgress: action.payload };
     case "SET_IN_VIEWPORT":
       return { ...state, isInViewport: action.payload };
-    case "SET_HOVERED":
-      return { ...state, isHovered: action.payload };
     case "RESET_PROGRESS":
       return { ...state, autoAdvanceProgress: 0 };
     default:
@@ -75,12 +67,10 @@ const tabStateReducer = (state: TabState, action: TabAction): TabState => {
 };
 
 const initialTabState: TabState = {
-  previewTab: null,
   focusedIndex: 0,
   isAutoAdvancePaused: false,
   autoAdvanceProgress: 0,
   isInViewport: false,
-  isHovered: false,
 };
 
 const DEFAULT_AUTO_ADVANCE: AutoAdvanceConfig = {
@@ -98,7 +88,6 @@ export const FeatureTabs = ({
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [state, dispatch] = useReducer(tabStateReducer, initialTabState);
 
-  const tabListRef = useRef<HTMLDivElement>(null);
   const tabListScrollRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const autoAdvanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
@@ -110,15 +99,10 @@ export const FeatureTabs = ({
   const isMountedRef = useRef(true);
 
   const isAutoAdvancePausedRef = useRef(state.isAutoAdvancePaused);
-  const isHoveredRef = useRef(state.isHovered);
 
   useEffect(() => {
     isAutoAdvancePausedRef.current = state.isAutoAdvancePaused;
   }, [state.isAutoAdvancePaused]);
-
-  useEffect(() => {
-    isHoveredRef.current = state.isHovered;
-  }, [state.isHovered]);
 
   const setContainerNode = useCallback((node: HTMLDivElement | null) => {
     containerRef.current = node;
@@ -181,11 +165,7 @@ export const FeatureTabs = ({
   }, [features, activeTab, defaultAutoAdvance.enabled]);
 
   const startAutoAdvance = useCallback(() => {
-    if (
-      !defaultAutoAdvance.enabled ||
-      isAutoAdvancePausedRef.current ||
-      isHoveredRef.current
-    ) {
+    if (!defaultAutoAdvance.enabled || isAutoAdvancePausedRef.current) {
       return;
     }
 
@@ -196,7 +176,7 @@ export const FeatureTabs = ({
     const intervalMs = defaultAutoAdvance.intervalMs;
 
     const updateProgress = () => {
-      if (isHoveredRef.current || isAutoAdvancePausedRef.current) {
+      if (isAutoAdvancePausedRef.current) {
         return;
       }
 
@@ -313,8 +293,7 @@ export const FeatureTabs = ({
     if (
       defaultAutoAdvance.enabled &&
       !state.isAutoAdvancePaused &&
-      state.isInViewport &&
-      !state.isHovered
+      state.isInViewport
     ) {
       startAutoAdvance();
     } else {
@@ -328,7 +307,6 @@ export const FeatureTabs = ({
     startAutoAdvance,
     state.isAutoAdvancePaused,
     state.isInViewport,
-    state.isHovered,
     clearAutoAdvanceTimer,
   ]);
 
@@ -340,9 +318,7 @@ export const FeatureTabs = ({
     };
   }, [clearAllTimers]);
 
-  const activeFeature =
-    features.find((f) => f.id === (state.previewTab || activeTab)) ??
-    features[0];
+  const activeFeature = features.find((f) => f.id === activeTab) ?? features[0];
 
   const activeIndex = features.findIndex((f) => f.id === activeTab);
   const n = features.length;
@@ -403,7 +379,6 @@ export const FeatureTabs = ({
 
       {/* Title bar with corner box */}
       <CornerBox
-        ref={tabListRef}
         role="tablist"
         aria-label="Feature navigation. Use arrow keys to navigate, Enter or Space to select, Escape to toggle auto-advance."
         className="px-4 py-2"
@@ -457,11 +432,10 @@ export const FeatureTabs = ({
                   className="group p-1 focus:outline-none focus-visible:ring-1 focus-visible:ring-primary/50 rounded"
                 >
                   <span
-                    className={`block w-3 h-1.5 rounded-sm transition-colors ${
-                      isActive
+                    className={`block w-3 h-1.5 rounded-sm transition-colors ${isActive
                         ? "bg-primary"
                         : "bg-text-disabled group-hover:bg-primary"
-                    }`}
+                      }`}
                   />
                 </button>
               );
