@@ -230,7 +230,7 @@ export const CopyMarkdownButton = () => {
               aria-label="Open copy options"
               disabled={isError}
               className={cn(
-                "inline-flex w-[32px] items-center justify-center border-l border-line-structure transition-colors",
+                "inline-flex w-[24px] items-center justify-center border-l border-line-structure transition-colors",
                 isError ? "cursor-not-allowed" : "cursor-pointer hover:bg-surface-1/80"
               )}
             >

@@ -582,7 +582,7 @@
   border-bottom-width: 0;
   border-radius: 0 !important;
   z-index: 10;
-  margin-left: 0!important;
+  margin-left: 0 !important;
 }
 
 #nd-toc > div {
@@ -763,17 +763,31 @@ ul[data-gh-discussions-list] {
 /* Links whose primary label is inline <code> (e.g. [`api()`](/ref)): underline
    fights the chip border; keep link color on the code for affordance */
 .prose
-  :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):has(> code) {
+  :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):has(
+    > code
+  ) {
   text-decoration: none;
 }
 .prose
-  :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):has(> code)
+  :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):has(
+    > code
+  )
   > :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: inherit;
 }
 
-/* Prevent long URLs and unbreakable strings from overflowing the prose column */
-.prose {
+.prose
+  :where(.callout):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose [role="tabpanel"].prose-no-margin > .callout:first-child {
+  margin-top: 0rem;
+}
+
+/* Prevent long URLs strings from overflowing the prose column */
+.prose :where(a) {
   overflow-wrap: break-word;
   word-break: break-word;
 }
@@ -812,7 +826,9 @@ details + details {
   font-size: 12px !important;
   font-weight: 450 !important;
   gap: 6px !important;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.05), 0 4px 4px 0 rgba(0,0,0,0.03) !important;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.05),
+    0 4px 4px 0 rgba(0, 0, 0, 0.03) !important;
   text-decoration: none !important;
   transition: border-color 0.15s !important;
 }
@@ -941,6 +957,7 @@ li:has(> .subseparator) {
 .fd-steps {
   margin-top: 4rem;
   margin-bottom: 4rem;
+  border-color: var(--line-structure);
 }
 
 .fd-steps > h2,
