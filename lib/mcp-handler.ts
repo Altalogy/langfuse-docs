@@ -1,5 +1,5 @@
 import { createMcpHandler } from "@vercel/mcp-adapter";
-import * as z from "zod/v3";
+import { z } from "zod";
 import { PostHog } from "posthog-node";
 import { waitUntil } from "@vercel/functions";
 import { searchLangfuseDocsWithInkeep } from "@/lib/inkeep-search-backend";
