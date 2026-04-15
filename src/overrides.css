@@ -786,7 +786,7 @@ ul[data-gh-discussions-list] {
   margin-top: 0rem;
 }
 
-/* Prevent long URLs strings from overflowing the prose column */
+/* Prevent long URLs from overflowing the prose column */
 .prose :where(a) {
   overflow-wrap: break-word;
   word-break: break-word;
