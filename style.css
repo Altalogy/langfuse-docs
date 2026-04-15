@@ -804,3 +804,11 @@
 .bgc-size-6 {
   background-size: 6px;
 }
+
+img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
