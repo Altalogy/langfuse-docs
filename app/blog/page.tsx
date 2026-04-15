@@ -1,10 +1,6 @@
-import { Suspense } from "react";
-import { BlogIndex } from "@/components/blog/BlogIndex";
-import { Header } from "@/components/Header";
-import { ProductUpdateSignup } from "@/components/ProductUpdateSignup";
-import Link from "next/link";
 import { blogSource } from "@/lib/source";
 import type { BlogPageItem } from "@/components/blog/BlogIndex";
+import { BlogPageClient } from "@/components/blog/BlogPageClient";
 
 export default function BlogIndexPage() {
   const pages: BlogPageItem[] = blogSource
@@ -27,33 +23,9 @@ export default function BlogIndexPage() {
         ogImage: p.data.ogImage as string | undefined,
         author: p.data.author as string | undefined,
         showInBlogIndex: p.data.showInBlogIndex as boolean | undefined,
+        highlight: p.data.highlight as boolean | undefined,
       },
     }));
 
-  return (
-    <div className="mx-auto max-w-360 pl-[max(env(safe-area-inset-left),1.5rem)] pr-[max(env(safe-area-inset-right),1.5rem)]">
-      <div className="flex flex-col content-center items-center my-10 text-center">
-        <Header
-          title="Blog"
-          description={
-            <>
-              The latest updates from Langfuse. See{" "}
-              <Link href="/changelog" className="underline">
-                Changelog
-              </Link>{" "}
-              for more product updates.
-            </>
-          }
-          className="mb-8"
-          h="h1"
-        />
-        <div className="mb-8">
-          <ProductUpdateSignup source="blog" />
-        </div>
-      </div>
-      <Suspense fallback={<div className="min-h-[400px] animate-pulse rounded-md bg-muted/50" />}>
-        <BlogIndex path="/blog" pages={pages} />
-      </Suspense>
-    </div>
-  );
+  return <BlogPageClient pages={pages} />;
 }

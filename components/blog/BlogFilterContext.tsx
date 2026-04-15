@@ -1,0 +1,143 @@
+"use client";
+
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  type ReactNode,
+} from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import type { BlogPageItem } from "./BlogIndex";
+
+function normalizeTags(tagString?: string): string[] {
+  if (tagString == null || typeof tagString !== "string") return [];
+  return tagString
+    .split(",")
+    .map((tag) => tag.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+export type TagWithCount = { name: string; count: number };
+
+type BlogFilterState = {
+  selectedTag: string | null;
+  searchQuery: string;
+  setSelectedTag: (tag: string | null) => void;
+  setSearchQuery: (q: string) => void;
+  tags: TagWithCount[];
+  allPosts: BlogPageItem[];
+  filteredPosts: BlogPageItem[];
+  highlightPosts: BlogPageItem[];
+  listPosts: BlogPageItem[];
+};
+
+const BlogFilterContext = createContext<BlogFilterState | null>(null);
+
+export function useBlogFilter() {
+  const ctx = useContext(BlogFilterContext);
+  if (!ctx) throw new Error("useBlogFilter must be used inside BlogFilterProvider");
+  return ctx;
+}
+
+const HIGHLIGHT_COUNT = 3;
+
+export function BlogFilterProvider({
+  pages,
+  children,
+}: {
+  pages: BlogPageItem[];
+  children: ReactNode;
+}) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [selectedTag, setSelectedTagLocal] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const tag = searchParams.get("tag") ?? null;
+    setSelectedTagLocal(tag || null);
+  }, [searchParams]);
+
+  const allPosts = useMemo(() => {
+    return pages
+      .filter((p) => p.frontMatter?.showInBlogIndex !== false)
+      .sort(
+        (a, b) =>
+          new Date((b.frontMatter?.date ?? "") as string).getTime() -
+          new Date((a.frontMatter?.date ?? "") as string).getTime()
+      );
+  }, [pages]);
+
+  const tags = useMemo<TagWithCount[]>(() => {
+    const counts = new Map<string, number>();
+    for (const post of allPosts) {
+      for (const tag of normalizeTags(post.frontMatter?.tag)) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+    return Array.from(counts.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [allPosts]);
+
+  const filteredPosts = useMemo(() => {
+    return allPosts.filter((page) => {
+      if (selectedTag) {
+        const postTags = normalizeTags(page.frontMatter?.tag);
+        if (!postTags.includes(selectedTag.toLowerCase())) return false;
+      }
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const title = (page.frontMatter?.title ?? "").toLowerCase();
+        const desc = (page.frontMatter?.description ?? "").toLowerCase();
+        if (!title.includes(q) && !desc.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [allPosts, selectedTag, searchQuery]);
+
+  const highlightPosts = useMemo(() => {
+    const marked = allPosts.filter((p) => p.frontMatter?.highlight === true);
+    if (marked.length >= HIGHLIGHT_COUNT) return marked.slice(0, HIGHLIGHT_COUNT);
+    const remaining = allPosts.filter((p) => !marked.includes(p));
+    return [...marked, ...remaining].slice(0, HIGHLIGHT_COUNT);
+  }, [allPosts]);
+
+  const listPosts = useMemo(() => {
+    const highlightRoutes = new Set(highlightPosts.map((p) => p.route));
+    return filteredPosts.filter((p) => !highlightRoutes.has(p.route));
+  }, [filteredPosts, highlightPosts]);
+
+  const setSelectedTag = (tag: string | null) => {
+    setSelectedTagLocal(tag);
+    const params = new URLSearchParams(searchParams.toString());
+    if (tag) {
+      params.set("tag", tag);
+    } else {
+      params.delete("tag");
+    }
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname);
+  };
+
+  return (
+    <BlogFilterContext.Provider
+      value={{
+        selectedTag,
+        searchQuery,
+        setSelectedTag,
+        setSearchQuery,
+        tags,
+        allPosts,
+        filteredPosts,
+        highlightPosts,
+        listPosts,
+      }}
+    >
+      {children}
+    </BlogFilterContext.Provider>
+  );
+}
