@@ -154,7 +154,7 @@ export const DocsTocFooter = ({ pageTitle }: DocsTocFooterProps) => {
     <div className="toc-footer flex flex-col mt-px ml-px !p-0">
       {/* Actions */}
       {(editUrl || feedbackUrl) && (
-        <div className="mb-px px-4 pb-4 pt-3 rounded-sm bg-surface-1">
+        <div className="mb-px px-2 pb-4 pt-4 rounded-sm bg-surface-1">
           <Text size="s" className="font-[580] text-left text-text-primary mb-3">Actions</Text>
           <div className="flex flex-col gap-1.5">
             {feedbackUrl && (
@@ -184,7 +184,7 @@ export const DocsTocFooter = ({ pageTitle }: DocsTocFooterProps) => {
 
       {/* Contributors */}
       {processedContributors.length > 0 && (
-        <div className="px-4 pb-4 pt-3 bg-surface-1 rounded-sm mb-px">
+        <div className="px-2 pb-4 pt-4 bg-surface-1 rounded-sm mb-px">
           <Text size="s" className="font-[580] text-left text-text-primary mb-3">Contributors</Text>
           <div className="flex flex-col gap-1">
             {displayedContributors.map((contributor) => (
