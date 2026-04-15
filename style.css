@@ -212,6 +212,8 @@
   }
 }
 
+/* Nav layout tokens (`--lf-nav-*`, `--fd-nav-height`) are defined in src/overrides.css */
+
 /* CSS custom properties for shadcn/ui color system */
 @layer base {
   :root {
