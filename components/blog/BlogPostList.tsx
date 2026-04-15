@@ -5,39 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { Text } from "@/components/ui/text";
+import { TextHighlight } from "@/components/ui/text-highlight";
 import { Input } from "@/components/ui/input";
 import type { BlogPageItem } from "./BlogIndex";
 import { BlogCategoryDropdown } from "./BlogCategoryDropdown";
 import { useBlogFilter } from "./BlogFilterContext";
+import { formatDate, normalizeTags } from "./utils";
 
 const PAGE_SIZE = 15;
-
-function formatDate(dateStr?: string): string {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  const now = new Date();
-  const diffDays = Math.round(
-    (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24)
-  );
-  if (diffDays < 1) return "Today";
-  if (diffDays === 1) return "1 Day Ago";
-  if (diffDays < 14) return `${diffDays} Days Ago`;
-  if (diffDays < 30) return `${Math.round(diffDays / 7)} Weeks Ago`;
-  return d.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function normalizeTags(tagString?: string): string[] {
-  if (tagString == null || typeof tagString !== "string") return [];
-  return tagString
-    .split(",")
-    .map((tag) => tag.trim())
-    .filter(Boolean);
-}
 
 function PostRow({ post }: { post: BlogPageItem }) {
   const [hovered, setHovered] = useState(false);
@@ -56,13 +31,9 @@ function PostRow({ post }: { post: BlogPageItem }) {
           {tags.join(", ")}
         </Text>
         <h3 className="text-left text-[16px] font-analog font-medium text-text-primary leading-snug md:truncate">
-          <span className="relative inline-flex items-center">
-            <span
-              aria-hidden
-              className="absolute inset-x-0 top-1/2 h-[0.76em] -translate-y-[52%] bg-[#FBFF7A] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"
-            />
-            <span className="relative">{post.frontMatter?.title || post.name}</span>
-          </span>
+          <TextHighlight highlightClassName="origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out">
+            {post.frontMatter?.title || post.name}
+          </TextHighlight>
         </h3>
         <Text
           size="s"

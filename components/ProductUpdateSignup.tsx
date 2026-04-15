@@ -9,7 +9,7 @@ export function ProductUpdateSignup(props: {
   source?: string;
   className?: string;
   small?: boolean;
-  stacked?: boolean;
+  compact?: boolean;
 }) {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +58,7 @@ export function ProductUpdateSignup(props: {
         variant="secondary"
         disabled={isSubmitting}
         size={props.small ? "small" : undefined}
-        wrapperClassName={cn("w-auto shrink-0", props.stacked && "-ml-1")}
+        wrapperClassName={cn("w-auto shrink-0", props.compact && "-ml-1")}
         className="w-auto"
       >
         {isSubmitting ? <>Submitting...</> : <>Subscribe</>}

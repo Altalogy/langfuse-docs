@@ -75,7 +75,7 @@ export function BlogSidebar() {
           <Text size="s" className="mb-3 text-left text-[13px] text-text-tertiary leading-snug">
             One email per month with our latest ships and product announcements.
           </Text>
-          <ProductUpdateSignup source="blog-sidebar" small stacked className="flex-col items-start" />
+          <ProductUpdateSignup source="blog-sidebar" small compact className="flex-col items-start" />
         </div>
       </div>
     </SidebarShell>

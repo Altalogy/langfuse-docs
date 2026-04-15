@@ -10,14 +10,7 @@ import {
 } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import type { BlogPageItem } from "./BlogIndex";
-
-function normalizeTags(tagString?: string): string[] {
-  if (tagString == null || typeof tagString !== "string") return [];
-  return tagString
-    .split(",")
-    .map((tag) => tag.trim().toLowerCase())
-    .filter(Boolean);
-}
+import { normalizeTags } from "./utils";
 
 export type TagWithCount = { name: string; count: number };
 

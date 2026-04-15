@@ -9,5 +9,6 @@ export { DocsPatternTracker } from "./DocsContentArea";
 export { HomeSidebar } from "../home/layout/HomeSidebar";
 export { HomeAside } from "../home/layout/HomeAside";
 export { HomeMainArea } from "../home/layout/HomeMainArea";
+export { PageChrome } from "../home/layout/PageChrome";
 export { SidebarShell } from "../home/layout/SidebarShell";
 export { AsideShell } from "../home/layout/AsideShell";
