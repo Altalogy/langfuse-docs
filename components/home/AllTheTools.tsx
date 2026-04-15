@@ -170,7 +170,7 @@ export function AllTheTools() {
             ))}
           </div>
         </div>
-        <FeaturedCustomers corners={{ tl: false, tr: false, bl: false, br: false }} />
+        <FeaturedCustomers />
       </div>
     </HomeSection>
   );

@@ -744,12 +744,32 @@ ul[data-gh-discussions-list] {
   box-shadow: none;
 }
 
+/* Fumadocs sets w-max (width: max-content) on <pre> which triggers a phantom
+   horizontal scrollbar even when content fits. Setting width: 100% keeps the
+   pre at container-width; genuinely wide lines still cause the outer
+   fd-scroll-container (overflow: auto) to scroll horizontally as expected. */
+.fd-scroll-container > pre {
+  width: 100%;
+}
+
 .prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border: 1px solid var(--line-structure);
   border-radius: 4px;
   background: var(--surface-2);
   color: var(--text-primary);
   font-variant-numeric: ordinal;
+}
+
+/* Links whose primary label is inline <code> (e.g. [`api()`](/ref)): underline
+   fights the chip border; keep link color on the code for affordance */
+.prose
+  :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):has(> code) {
+  text-decoration: none;
+}
+.prose
+  :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):has(> code)
+  > :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  color: inherit;
 }
 
 /* No dark background of videos */
@@ -773,17 +793,30 @@ details + details {
   margin-top: 0.5rem !important;
 }
 
-/* Docs footer pagination: strip card styling, hide description */
+/* Docs footer pagination: style as secondary buttons */
 #nd-page > div:last-child > a {
-  border: none !important;
-  background: none !important;
-  padding: 0.25rem 0 !important;
-  border-radius: 0 !important;
-  gap: 0.125rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 26px !important;
+  padding: 0 8px !important;
+  border: 1px solid var(--color-line-structure) !important;
+  border-radius: 2px !important;
+  background-color: var(--color-surface-bg) !important;
+  color: var(--color-text-secondary) !important;
+  font-size: 12px !important;
+  font-weight: 450 !important;
+  gap: 6px !important;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.05), 0 4px 4px 0 rgba(0,0,0,0.03) !important;
+  text-decoration: none !important;
+  transition: border-color 0.15s !important;
+}
+.dark #nd-page > div:last-child > a {
+  border-color: var(--color-line-cta) !important;
 }
 #nd-page > div:last-child > a:hover {
-  background: none !important;
-  color: inherit !important;
+  border-color: var(--color-line-cta) !important;
+  background-color: var(--color-surface-bg) !important;
+  color: var(--color-text-secondary) !important;
 }
 #nd-page > div:last-child > a > p:last-child {
   display: none !important;
