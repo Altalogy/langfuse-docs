@@ -800,3 +800,7 @@
   background-repeat: no-repeat;
   background-size: 3px;
 }
+
+.bgc-size-6 {
+  background-size: 6px;
+}
