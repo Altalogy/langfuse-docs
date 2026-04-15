@@ -28,6 +28,20 @@ type PageProps = {
   params: Promise<{ section: string; slug?: string[] }>;
 };
 
+function getDocsPageClassName(
+  section: string,
+  isPost: boolean,
+  isChangelog: boolean,
+  isCollectionIndex: boolean
+): string {
+  if (section === "blog" && !isCollectionIndex)
+    return "max-w-full blog-post-page post-page";
+  if (isPost && !isChangelog && !isCollectionIndex)
+    return "max-w-3xl post-page";
+  if (isChangelog) return "max-w-full changelog-page post-page";
+  return "max-w-full";
+}
+
 export default async function SectionDocPage(props: PageProps) {
   const params = await props.params;
   const { section, slug: slugParam } = params;
@@ -122,13 +136,7 @@ export default async function SectionDocPage(props: PageProps) {
     <DocsPage
       toc={isChangelog || isCollectionIndex ? undefined : toc}
       full={isCollectionIndex}
-      className={
-        isPost && !isChangelog && !isCollectionIndex
-          ? "max-w-3xl post-page"
-          : isChangelog
-            ? "max-w-full changelog-page post-page"
-            : "max-w-full"
-      }
+      className={getDocsPageClassName(section, isPost, isChangelog, isCollectionIndex)}
       breadcrumb={{ includePage: !isPost }}
       footer={isPost ? { enabled: false } : { component: <DocsAndPageFooter /> }}
       tableOfContent={isChangelog || isCollectionIndex ? { enabled: false } : { footer: <DocsTocFooter pageTitle={page.data.title} /> }}

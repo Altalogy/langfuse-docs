@@ -10,9 +10,7 @@ import {
 } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import type { BlogPageItem } from "./BlogIndex";
-import { normalizeTags } from "./utils";
-
-export type TagWithCount = { name: string; count: number };
+import { computeTagCounts, normalizeTags, type TagWithCount } from "./utils";
 
 type BlogFilterState = {
   selectedTag: string | null;
@@ -64,17 +62,10 @@ export function BlogFilterProvider({
       );
   }, [pages]);
 
-  const tags = useMemo<TagWithCount[]>(() => {
-    const counts = new Map<string, number>();
-    for (const post of allPosts) {
-      for (const tag of normalizeTags(post.frontMatter?.tag)) {
-        counts.set(tag, (counts.get(tag) ?? 0) + 1);
-      }
-    }
-    return Array.from(counts.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [allPosts]);
+  const tags = useMemo<TagWithCount[]>(
+    () => computeTagCounts(allPosts.map((p) => p.frontMatter?.tag)),
+    [allPosts]
+  );
 
   const filteredPosts = useMemo(() => {
     return allPosts.filter((page) => {

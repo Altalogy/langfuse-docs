@@ -859,6 +859,31 @@ li:has(> .subseparator) {
   }
 }
 
+/* Blog post layout: uses the same flex-column + flex-1 pattern as docs pages
+   so the grid fills the remaining viewport and the TOC extends to the bottom. */
+.blog-post-layout {
+  --fd-sidebar-width: 240px;
+}
+@media (max-width: 1023px) {
+  .blog-post-layout {
+    --fd-sidebar-width: 0px;
+  }
+}
+
+.blog-post-page > *:not(footer) {
+  max-width: 42.5rem;
+  width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Stretch #nd-toc to fill its grid cell so no gap appears below it */
+.blog-post-layout #nd-toc {
+  height: auto !important;
+  min-height: calc(var(--fd-docs-height) - var(--fd-docs-row-1)) !important;
+  background-color: var(--surface-1);
+}
+
 /* Blog/changelog: reduce vertical margins on mobile so content isn't mostly whitespace. */
 @media (max-width: 768px) {
   .post-page .flex-1 > div:first-child {

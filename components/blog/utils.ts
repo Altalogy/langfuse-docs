@@ -1,9 +1,30 @@
+export type TagWithCount = { name: string; count: number };
+
+export type BlogFrontMatter = {
+  showInBlogIndex?: boolean;
+  tag?: string;
+};
+
 export function normalizeTags(tagString?: string): string[] {
   if (tagString == null || typeof tagString !== "string") return [];
   return tagString
     .split(",")
     .map((tag) => tag.trim().toLowerCase())
     .filter(Boolean);
+}
+
+export function computeTagCounts(
+  tagStrings: (string | undefined)[]
+): TagWithCount[] {
+  const counts = new Map<string, number>();
+  for (const tagStr of tagStrings) {
+    for (const tag of normalizeTags(tagStr)) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+  return Array.from(counts.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function formatDate(dateStr?: string): string {
