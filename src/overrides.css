@@ -772,6 +772,12 @@ ul[data-gh-discussions-list] {
   color: inherit;
 }
 
+/* Prevent long URLs and unbreakable strings from overflowing the prose column */
+.prose {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 /* No dark background of videos */
 media-outlet {
   background-color: transparent !important;
