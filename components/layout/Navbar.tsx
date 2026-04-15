@@ -4,7 +4,7 @@ import {
   source,
   getSelfHostingPageTree,
   guidesSource,
-  getIntegrationsPageTree,
+  integrationsSource,
   faqSource,
   handbookSource,
   librarySource,
@@ -19,7 +19,7 @@ export const sectionNavData: SectionNavData[] = [
   { name: "Docs", href: "/docs", children: serializePageTree(source.getPageTree()) },
   { name: "Self Hosting", href: "/self-hosting", children: serializePageTree(getSelfHostingPageTree()) },
   { name: "Guides", href: "/guides", children: serializePageTree(guidesSource.getPageTree()) },
-  { name: "Integrations", href: "/integrations", children: serializePageTree(getIntegrationsPageTree()) },
+  { name: "Integrations", href: "/integrations", children: serializePageTree(integrationsSource.getPageTree()) },
   { name: "FAQ", href: "/faq", children: serializePageTree(faqSource.getPageTree()) },
   { name: "Handbook", href: "/handbook", children: serializePageTree(handbookSource.getPageTree()) },
   { name: "Changelog", href: "/changelog", children: [] },
@@ -33,7 +33,10 @@ const contentStyle = cn('flex items-center w-full bg-surface-1 rounded-sm px-2.5
 
 export function Navbar() {
   return (
-    <header className="sticky z-50 h-16 backdrop-blur-md bg-surface-1" style={{ top: 'var(--fd-banner-height, 0px)' }}>
+    <header
+      className="sticky z-50 h-(--lf-nav-primary-height) bg-surface-1 backdrop-blur-md"
+      style={{ top: "var(--fd-banner-height, 0px)" }}
+    >
       <nav className="flex mx-auto h-full border-b max-w-360 border-line-structure">
         <div className={cn(cornersStyle, 'pr-0 lg:max-w-[240px] lg:pr-px')}>
           <div className={cn(contentStyle, 'rounded-r-none lg:rounded-r-sm')}>
