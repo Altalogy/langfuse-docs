@@ -359,7 +359,7 @@ async function checkFileLinks(filePath) {
 }
 
 async function main() {
-    const scanDirs = ['content', 'app', 'components', 'lib', 'scripts'].map((d) =>
+    const scanDirs = ['app', 'components', 'components-mdx', 'content', 'lib', 'scripts'].map((d) =>
         path.join(process.cwd(), d)
     );
     let hasErrors = false;
