@@ -2,7 +2,7 @@ export { Banner } from "./Banner";
 export { Navbar } from "./Navbar";
 export { Footer } from "./Footer";
 export { Layout } from "./Layout";
-export { HomeLayout } from "../home/layout/HomeLayout";
+export { HomeLayout, ContentColumns } from "../home/layout/HomeLayout";
 export { NavbarDocs } from "./NavbarDocs";
 export { DocsSecondaryNav, DocsSecondaryNavMobile } from "./DocsSecondaryNav";
 export { DocsPatternTracker } from "./DocsContentArea";

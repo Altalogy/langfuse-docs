@@ -6,23 +6,42 @@ import { HomeMainArea } from "./HomeMainArea";
 import { AISearchPanel } from "@/components/inkeep/search";
 import { PageChrome } from "./PageChrome";
 
-type HomeLayoutProps = {
+type ContentColumnsProps = {
   children: ReactNode;
-  /** Right TOC / utility column. Default: true. */
   showAside?: boolean;
-  /** Override the default left sidebar (HomeSidebar). */
   leftSidebar?: ReactNode;
-  /** Override the default right sidebar (HomeAside). */
   rightSidebar?: ReactNode;
 };
 
 /**
- * Layout for the homepage and all marketing/wide pages.
- * Three-column grid matching the docs layout structure:
- * [left sidebar 240px] | [content 1fr, pattern-bg] | [right sidebar 240px]
- *
- * Pass `leftSidebar` / `rightSidebar` to swap out the default sidebars
- * for page-specific versions (e.g. blog filters, changelog nav).
+ * Three-column layout: left sidebar | content | right sidebar.
+ * Used inside PageChrome (or any wrapper that provides the outer chrome).
+ * Pass `leftSidebar` / `rightSidebar` to swap the default sidebars.
+ */
+export function ContentColumns({
+  children,
+  showAside = true,
+  leftSidebar,
+  rightSidebar,
+}: ContentColumnsProps) {
+  return (
+    <div id="home-layout" className="flex flex-1 mx-auto w-full min-h-0 max-w-360">
+      {leftSidebar ?? <HomeSidebar />}
+      <HomeMainArea>
+        {children}
+        <Footer />
+      </HomeMainArea>
+      {showAside ? (rightSidebar ?? <HomeAside />) : null}
+      <AISearchPanel />
+    </div>
+  );
+}
+
+type HomeLayoutProps = ContentColumnsProps;
+
+/**
+ * Full-page layout for the homepage and all marketing/wide pages.
+ * Wraps ContentColumns with PageChrome (banner, navbar, AI search).
  */
 export function HomeLayout({
   children,
@@ -32,15 +51,13 @@ export function HomeLayout({
 }: HomeLayoutProps) {
   return (
     <PageChrome>
-      <div id="home-layout" className="flex flex-1 mx-auto w-full min-h-0 max-w-360">
-        {leftSidebar ?? <HomeSidebar />}
-        <HomeMainArea>
-          {children}
-          <Footer />
-        </HomeMainArea>
-        {showAside ? (rightSidebar ?? <HomeAside />) : null}
-        <AISearchPanel />
-      </div>
+      <ContentColumns
+        showAside={showAside}
+        leftSidebar={leftSidebar}
+        rightSidebar={rightSidebar}
+      >
+        {children}
+      </ContentColumns>
     </PageChrome>
   );
 }
