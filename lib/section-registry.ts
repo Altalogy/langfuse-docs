@@ -1,14 +1,106 @@
 import "server-only";
+import { loader } from "fumadocs-core/source";
 import {
-  docSections,
+  selfHostingSource,
+  blogSource,
+  changelogSource,
+  guidesSource,
+  integrationsSource,
+  securitySource,
+  librarySource,
+  usersSource,
+  handbookSource,
   marketingSource,
-  type SectionMeta,
 } from "@/lib/source";
 
 // ---------------------------------------------------------------------------
-// Derived section routing state — everything here is computed from the
-// docSections registry and marketingSource defined in lib/source.ts.
-// No slugs, sets, or layout classifications are hardcoded in this file.
+// Section registry — single source of truth for all section routing metadata.
+//
+// Layout types:
+//   "docs"      → full docs chrome (sidebar, breadcrumbs, TOC)
+//   "post"      → blog/changelog style (no sidebar)
+//   "changelog" → like post but also no TOC, centered narrow content
+//   "marketing" → HomeLayout wrapper, no docs chrome
+//
+// `hasOwnRoute` means the section has a dedicated app/ route (e.g.
+// app/integrations/) and should be excluded from the dynamic [section] route.
+// ---------------------------------------------------------------------------
+
+export type SectionLayout = "docs" | "post" | "changelog" | "marketing";
+
+export interface SectionMeta {
+  source: ReturnType<typeof loader>;
+  collection: string;
+  title: string;
+  layout: SectionLayout;
+  hasOwnRoute?: boolean;
+}
+
+/** All non-marketing doc sections. The key is the URL slug. */
+export const docSections: Record<string, SectionMeta> = {
+  "self-hosting": {
+    source: selfHostingSource,
+    collection: "selfHosting",
+    title: "Self-hosting",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  blog: {
+    source: blogSource,
+    collection: "blog",
+    title: "Blog",
+    layout: "post",
+  },
+  changelog: {
+    source: changelogSource,
+    collection: "changelog",
+    title: "Changelog",
+    layout: "changelog",
+  },
+  guides: {
+    source: guidesSource,
+    collection: "guides",
+    title: "Guides",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  integrations: {
+    source: integrationsSource,
+    collection: "integrations",
+    title: "Integrations",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  security: {
+    source: securitySource,
+    collection: "security",
+    title: "Security",
+    layout: "docs",
+  },
+  library: {
+    source: librarySource,
+    collection: "library",
+    title: "Library",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  users: {
+    source: usersSource,
+    collection: "customers",
+    title: "User stories",
+    layout: "post",
+  },
+  handbook: {
+    source: handbookSource,
+    collection: "handbook",
+    title: "Handbook",
+    layout: "docs",
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Derived section routing state — computed from the docSections registry
+// and marketingSource above.
 // ---------------------------------------------------------------------------
 
 /** Marketing slugs derived from the Fumadocs marketing collection pages. */
@@ -36,10 +128,8 @@ export const SECTION_CONFIG: Record<string, SectionMeta> = {
 };
 
 export const SECTION_SLUGS = Object.keys(SECTION_CONFIG);
-export type SectionSlug = string;
 
 // Derived sets — computed from the layout annotation in each section's metadata.
-export const MARKETING_SECTION_SLUGS = new Set(MARKETING_SLUGS);
 export const MARKETING_SECTIONS = new Set<string>(MARKETING_SLUGS);
 
 export const DOCS_STYLE_APP_SECTIONS = new Set(
@@ -59,5 +149,3 @@ export const CHANGELOG_SECTIONS = new Set(
     .filter(([, meta]) => meta.layout === "changelog")
     .map(([slug]) => slug),
 );
-
-export type MarketingSlug = string;

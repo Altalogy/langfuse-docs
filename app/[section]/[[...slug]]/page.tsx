@@ -5,7 +5,7 @@ import type { TOCItemType } from "fumadocs-core/toc";
 import {
   SECTION_CONFIG,
   SECTION_SLUGS,
-  MARKETING_SECTION_SLUGS,
+  MARKETING_SECTIONS,
   DOCS_STYLE_APP_SECTIONS,
   POST_SECTIONS,
   CHANGELOG_SECTIONS,
@@ -30,7 +30,7 @@ export default async function SectionDocPage(props: PageProps) {
   const params = await props.params;
   const { section, slug: slugParam } = params;
   const slug = slugParam ?? [];
-  const isMarketing = MARKETING_SECTION_SLUGS.has(section);
+  const isMarketing = MARKETING_SECTIONS.has(section);
   const isPost = POST_SECTIONS.has(section);
   const isChangelog = CHANGELOG_SECTIONS.has(section);
   const isCollectionIndex = section === "users" && slug.length === 0;
@@ -141,7 +141,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;
   const { section, slug: slugParam } = params;
   const slug = slugParam ?? [];
-  const isMarketing = MARKETING_SECTION_SLUGS.has(section);
+  const isMarketing = MARKETING_SECTIONS.has(section);
   const effectiveSlug = isMarketing ? [section] : slug;
 
   if (!SECTION_SLUGS.includes(section)) {
@@ -194,7 +194,7 @@ export function generateStaticParams() {
   for (const section of SECTION_SLUGS) {
     if (DOCS_STYLE_APP_SECTIONS.has(section)) continue;
     const config = SECTION_CONFIG[section];
-    const isMarketing = MARKETING_SECTION_SLUGS.has(section);
+    const isMarketing = MARKETING_SECTIONS.has(section);
     if (isMarketing) {
       params.push({ section });
     } else {

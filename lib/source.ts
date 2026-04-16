@@ -15,6 +15,12 @@ import {
   marketing,
 } from "../.source/server";
 
+/** Display names for self-hosting sidebar links that cross-reference main docs pages. */
+const SELF_HOSTING_DOC_LINK_NAMES: Record<string, string> = {
+  "/docs/administration/rbac": "RBAC (main docs)",
+  "/docs/administration/data-retention": "Data Retention (main docs)",
+};
+
 // Shared page-tree transformer that replaces a node's sidebar name with
 // shortTitle ?? sidebarTitle from frontmatter when either field is set.
 // Registered via pageTree.transformers in each loader so layouts call
@@ -34,25 +40,13 @@ const shortTitleTransformer: any = {
   },
 };
 
-export const source = loader({
-  baseUrl: "/docs",
-  source: docs.toFumadocsSource(),
-  pageTree: { idPrefix: "docs", transformers: [shortTitleTransformer] },
-});
-
-export const selfHostingSource = loader({
-  baseUrl: "/self-hosting",
-  source: selfHosting.toFumadocsSource(),
-  pageTree: { idPrefix: "self-hosting", transformers: [shortTitleTransformer] },
-});
-
-/** Display names for self-hosting sidebar links that cross-reference main docs pages. */
-const SELF_HOSTING_DOC_LINK_NAMES: Record<string, string> = {
-  "/docs/administration/rbac": "RBAC (main docs)",
-  "/docs/administration/data-retention": "Data Retention (main docs)",
+type TreeNode = {
+  type?: string;
+  name?: string;
+  url?: string;
+  children?: TreeNode[];
+  [key: string]: unknown;
 };
-
-type TreeNode = { type?: string; name?: string; url?: string; children?: TreeNode[]; [key: string]: unknown };
 
 function mapSelfHostingTreeNodes(nodes: TreeNode[]): TreeNode[] {
   return nodes.map((node) => {
@@ -74,7 +68,9 @@ function mapSelfHostingTreeNodes(nodes: TreeNode[]): TreeNode[] {
  * Self-hosting page tree with cross-doc link names overridden.
  * shortTitle / sidebarTitle overrides are handled by the loader transformer.
  */
-export function getSelfHostingPageTree(): ReturnType<typeof selfHostingSource.getPageTree> {
+export function getSelfHostingPageTree(): ReturnType<
+  typeof selfHostingSource.getPageTree
+> {
   const root = selfHostingSource.getPageTree();
   const children = (root as { children?: unknown[] }).children;
   if (!Array.isArray(children)) return root;
@@ -83,6 +79,21 @@ export function getSelfHostingPageTree(): ReturnType<typeof selfHostingSource.ge
     children: mapSelfHostingTreeNodes(children as TreeNode[]),
   } as ReturnType<typeof selfHostingSource.getPageTree>;
 }
+
+// ---------------------------------------------------------------------------
+// Loaders
+// ---------------------------------------------------------------------------
+export const source = loader({
+  baseUrl: "/docs",
+  source: docs.toFumadocsSource(),
+  pageTree: { idPrefix: "docs", transformers: [shortTitleTransformer] },
+});
+
+export const selfHostingSource = loader({
+  baseUrl: "/self-hosting",
+  source: selfHosting.toFumadocsSource(),
+  pageTree: { idPrefix: "self-hosting", transformers: [shortTitleTransformer] },
+});
 
 export const blogSource = loader({
   baseUrl: "/blog",
@@ -139,88 +150,3 @@ export const marketingSource = loader({
   baseUrl: "",
   source: marketing.toFumadocsSource(),
 });
-
-// ---------------------------------------------------------------------------
-// Section registry — single source of truth for all section routing metadata.
-//
-// Layout types:
-//   "docs"      → full docs chrome (sidebar, breadcrumbs, TOC)
-//   "post"      → blog/changelog style (no sidebar)
-//   "changelog" → like post but also no TOC, centered narrow content
-//   "marketing" → HomeLayout wrapper, no docs chrome
-//
-// `hasOwnRoute` means the section has a dedicated app/ route (e.g.
-// app/integrations/) and should be excluded from the dynamic [section] route.
-// ---------------------------------------------------------------------------
-
-export type SectionLayout = "docs" | "post" | "changelog" | "marketing";
-
-export interface SectionMeta {
-  source: ReturnType<typeof loader>;
-  collection: string;
-  title: string;
-  layout: SectionLayout;
-  hasOwnRoute?: boolean;
-}
-
-/** All non-marketing doc sections. The key is the URL slug. */
-export const docSections: Record<string, SectionMeta> = {
-  "self-hosting": {
-    source: selfHostingSource,
-    collection: "selfHosting",
-    title: "Self-hosting",
-    layout: "docs",
-    hasOwnRoute: true,
-  },
-  blog: {
-    source: blogSource,
-    collection: "blog",
-    title: "Blog",
-    layout: "post",
-  },
-  changelog: {
-    source: changelogSource,
-    collection: "changelog",
-    title: "Changelog",
-    layout: "changelog",
-  },
-  guides: {
-    source: guidesSource,
-    collection: "guides",
-    title: "Guides",
-    layout: "docs",
-    hasOwnRoute: true,
-  },
-  integrations: {
-    source: integrationsSource,
-    collection: "integrations",
-    title: "Integrations",
-    layout: "docs",
-    hasOwnRoute: true,
-  },
-  security: {
-    source: securitySource,
-    collection: "security",
-    title: "Security",
-    layout: "docs",
-  },
-  library: {
-    source: librarySource,
-    collection: "library",
-    title: "Library",
-    layout: "docs",
-    hasOwnRoute: true,
-  },
-  users: {
-    source: usersSource,
-    collection: "customers",
-    title: "User stories",
-    layout: "post",
-  },
-  handbook: {
-    source: handbookSource,
-    collection: "handbook",
-    title: "Handbook",
-    layout: "docs",
-  },
-};
