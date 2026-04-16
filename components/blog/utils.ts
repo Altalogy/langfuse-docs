@@ -14,7 +14,7 @@ export function normalizeTags(tagString?: string): string[] {
 }
 
 export function computeTagCounts(
-  tagStrings: (string | undefined)[]
+  tagStrings: (string | undefined)[],
 ): TagWithCount[] {
   const counts = new Map<string, number>();
   for (const tagStr of tagStrings) {
@@ -30,9 +30,10 @@ export function computeTagCounts(
 export function formatDate(dateStr?: string): string {
   if (!dateStr) return "";
   const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "";
   const now = new Date();
   const diffDays = Math.round(
-    (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24)
+    (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24),
   );
   if (diffDays < 1) return "Today";
   if (diffDays === 1) return "1 Day Ago";

@@ -5,9 +5,5 @@ export default function HomeLayoutRoute({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <HomeLayout>{children}</HomeLayout>
-    </>
-  );
+  return <HomeLayout>{children}</HomeLayout>;
 }

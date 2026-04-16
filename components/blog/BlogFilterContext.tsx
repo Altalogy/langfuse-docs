@@ -57,8 +57,8 @@ export function BlogFilterProvider({
       .filter((p) => p.frontMatter?.showInBlogIndex !== false)
       .sort(
         (a, b) =>
-          new Date((b.frontMatter?.date ?? "") as string).getTime() -
-          new Date((a.frontMatter?.date ?? "") as string).getTime()
+          (new Date(b.frontMatter?.date ?? 0).getTime() || 0) -
+          (new Date(a.frontMatter?.date ?? 0).getTime() || 0)
       );
   }, [pages]);
 

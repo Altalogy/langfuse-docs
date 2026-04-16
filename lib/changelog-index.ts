@@ -25,7 +25,7 @@ export function getChangelogIndexItems(): ChangelogPageItem[] {
     .sort(
       (a, b) =>
         new Date((b.data.date as string) ?? 0).getTime() -
-        new Date((a.data.date as string) ?? 0).getTime()
+        new Date((a.data.date as string) ?? 0).getTime(),
     )
     .map((p) => ({
       route: p.url,
@@ -45,7 +45,7 @@ export function getChangelogIndexItems(): ChangelogPageItem[] {
 
 export function parseChangelogPageParam(
   raw: string | undefined,
-  totalPages: number
+  totalPages: number,
 ): number {
   const n = Number(raw);
   if (!Number.isFinite(n) || n < 1) return 1;
@@ -55,7 +55,7 @@ export function parseChangelogPageParam(
 /** SEO-friendly path for page `page` (1-based). Undefined if out of range. */
 export function changelogPageHref(
   page: number,
-  totalPages: number
+  totalPages: number,
 ): string | undefined {
   if (page < 1 || page > totalPages) return undefined;
   if (page === 1) return "/changelog";

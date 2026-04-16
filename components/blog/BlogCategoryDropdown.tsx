@@ -13,9 +13,7 @@ import {
 export function BlogCategoryDropdown() {
   const { selectedTag, setSelectedTag, tags, allPosts } = useBlogFilter();
 
-  const currentLabel = selectedTag
-    ? `${selectedTag.charAt(0).toUpperCase() + selectedTag.slice(1)}`
-    : "All";
+  const currentLabel = selectedTag ?? "All";
   const currentCount = selectedTag
     ? tags.find((t) => t.name === selectedTag)?.count ?? 0
     : allPosts.length;
@@ -25,7 +23,7 @@ export function BlogCategoryDropdown() {
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-1 text-text-tertiary hover:text-text-primary transition-colors">
           <ChevronDown className="size-3.5" />
-          <span className="text-[12px] font-sans font-[430]">
+          <span className="text-[12px] font-sans font-[430] capitalize">
             {currentLabel} [{currentCount}]
           </span>
         </button>
