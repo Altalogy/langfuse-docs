@@ -139,3 +139,88 @@ export const marketingSource = loader({
   baseUrl: "",
   source: marketing.toFumadocsSource(),
 });
+
+// ---------------------------------------------------------------------------
+// Section registry — single source of truth for all section routing metadata.
+//
+// Layout types:
+//   "docs"      → full docs chrome (sidebar, breadcrumbs, TOC)
+//   "post"      → blog/changelog style (no sidebar)
+//   "changelog" → like post but also no TOC, centered narrow content
+//   "marketing" → HomeLayout wrapper, no docs chrome
+//
+// `hasOwnRoute` means the section has a dedicated app/ route (e.g.
+// app/integrations/) and should be excluded from the dynamic [section] route.
+// ---------------------------------------------------------------------------
+
+export type SectionLayout = "docs" | "post" | "changelog" | "marketing";
+
+export interface SectionMeta {
+  source: ReturnType<typeof loader>;
+  collection: string;
+  title: string;
+  layout: SectionLayout;
+  hasOwnRoute?: boolean;
+}
+
+/** All non-marketing doc sections. The key is the URL slug. */
+export const docSections: Record<string, SectionMeta> = {
+  "self-hosting": {
+    source: selfHostingSource,
+    collection: "selfHosting",
+    title: "Self-hosting",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  blog: {
+    source: blogSource,
+    collection: "blog",
+    title: "Blog",
+    layout: "post",
+  },
+  changelog: {
+    source: changelogSource,
+    collection: "changelog",
+    title: "Changelog",
+    layout: "changelog",
+  },
+  guides: {
+    source: guidesSource,
+    collection: "guides",
+    title: "Guides",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  integrations: {
+    source: integrationsSource,
+    collection: "integrations",
+    title: "Integrations",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  security: {
+    source: securitySource,
+    collection: "security",
+    title: "Security",
+    layout: "docs",
+  },
+  library: {
+    source: librarySource,
+    collection: "library",
+    title: "Library",
+    layout: "docs",
+    hasOwnRoute: true,
+  },
+  users: {
+    source: usersSource,
+    collection: "customers",
+    title: "User stories",
+    layout: "post",
+  },
+  handbook: {
+    source: handbookSource,
+    collection: "handbook",
+    title: "Handbook",
+    layout: "docs",
+  },
+};

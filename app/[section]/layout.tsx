@@ -30,7 +30,7 @@ const contentWrapperClass = "mx-auto w-full max-w-4xl";
 export default function SectionLayout({ children, params }: LayoutProps) {
   const { section } = use(params);
 
-  if (!SECTION_SLUGS.includes(section as (typeof SECTION_SLUGS)[number])) {
+  if (!SECTION_SLUGS.includes(section)) {
     notFound();
   }
   if (DOCS_STYLE_APP_SECTIONS.has(section)) {
@@ -40,12 +40,10 @@ export default function SectionLayout({ children, params }: LayoutProps) {
     return <HomeLayout>{children}</HomeLayout>;
   }
 
-  const config = SECTION_CONFIG[section as keyof typeof SECTION_CONFIG];
+  const config = SECTION_CONFIG[section];
   const tree = config.source.getPageTree();
 
-  const isMarketing = MARKETING_SECTION_SLUGS.has(
-    section as Parameters<typeof MARKETING_SECTION_SLUGS.has>[0]
-  );
+  const isMarketing = MARKETING_SECTION_SLUGS.has(section);
   const isPost = POST_SECTIONS.has(section);
   const isChangelog = CHANGELOG_SECTIONS.has(section);
 
