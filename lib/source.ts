@@ -15,10 +15,19 @@ import {
   marketing,
 } from "../.source/server";
 
-// Shared page-tree transformer that replaces a node's sidebar name with
-// shortTitle ?? sidebarTitle from frontmatter when either field is set.
-// Registered via pageTree.transformers in each loader so layouts call
-// .getPageTree() directly with no post-processing required.
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+/** Display names for self-hosting sidebar links that cross-reference main docs pages. */
+const SELF_HOSTING_DOC_LINK_NAMES: Record<string, string> = {
+  "/docs/administration/rbac": "RBAC (main docs)",
+  "/docs/administration/data-retention": "Data Retention (main docs)",
+};
+
+/** Shared page-tree transformer that replaces a node's sidebar name with
+shortTitle ?? sidebarTitle from frontmatter when either field is set.
+Registered via pageTree.transformers in each loader so layouts call
+.getPageTree() directly with no post-processing required. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const shortTitleTransformer: any = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,25 +43,42 @@ const shortTitleTransformer: any = {
   },
 };
 
-export const source = loader({
-  baseUrl: "/docs",
-  source: docs.toFumadocsSource(),
-  pageTree: { idPrefix: "docs", transformers: [shortTitleTransformer] },
-});
-
-export const selfHostingSource = loader({
-  baseUrl: "/self-hosting",
-  source: selfHosting.toFumadocsSource(),
-  pageTree: { idPrefix: "self-hosting", transformers: [shortTitleTransformer] },
-});
-
-/** Display names for self-hosting sidebar links that cross-reference main docs pages. */
-const SELF_HOSTING_DOC_LINK_NAMES: Record<string, string> = {
-  "/docs/administration/rbac": "RBAC (main docs)",
-  "/docs/administration/data-retention": "Data Retention (main docs)",
+/**
+ * Transformer that re-types meta.json link shortcuts (e.g. `[Text](url)`) from
+ * `type: "page"` to `type: "link"`.
+ *
+ * Without this, fumadocs' `searchPath` walks the tree depth-first and stops at
+ * the first node whose URL matches the current pathname. A shortcut link placed
+ * near the top of the tree can be found before the real page node nested inside
+ * a folder, so `searchPath` returns a path that contains no folder ancestors —
+ * meaning those folders never expand in the sidebar.
+ *
+ * Changing the type to "link" makes `searchPath` skip these nodes (its matcher
+ * is `node.type === "page"`), so the real page node inside the folder is found
+ * and its ancestor folders open correctly. The shortcut still renders as a
+ * clickable sidebar link and still shows as visually active via the direct
+ * `isActive(url, pathname)` comparison in the sidebar item renderer.
+ *
+ * Link shortcut nodes have no backing MDX file, so `filePath` is `undefined` in
+ * the transformer — that is how they are distinguished from real content pages.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const shortcutLinkTransformer: any = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  file(node: any, filePath?: string): any {
+    // Only link shortcuts have no backing file
+    if (filePath) return node;
+    return { ...node, type: "link" };
+  },
 };
 
-type TreeNode = { type?: string; name?: string; url?: string; children?: TreeNode[]; [key: string]: unknown };
+type TreeNode = {
+  type?: string;
+  name?: string;
+  url?: string;
+  children?: TreeNode[];
+  [key: string]: unknown;
+};
 
 function mapSelfHostingTreeNodes(nodes: TreeNode[]): TreeNode[] {
   return nodes.map((node) => {
@@ -74,7 +100,9 @@ function mapSelfHostingTreeNodes(nodes: TreeNode[]): TreeNode[] {
  * Self-hosting page tree with cross-doc link names overridden.
  * shortTitle / sidebarTitle overrides are handled by the loader transformer.
  */
-export function getSelfHostingPageTree(): ReturnType<typeof selfHostingSource.getPageTree> {
+export function getSelfHostingPageTree(): ReturnType<
+  typeof selfHostingSource.getPageTree
+> {
   const root = selfHostingSource.getPageTree();
   const children = (root as { children?: unknown[] }).children;
   if (!Array.isArray(children)) return root;
@@ -83,6 +111,21 @@ export function getSelfHostingPageTree(): ReturnType<typeof selfHostingSource.ge
     children: mapSelfHostingTreeNodes(children as TreeNode[]),
   } as ReturnType<typeof selfHostingSource.getPageTree>;
 }
+
+// ---------------------------------------------------------------------------
+// Loaders
+// ---------------------------------------------------------------------------
+export const source = loader({
+  baseUrl: "/docs",
+  source: docs.toFumadocsSource(),
+  pageTree: { idPrefix: "docs", transformers: [shortcutLinkTransformer, shortTitleTransformer] },
+});
+
+export const selfHostingSource = loader({
+  baseUrl: "/self-hosting",
+  source: selfHosting.toFumadocsSource(),
+  pageTree: { idPrefix: "self-hosting", transformers: [shortTitleTransformer] },
+});
 
 export const blogSource = loader({
   baseUrl: "/blog",

@@ -20,7 +20,7 @@ type LayoutProps = {
 export default function SectionLayout({ children, params }: LayoutProps) {
   const { section } = use(params);
 
-  if (!SECTION_SLUGS.includes(section as (typeof SECTION_SLUGS)[number])) {
+  if (!SECTION_SLUGS.includes(section)) {
     notFound();
   }
   if (DEDICATED_APP_SECTIONS.has(section)) {

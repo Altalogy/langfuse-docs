@@ -117,7 +117,7 @@ function AccordionIcon({ isOpen }: { isOpen: boolean }) {
 }
 
 export function WhyLangfuse() {
-  const [openItem, setOpenItem] = useState<string>("");
+  const [openItem, setOpenItem] = useState<string>(reasons[0].title);
 
   return (
     <HomeSection id="why-langfuse" className="pt-[120px]">
@@ -143,7 +143,7 @@ export function WhyLangfuse() {
           <AccordionPrimitive.Item
             key={item.title}
             value={item.title}
-            className="border-t border-line-structure last:border-b"
+            className="border-t first:border-t-0 border-line-structure"
           >
             <AccordionPrimitive.Header className="flex">
               <AccordionPrimitive.Trigger className="flex flex-1 gap-4 justify-between items-center py-4 text-left cursor-pointer text-text-primary">
@@ -169,12 +169,12 @@ export function WhyLangfuse() {
         {reasons.map((item) => (
           <li
             key={item.title}
-            className="grid grid-cols-[1fr_3fr] gap-8 py-2.5 border-b border-line-structure last:border-b-0"
+            className="grid grid-cols-[1fr_3fr] gap-8 py-4 items-center border-b border-line-structure last:border-b-0"
           >
-            <Text className="font-medium text-left text-text-secondary">
+            <Text className="self-center font-medium text-left text-text-secondary">
               {item.title}
             </Text>
-            <Text size="s" className="text-left">
+            <Text size="s" className="self-center text-left">
               {item.body}
             </Text>
           </li>

@@ -2,15 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   SECTION_CONFIG,
-  SECTION_SLUGS,
   DEDICATED_APP_SECTIONS,
   MARKETING_SLUGS,
-  MARKETING_SECTION_SLUGS,
+  SECTION_SLUGS,
+  MARKETING_SECTIONS,
 } from "@/lib/section-registry";
-import type { SectionSlug } from "@/lib/section-registry";
 import { loadPage, buildSectionMetadata, primitiveOnly } from "@/lib/mdx-page";
 import { getMDXComponents } from "@/mdx-components";
-import type { ComponentType } from "react";
 import { WrappedDataProvider } from "@/components/wrapped/WrappedDataContext";
 import { DocBodyChrome } from "@/components/DocBodyChrome";
 import { usersSource, changelogSource } from "@/lib/source";
@@ -24,10 +22,10 @@ export default async function SectionDocPage(props: PageProps) {
   const params = await props.params;
   const { section, slug: slugParam } = params;
   const slug = slugParam ?? [];
-  const isMarketing = MARKETING_SECTION_SLUGS.has(section as (typeof MARKETING_SLUGS)[number]);
+  const isMarketing = MARKETING_SECTIONS.has(section as (typeof MARKETING_SLUGS)[number]);
   const effectiveSlug = isMarketing ? [section] : slug;
 
-  if (!SECTION_SLUGS.includes(section as SectionSlug)) notFound();
+  if (!SECTION_SLUGS.includes(section)) notFound();
   if (DEDICATED_APP_SECTIONS.has(section)) notFound();
 
   const config = SECTION_CONFIG[section as keyof typeof SECTION_CONFIG];
@@ -74,13 +72,13 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;
   const { section, slug: slugParam } = params;
   const slug = slugParam ?? [];
-  const isMarketing = MARKETING_SECTION_SLUGS.has(section as (typeof MARKETING_SLUGS)[number]);
+  const isMarketing = MARKETING_SECTIONS.has(section);
   const effectiveSlug = isMarketing ? [section] : slug;
 
-  if (!SECTION_SLUGS.includes(section as SectionSlug)) {
+  if (!SECTION_SLUGS.includes(section)) {
     return { title: "Not Found" };
   }
-  const config = SECTION_CONFIG[section as keyof typeof SECTION_CONFIG];
+  const config = SECTION_CONFIG[section];
   const page = config.source.getPage(effectiveSlug);
 
   if (!page) return { title: "Not Found" };
@@ -92,7 +90,7 @@ export function generateStaticParams() {
   for (const section of SECTION_SLUGS) {
     if (DEDICATED_APP_SECTIONS.has(section)) continue;
     const config = SECTION_CONFIG[section];
-    const isMarketing = MARKETING_SECTION_SLUGS.has(section as (typeof MARKETING_SLUGS)[number]);
+    const isMarketing = MARKETING_SECTIONS.has(section);
     if (isMarketing) {
       params.push({ section });
     } else {

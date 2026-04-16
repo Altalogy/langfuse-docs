@@ -15,4 +15,4 @@ alwaysApply: true
 
 ## Frontend
 
-- When using tailwindcss, never use explicit colors, always use the default semantic color tokens introduced by shadcn/ui.
+- When using tailwindcss, never use explicit colors, always use the default semantic color tokens.

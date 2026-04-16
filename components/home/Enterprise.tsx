@@ -35,7 +35,7 @@ export const Enterprise = () => {
     <HomeSection id="scale-and-security" className="pt-[120px]">
       <div className="flex flex-col gap-4 items-start mb-10">
         <Heading>
-          Enterprise <TextHighlight>Scale and Security</TextHighlight>.
+          Enterprise <span className="min-[340px]:whitespace-nowrap"><TextHighlight>Scale<span className="hidden min-[340px]:inline">&nbsp;</span></TextHighlight><span className="whitespace-nowrap"><TextHighlight>and Security</TextHighlight>.</span></span>
         </Heading>
         <Text className="text-left max-w-[64ch]">
           Traditional observability handles many small spans. LLM systems run differently.
@@ -61,7 +61,7 @@ export const Enterprise = () => {
             <Text size="s" className="font-medium text-left text-text-secondary">Security & Compliance</Text>
             <BulletList items={security} />
           </div>
-          <div className="flex absolute bottom-0 flex-1 justify-center items-center">
+          <div className="flex absolute bottom-0 flex-1 justify-center items-center pointer-events-none">
             <Image src={securityVisual} alt="Security" width={100} height={100} className="object-contain w-full h-full" />
           </div>
         </CornerBox>
