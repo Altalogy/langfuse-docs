@@ -1,5 +1,5 @@
 import "server-only";
-import { loader } from "fumadocs-core/source";
+import type { loader } from "fumadocs-core/source";
 import {
   selfHostingSource,
   blogSource,

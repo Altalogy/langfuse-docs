@@ -15,16 +15,19 @@ import {
   marketing,
 } from "../.source/server";
 
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 /** Display names for self-hosting sidebar links that cross-reference main docs pages. */
 const SELF_HOSTING_DOC_LINK_NAMES: Record<string, string> = {
   "/docs/administration/rbac": "RBAC (main docs)",
   "/docs/administration/data-retention": "Data Retention (main docs)",
 };
 
-// Shared page-tree transformer that replaces a node's sidebar name with
-// shortTitle ?? sidebarTitle from frontmatter when either field is set.
-// Registered via pageTree.transformers in each loader so layouts call
-// .getPageTree() directly with no post-processing required.
+/** Shared page-tree transformer that replaces a node's sidebar name with
+shortTitle ?? sidebarTitle from frontmatter when either field is set.
+Registered via pageTree.transformers in each loader so layouts call
+.getPageTree() directly with no post-processing required. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const shortTitleTransformer: any = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
