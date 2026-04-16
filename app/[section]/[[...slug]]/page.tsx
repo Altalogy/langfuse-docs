@@ -46,6 +46,7 @@ export default async function SectionDocPage(props: PageProps) {
 
   const data = page.data as typeof page.data & {
     load?: () => Promise<{ body: unknown; toc: TOCItemType[] }>;
+    body?: unknown;
     toc?: TOCItemType[];
   };
   const loaded =
