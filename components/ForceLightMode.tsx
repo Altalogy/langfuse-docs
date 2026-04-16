@@ -26,6 +26,7 @@ export function ForceLightMode() {
     }
     stripDarkFromDocument();
     if (theme !== "light") {
+      console.log("setting theme to light");
       setTheme("light");
     }
 
