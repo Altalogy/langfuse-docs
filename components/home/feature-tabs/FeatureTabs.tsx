@@ -31,7 +31,6 @@ export interface FeatureTabsProps {
 type TabState = {
   focusedIndex: number;
   isAutoAdvancePaused: boolean;
-  autoAdvanceProgress: number;
   isInViewport: boolean;
 };
 
@@ -39,9 +38,7 @@ type TabAction =
   | { type: "SET_FOCUSED_INDEX"; payload: number }
   | { type: "PAUSE_AUTO_ADVANCE" }
   | { type: "RESUME_AUTO_ADVANCE" }
-  | { type: "SET_AUTO_ADVANCE_PROGRESS"; payload: number }
-  | { type: "SET_IN_VIEWPORT"; payload: boolean }
-  | { type: "RESET_PROGRESS" };
+  | { type: "SET_IN_VIEWPORT"; payload: boolean };
 
 function assertNever(action: never): never {
   throw new Error(`Unexpected tab action: ${String(action)}`);
@@ -52,15 +49,11 @@ const tabStateReducer = (state: TabState, action: TabAction): TabState => {
     case "SET_FOCUSED_INDEX":
       return { ...state, focusedIndex: action.payload };
     case "PAUSE_AUTO_ADVANCE":
-      return { ...state, isAutoAdvancePaused: true, autoAdvanceProgress: 0 };
+      return { ...state, isAutoAdvancePaused: true };
     case "RESUME_AUTO_ADVANCE":
       return { ...state, isAutoAdvancePaused: false };
-    case "SET_AUTO_ADVANCE_PROGRESS":
-      return { ...state, autoAdvanceProgress: action.payload };
     case "SET_IN_VIEWPORT":
       return { ...state, isInViewport: action.payload };
-    case "RESET_PROGRESS":
-      return { ...state, autoAdvanceProgress: 0 };
     default:
       return assertNever(action);
   }
@@ -69,7 +62,6 @@ const tabStateReducer = (state: TabState, action: TabAction): TabState => {
 const initialTabState: TabState = {
   focusedIndex: 0,
   isAutoAdvancePaused: false,
-  autoAdvanceProgress: 0,
   isInViewport: false,
 };
 
@@ -160,7 +152,6 @@ export const FeatureTabs = ({
     const currentIndex = features.findIndex((f) => f.id === activeTab);
     const nextIndex = (currentIndex + 1) % features.length;
 
-    dispatch({ type: "RESET_PROGRESS" });
     setActiveTab(features[nextIndex].id);
   }, [features, activeTab, defaultAutoAdvance.enabled]);
 
@@ -170,28 +161,12 @@ export const FeatureTabs = ({
     }
 
     clearAutoAdvanceTimer();
-    dispatch({ type: "RESET_PROGRESS" });
 
-    const startTime = Date.now();
-    const intervalMs = defaultAutoAdvance.intervalMs;
-
-    const updateProgress = () => {
-      if (isAutoAdvancePausedRef.current) {
-        return;
-      }
-
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min((elapsed / intervalMs) * 100, 100);
-      dispatch({ type: "SET_AUTO_ADVANCE_PROGRESS", payload: progress });
-
-      if (elapsed >= intervalMs) {
+    autoAdvanceTimerRef.current = setTimeout(() => {
+      if (!isAutoAdvancePausedRef.current) {
         advanceToNextTab();
-      } else {
-        autoAdvanceTimerRef.current = setTimeout(updateProgress, 100);
       }
-    };
-
-    autoAdvanceTimerRef.current = setTimeout(updateProgress, 100);
+    }, defaultAutoAdvance.intervalMs);
   }, [
     defaultAutoAdvance.enabled,
     defaultAutoAdvance.intervalMs,
