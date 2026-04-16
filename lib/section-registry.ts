@@ -101,29 +101,17 @@ export const SECTION_SLUGS = Object.keys(SECTION_CONFIG) as (keyof typeof SECTIO
 export type SectionSlug = (typeof SECTION_SLUGS)[number];
 export const MARKETING_SECTION_SLUGS = new Set(MARKETING_SLUGS);
 
-/** Sections that have their own app route (app/integrations, app/self-hosting, etc.). Exclude from [section]. */
-export const DOCS_STYLE_APP_SECTIONS = new Set([
+/** Sections that have their own app route. Exclude from [section] catch-all. */
+export const DEDICATED_APP_SECTIONS = new Set([
   "integrations",
   "self-hosting",
   "guides",
   "library",
+  "blog",
+  "changelog",
+  "users",
 ]);
 
-/** Sections that are blog/changelog posts — no left sidebar */
-export const POST_SECTIONS = new Set(["blog", "changelog", "users"]);
-
-/** Changelog posts — no sidebars at all, centered narrow content */
-export const CHANGELOG_SECTIONS = new Set(["changelog"]);
-
-/** Sections served as standalone marketing pages under app/(home)/(marketing)/ */
-export const MARKETING_SECTION_SLUGS_STANDALONE = [
-  "pricing",
-  "pricing-self-host",
-  "talk-to-us",
-  "watch-demo",
-  "startups",
-] as const;
-
 export type MarketingSlug = (typeof MARKETING_SLUGS)[number];
-/** All marketing pages — use HomeLayout instead of DocsLayout */
+/** All marketing pages — use HomeLayout */
 export const MARKETING_SECTIONS = new Set<string>(MARKETING_SLUGS);
