@@ -3,7 +3,7 @@
 import { useBlogFilter } from "./BlogFilterContext";
 import { BlogHighlightCards } from "./BlogHighlightCards";
 import { BlogPostList } from "./BlogPostList";
-import { BlogMobileFilters } from "./BlogMobileFilters";
+import { BlogMobileFilters } from "@/components/blog/BlogMobileFilters";
 
 export type BlogPageItem = {
   route: string;
