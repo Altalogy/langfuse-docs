@@ -91,23 +91,30 @@ function PromptRow({ label, prompt }: { label: string; prompt: string }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const copyIcon = copied ? (
+    <Check className="w-3.5 h-3.5" />
+  ) : (
+    <Copy className="w-3.5 h-3.5" />
+  );
+
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-4 px-4 py-3 text-left cursor-pointer transition-colors hover:bg-surface-1 group/row w-full"
+      className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 px-4 py-3 text-left cursor-pointer transition-colors hover:bg-surface-1 group/row w-full"
     >
-      <span className="text-text-secondary font-analog font-medium text-[14px] whitespace-nowrap min-w-[140px] shrink-0 text-left">
-        {label}
-      </span>
-      <Text size="s" className="text-text-tertiary flex-1 text-left min-w-0">
+      <div className="flex items-center justify-between gap-2 w-full sm:w-auto sm:flex-none">
+        <span className="text-text-secondary font-analog font-medium text-[14px] whitespace-nowrap sm:min-w-[140px] sm:shrink-0 text-left">
+          {label}
+        </span>
+        <span className="sm:hidden shrink-0 text-text-tertiary flex items-center">
+          {copyIcon}
+        </span>
+      </div>
+      <Text size="s" className="text-text-tertiary flex-1 text-left min-w-0 w-full">
         <span className="text-text-secondary font-medium">Prompt:</span>{" "}{prompt}
       </Text>
-      <span className="shrink-0 text-text-tertiary flex items-center gap-1">
-        {copied ? (
-          <Check className="w-3.5 h-3.5" />
-        ) : (
-          <Copy className="w-3.5 h-3.5" />
-        )}
+      <span className="hidden sm:flex shrink-0 text-text-tertiary items-center gap-1">
+        {copyIcon}
       </span>
     </button>
   );
@@ -257,12 +264,12 @@ export function GetStartedSection() {
             <br />
             in under 5 minutes.
           </Heading>
-          <div className="flex sm:flex-col flex-wrap gap-0 items-stretch shrink-0 sm:w-[150px]">
+          <div className="flex sm:flex-col gap-0 items-stretch shrink-0 w-full sm:w-[150px]">
             <Button
               variant="primary"
               shortcutKey="s"
               href="https://cloud.langfuse.com"
-              wrapperClassName="w-full"
+              wrapperClassName="flex-1 sm:flex-none sm:w-full"
             >
               Start free
             </Button>
@@ -270,7 +277,7 @@ export function GetStartedSection() {
               variant="secondary"
               shortcutKey="d"
               href="/docs"
-              wrapperClassName="w-full"
+              wrapperClassName="flex-1 sm:flex-none sm:w-full"
             >
               Documentation
             </Button>
