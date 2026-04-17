@@ -937,7 +937,6 @@ li:has(> .subseparator) {
   }
 }
 
-
 /* Blog/changelog: reduce vertical margins on mobile so content isn't mostly whitespace. */
 @media (max-width: 768px) {
   .post-page .flex-1 > div:first-child {

@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { blogSource } from "@/lib/source";
 import { loadPage, buildSectionMetadata } from "@/lib/mdx-page";
+import { getBlogTagCounts } from "@/lib/blog-index";
 import { getMDXComponents } from "@/mdx-components";
 import { ContentColumns } from "@/components/layout";
 import { BlogPostSidebar } from "@/components/blog/BlogPostSidebar";
-import { computeTagCounts, type BlogFrontMatter } from "@/components/blog/utils";
 import { DocBodyChrome } from "@/components/DocBodyChrome";
 import { MainContentWrapper } from "@/components/MainContentWrapper";
 
@@ -19,19 +19,11 @@ export default async function BlogPostPage(props: PageProps) {
   if (!result) notFound();
   const { MDX } = result;
 
-  const blogPages = blogSource
-    .getPages()
-    .filter((p) => {
-      const fm = p.data as unknown as BlogFrontMatter;
-      return p.url !== "/blog" && fm.showInBlogIndex !== false;
-    });
-  const tags = computeTagCounts(
-    blogPages.map((p) => (p.data as unknown as BlogFrontMatter).tag)
-  );
+  const { tags, total } = getBlogTagCounts();
 
   return (
     <ContentColumns
-      leftSidebar={<BlogPostSidebar tags={tags} totalPosts={blogPages.length} />}
+      leftSidebar={<BlogPostSidebar tags={tags} totalPosts={total} />}
     >
       <div className="mx-auto w-full max-w-[680px] px-4 py-6 md:px-0">
         <MainContentWrapper>

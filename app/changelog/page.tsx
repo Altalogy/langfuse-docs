@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ChangelogIndex } from "@/components/changelog/ChangelogIndex";
 import { ProductUpdateSignup } from "@/components/ProductUpdateSignup";
-import Link from "next/link";
 import {
   CHANGELOG_ITEMS_PER_PAGE,
   changelogPageHref,
@@ -10,6 +9,9 @@ import {
 } from "@/lib/changelog-index";
 import { ContentColumns } from "@/components/layout";
 import { TextHighlight } from "@/components/ui/text-highlight";
+import { Link } from "@/components/ui/link";
+import { Heading } from "@/components/ui/heading";
+import { Text } from "@/components/ui/text";
 
 type PageProps = {
   searchParams: Promise<{ page?: string }>;
@@ -59,20 +61,17 @@ export default async function ChangelogIndexPage({ searchParams }: PageProps) {
   return (
     <ContentColumns>
       <div className="mx-auto w-full px-6 py-8">
-        <div className="mb-8">
-          <h1 className="font-analog text-4xl font-medium text-text-primary mb-2">
+        <div className="flex flex-col gap-4 mb-4">
+          <Heading as="h1" size="large">
             <TextHighlight>Changelog</TextHighlight>
-          </h1>
-          <p className="text-text-tertiary text-[15px]">
+          </Heading>
+          <Text className="text-left">
             Latest release updates from the Langfuse team. Check out our{" "}
-            <Link
-              href="/docs/roadmap"
-              className="underline hover:text-text-primary"
-            >
+            <Link href="/docs/roadmap" variant="text">
               Roadmap
             </Link>{" "}
             to see what&apos;s next.
-          </p>
+          </Text>
         </div>
         <div className="mb-8">
           <ProductUpdateSignup source="changelog" />
