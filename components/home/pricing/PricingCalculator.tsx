@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import { InfoIcon } from "lucide-react";
+import { Text } from "@/components/ui";
 
 // Graduated pricing tiers
 const pricingTiers = [
@@ -145,13 +146,13 @@ export function PricingCalculator({
 
   return (
     <div id="pricing-calculator">
-      <Heading as="h2" size="normal" className="mb-2 text-left">
+      <Heading as="h2" size="normal" className="mb-4 text-left">
         Pricing Calculator
       </Heading>
-      <p className="mb-6 text-base text-muted-foreground">
+      <Text className="mb-4 text-left">
         Enter your monthly billable units to see the graduated pricing
         breakdown.
-      </p>
+      </Text>
       <Card>
         <CardContent className="p-6 space-y-6">
           <div className="grid gap-6 md:grid-cols-2 md:items-stretch">
