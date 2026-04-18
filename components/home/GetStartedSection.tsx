@@ -260,7 +260,7 @@ export function GetStartedSection() {
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <Heading className="text-primary text-left" size="large">
-            <TextHighlight highlightClassName="mix-blend-multiply">Start improving your agents</TextHighlight>
+            <TextHighlight highlightClassName="mix-blend-multiply" className="xl:pr-3">Start improving</TextHighlight><TextHighlight highlightClassName="mix-blend-multiply">your agents</TextHighlight>
             <br />
             in under 5 minutes.
           </Heading>
