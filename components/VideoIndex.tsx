@@ -30,7 +30,7 @@ export const VideoIndex = () => {
             contentClassName="p-1 sm:p-1.5"
             contentWrapperClassName="h-full gap-0 w-full"
           >
-            <div className="relative aspect-video w-full shrink-0 w-full">
+            <div className="relative aspect-video w-full shrink-0">
               <Image
                 src={ogImage}
                 alt={title}

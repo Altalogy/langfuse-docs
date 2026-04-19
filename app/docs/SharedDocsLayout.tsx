@@ -5,7 +5,6 @@ import { NavbarDocs, DocsSecondaryNav, DocsSecondaryNavMobile } from "@/componen
 import { DocsPatternTracker } from "@/components/layout/DocsContentArea";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AISearch, AISearchPanel, FloatingAskAIButton } from "@/components/inkeep/search";
-import { SidebarProvider } from "fumadocs-ui/components/sidebar/base";
 import { SidebarFolderItem } from "@/components/docs-sidebar/SidebarFolderItem";
 import { SidebarItem } from "@/components/docs-sidebar/SidebarItem";
 import { SidebarSeparatorItem } from "@/components/docs-sidebar/SidebarSeparatorItem";
@@ -30,31 +29,29 @@ export function SharedDocsLayout({
 }) {
   return (
     <AISearch>
-      <SidebarProvider>
-        <div className="docs-chrome flex min-h-screen flex-col">
-          <DocsPatternTracker />
-          <NavbarDocs />
-          <DocsSecondaryNav />
-          <DocsLayoutWrapper>
-            <DocsLayout
-              tree={tree}
-              githubUrl="https://github.com/langfuse/langfuse-docs"
-              nav={{ component: <DocsSecondaryNavMobile /> }}
-              sidebar={{
-                enabled: true,
-                collapsible: false,
-                components: { Item: SidebarItem, Separator: SidebarSeparatorItem, Folder: SidebarFolderItem },
-              }}
-              searchToggle={{ enabled: false }}
-              themeSwitch={{ component: <div className="ms-auto"><ThemeToggle /></div> }}
-            >
-              <AISearchPanel />
-              {children}
-            </DocsLayout>
-          </DocsLayoutWrapper>
-        </div>
-        <FloatingAskAIButton />
-      </SidebarProvider>
+      <div className="docs-chrome flex min-h-screen flex-col">
+        <DocsPatternTracker />
+        <NavbarDocs />
+        <DocsSecondaryNav />
+        <DocsLayoutWrapper>
+          <DocsLayout
+            tree={tree}
+            githubUrl="https://github.com/langfuse/langfuse-docs"
+            nav={{ component: <DocsSecondaryNavMobile /> }}
+            sidebar={{
+              enabled: true,
+              collapsible: false,
+              components: { Item: SidebarItem, Separator: SidebarSeparatorItem, Folder: SidebarFolderItem },
+            }}
+            searchToggle={{ enabled: false }}
+            themeSwitch={{ component: <div className="ms-auto"><ThemeToggle /></div> }}
+          >
+            <AISearchPanel />
+            {children}
+          </DocsLayout>
+        </DocsLayoutWrapper>
+      </div>
+      <FloatingAskAIButton />
     </AISearch>
   );
 }
