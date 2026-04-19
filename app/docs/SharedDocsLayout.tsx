@@ -1,14 +1,14 @@
 import type { ComponentProps, ReactNode } from "react";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { DocsLayoutWrapper } from "./DocsLayoutWrapper";
-import { SidebarItem } from "./SidebarItem";
-import { SidebarSeparatorItem } from "./SidebarSeparatorItem";
 import { NavbarDocs, DocsSecondaryNav, DocsSecondaryNavMobile } from "@/components/layout";
 import { DocsPatternTracker } from "@/components/layout/DocsContentArea";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AISearch, AISearchPanel, FloatingAskAIButton } from "@/components/inkeep/search";
 import { SidebarProvider } from "fumadocs-ui/components/sidebar/base";
-import { SidebarFolderItem } from "./SidebarFolderItem";
+import { SidebarFolderItem } from "@/components/docs-sidebar/SidebarFolderItem";
+import { SidebarItem } from "@/components/docs-sidebar/SidebarItem";
+import { SidebarSeparatorItem } from "@/components/docs-sidebar/SidebarSeparatorItem";
 
 /**
  * Shared wrapper used by all sidebar-based section layouts
