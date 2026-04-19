@@ -17,7 +17,7 @@ import type * as PageTree from "fumadocs-core/page-tree";
  */
 
 const ITEM_CLASS =
-  "relative flex flex-row items-center gap-2 rounded-lg p-2 text-start text-text-tertiary wrap-anywhere [&_svg]:size-4 [&_svg]:shrink-0 transition-colors hover:text-text-primary/80 hover:transition-none";
+  "relative flex flex-row items-center gap-2 rounded-lg p-2 text-start text-text-tertiary max-w-[calc(100%-16px)] mx-auto wrap-anywhere [&_svg]:size-4 [&_svg]:shrink-0 transition-colors hover:text-text-primary/80 hover:transition-none";
 
 export function SidebarItem({
   item,
@@ -41,7 +41,7 @@ export function SidebarItem({
       active={active}
       icon={item.icon}
       className={ITEM_CLASS}
-      style={{ paddingInlineStart: `calc(${2 + 3 * depth} * var(--spacing))` }}
+      style={{ paddingInlineStart: `calc(${2 * depth} * var(--spacing) + 6px)` }}
     >
       {item.name}
     </SidebarItemBase>

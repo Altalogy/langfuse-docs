@@ -2,11 +2,13 @@ import type { ComponentProps, ReactNode } from "react";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { DocsLayoutWrapper } from "./DocsLayoutWrapper";
 import { SidebarItem } from "./SidebarItem";
+import { SidebarSeparatorItem } from "./SidebarSeparatorItem";
 import { NavbarDocs, DocsSecondaryNav, DocsSecondaryNavMobile } from "@/components/layout";
 import { DocsPatternTracker } from "@/components/layout/DocsContentArea";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AISearch, AISearchPanel, FloatingAskAIButton } from "@/components/inkeep/search";
 import { SidebarProvider } from "fumadocs-ui/components/sidebar/base";
+import { SidebarFolderItem } from "./SidebarFolderItem";
 
 /**
  * Shared wrapper used by all sidebar-based section layouts
@@ -38,7 +40,11 @@ export function SharedDocsLayout({
               tree={tree}
               githubUrl="https://github.com/langfuse/langfuse-docs"
               nav={{ component: <DocsSecondaryNavMobile /> }}
-              sidebar={{ enabled: true, collapsible: false, components: { Item: SidebarItem } }}
+              sidebar={{
+                enabled: true,
+                collapsible: false,
+                components: { Item: SidebarItem, Separator: SidebarSeparatorItem, Folder: SidebarFolderItem },
+              }}
               searchToggle={{ enabled: false }}
               themeSwitch={{ component: <div className="ms-auto"><ThemeToggle /></div> }}
             >
