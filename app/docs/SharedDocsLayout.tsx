@@ -1,7 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { DocsLayoutWrapper } from "./DocsLayoutWrapper";
-import { SidebarShortcutItem } from "./SidebarShortcutItem";
+import { SidebarItem } from "./SidebarItem";
 import { NavbarDocs, DocsSecondaryNav, DocsSecondaryNavMobile } from "@/components/layout";
 import { DocsPatternTracker } from "@/components/layout/DocsContentArea";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -38,7 +38,7 @@ export function SharedDocsLayout({
               tree={tree}
               githubUrl="https://github.com/langfuse/langfuse-docs"
               nav={{ component: <DocsSecondaryNavMobile /> }}
-              sidebar={{ enabled: true, collapsible: false, components: { Item: SidebarShortcutItem } }}
+              sidebar={{ enabled: true, collapsible: false, components: { Item: SidebarItem } }}
               searchToggle={{ enabled: false }}
               themeSwitch={{ component: <div className="ms-auto"><ThemeToggle /></div> }}
             >

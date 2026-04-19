@@ -184,7 +184,7 @@
 }
 
 #nd-docs-layout #nd-sidebar [data-radix-scroll-area-viewport] {
-  padding: 16px 8px;
+  padding: 16px 0px;
 }
 
 /* Inner viewport: allow full height so the aside scrolls (Radix or first child of scroll area) */

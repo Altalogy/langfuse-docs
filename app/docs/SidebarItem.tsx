@@ -19,7 +19,7 @@ import type * as PageTree from "fumadocs-core/page-tree";
 const ITEM_CLASS =
   "relative flex flex-row items-center gap-2 rounded-lg p-2 text-start text-text-tertiary wrap-anywhere [&_svg]:size-4 [&_svg]:shrink-0 transition-colors hover:text-text-primary/80 hover:transition-none";
 
-export function SidebarShortcutItem({
+export function SidebarItem({
   item,
 }: {
   item: PageTree.Item & { type: string };
