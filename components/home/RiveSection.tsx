@@ -14,6 +14,8 @@ const RiveAnimation = dynamic(
 );
 
 const RIVE_FILE = "/animations/langfuse_axonometric.riv";
+const RIVE_IN_VIEW_THRESHOLD = 0.45;
+const RIVE_IN_VIEW_ACTIVATION_DELAY_MS = 250;
 
 /**
  * View Model boolean path for the load trigger (`VmMainScene` is the VM in the editor, not a state machine).
@@ -66,6 +68,7 @@ export const RiveSection = () => {
   const [label, setLabel] = useState<RiveLabel>(OVERVIEW);
   const [riveSectionInView, setRiveSectionInView] = useState(false);
   const riveViewportRef = useRef<HTMLDivElement>(null);
+  const inViewTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastRevTimeRef = useRef<number>(0);
 
@@ -74,12 +77,27 @@ export const RiveSection = () => {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setRiveSectionInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          if (inViewTimerRef.current) clearTimeout(inViewTimerRef.current);
+          inViewTimerRef.current = setTimeout(() => {
+            setRiveSectionInView(true);
+            inViewTimerRef.current = null;
+          }, RIVE_IN_VIEW_ACTIVATION_DELAY_MS);
+          return;
+        }
+        if (inViewTimerRef.current) {
+          clearTimeout(inViewTimerRef.current);
+          inViewTimerRef.current = null;
+        }
+        setRiveSectionInView(false);
       },
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+      { threshold: RIVE_IN_VIEW_THRESHOLD, rootMargin: "0px 0px -10% 0px" }
     );
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (inViewTimerRef.current) clearTimeout(inViewTimerRef.current);
+    };
   }, []);
 
   const loadViewModelBooleans = useMemo(
