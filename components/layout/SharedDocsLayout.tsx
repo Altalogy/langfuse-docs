@@ -42,6 +42,9 @@ export function SharedDocsLayout({
             ? "docs-chrome flex min-h-screen flex-col"
             : "docs-chrome docs-chrome-compact flex min-h-screen flex-col"
         }
+        style={{
+          "--lf-nav-docs-secondary-height": showSecondaryNav ? "40px" : "0px",
+        } as React.CSSProperties}
       >
         <DocsPatternTracker />
         <NavbarDocs />

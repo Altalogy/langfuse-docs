@@ -17,14 +17,11 @@ export function MobileMenu({
   const [open, setOpen] = useState(false);
   const [productOpen, setProductOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
 
   const close = () => setOpen(false);
-  const toggleSection = (href: string) =>
-    setOpenSections((prev) => ({ ...prev, [href]: !prev[href] }));
 
   return (
     <>
@@ -118,32 +115,17 @@ export function MobileMenu({
 
                 {/* Sections from nav tree */}
                 {sectionNavData.map((section) =>
-                  section.children.length > 0 ? (
-                    <CollapsibleRow
-                      key={section.href}
-                      label={section.name}
-                      open={!!openSections[section.href]}
-                      onToggle={() => toggleSection(section.href)}
-                    >
-                      {section.children.map((item, i) => (
-                        <MobileNavTreeItem
-                          key={`${item.type}-${item.url || item.name || i}`}
-                          item={item}
-                          onNavigate={close}
-                        />
-                      ))}
-                    </CollapsibleRow>
-                  ) : (
-                    <Link
-                      key={section.href}
-                      href={section.href}
-                      onClick={close}
-                      className="flex items-center justify-between px-4 py-3.5 text-sm text-text-primary hover:text-text-secondary transition-colors"
-                    >
-                      <span>{section.name}</span>
-                      <ChevronRight className="w-4 h-4 text-text-tertiary" />
-                    </Link>
-                  )
+                (
+                  <Link
+                    key={section.href}
+                    href={section.href}
+                    onClick={close}
+                    className="flex items-center justify-between px-4 py-3.5 text-sm text-text-primary hover:text-text-secondary transition-colors"
+                  >
+                    <span>{section.name}</span>
+                    <ChevronRight className="w-4 h-4 text-text-tertiary" />
+                  </Link>
+                )
                 )}
 
                 {/* Social links */}

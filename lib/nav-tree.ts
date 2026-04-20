@@ -8,7 +8,6 @@ export interface NavTreeItem {
 export interface SectionNavData {
   name: string;
   href: string;
-  children: NavTreeItem[];
 }
 
 interface TreeNode {
@@ -61,9 +60,7 @@ function serializeNodes(nodes: TreeNode[]): NavTreeItem[] {
           const url =
             node.index?.url ??
             (node.children ? findFirstPageUrl(node.children) : undefined);
-          const children = node.children
-            ? serializeNodes(node.children)
-            : [];
+          const children = node.children ? serializeNodes(node.children) : [];
           return { type: "folder", name, url, children };
         }
         default:
